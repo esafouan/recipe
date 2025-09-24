@@ -1,0 +1,10 @@
+{
+  "optimized": true,
+  "formats": ["webp", "jpg", "png"],
+  "quality": {
+    "webp": 80,
+    "jpg": 85,
+    "png": 90
+  },
+  "timestamp": "2025-09-19T18:10:26Z"
+}

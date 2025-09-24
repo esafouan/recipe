@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "analyze": "cross-env ANALYZE=true next build",
+    "build": "next build",
+    "build:analyze": "cross-env ANALYZE=true npm run build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start",
+    "bundle-analyzer": "npx @next/bundle-analyzer"
+  },
+  "dependencies": {
+    "@next/bundle-analyzer": "^14.2.16",
+    "cross-env": "^7.0.3"
+  }
+}
