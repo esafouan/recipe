@@ -1,0 +1,19 @@
+{
+  "name": "recipe-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm run build:admin && pnpm run build:blog",
+    "build:admin": "cd apps/admin && npm run build",
+    "build:blog": "cd apps/recipe-blog && npm run build",
+    "dev": "concurrently \"pnpm run dev:admin\" \"pnpm run dev:blog\"",
+    "dev:admin": "cd apps/admin && npm run dev",
+    "dev:blog": "cd apps/recipe-blog && npm run dev"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

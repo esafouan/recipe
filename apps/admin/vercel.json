@@ -1,4 +1,6 @@
 {
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
   "functions": {
     "src/app/api/upload/route.ts": {
       "maxDuration": 30

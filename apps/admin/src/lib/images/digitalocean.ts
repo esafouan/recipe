@@ -1,8 +1,4 @@
-import {
-  S3Client,
-  PutObjectCommand,
-  DeleteObjectCommand,
-} from "@aws-sdk/client-s3";
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import { nanoid } from "nanoid";
 import path from "path";
@@ -275,10 +271,7 @@ export class DigitalOceanImageService {
   }
 
   // Generate a signed URL for private access (if needed in the future)
-  static async generateSignedUrl(
-    imagePath: string,
-    expiresIn: number = 3600
-  ): Promise<string> {
+  static async generateSignedUrl(imagePath: string): Promise<string> {
     try {
       // For public files, we just return the CDN URL
       // If you need private files in the future, you can use getSignedUrl from @aws-sdk/s3-request-presigner
