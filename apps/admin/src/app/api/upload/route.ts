@@ -1,9 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { ImageOptimizationService } from '@/lib/images/optimization';
-import { LocalImageService } from '@/lib/images/local';
+import { NextRequest, NextResponse } from "next/server";
+import { DigitalOceanOptimizationService } from "@/lib/images/digitalocean-optimization";
+import { DigitalOceanImageService } from "@/lib/images/digitalocean";
 
 export async function POST(request: NextRequest) {
   try {
+    // Debug environment variables
+    console.log("DO_SPACES_ENDPOINT:", process.env.DO_SPACES_ENDPOINT);
+    console.log("DO_SPACES_BUCKET:", process.env.DO_SPACES_BUCKET);
+    console.log("DO_SPACES_KEY exists:", !!process.env.DO_SPACES_KEY);
+    console.log("DO_SPACES_SECRET exists:", !!process.env.DO_SPACES_SECRET);
+
     // Check authentication - you can add your auth check here
     // const user = await getAuthenticatedUser(request);
     // if (!user || !['admin', 'editor'].includes(user.role)) {
@@ -11,68 +17,96 @@ export async function POST(request: NextRequest) {
     // }
 
     const formData = await request.formData();
-    const file = formData.get('file') as File;
-    const optimize = formData.get('optimize') !== 'false'; // Default to true
+    const file = formData.get("file") as File;
+    const optimize = formData.get("optimize") !== "false"; // Default to true
+
+    console.log(
+      "Received file:",
+      file?.name,
+      "Size:",
+      file?.size,
+      "Type:",
+      file?.type
+    );
 
     if (!file) {
-      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
     // Validate file
-    const validation = ImageOptimizationService.validateFile(file);
+    const validation = DigitalOceanImageService.validateFile(file);
     if (!validation.valid) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
     }
 
-    if (optimize) {
-      // Use the new optimization service
-      const result = await ImageOptimizationService.optimizeImage(file, {
-        quality: 85,
-        generateAvif: true,
-        maxWidth: 1920,
-        maxHeight: 1080,
-      });
+    console.log("File validation passed, optimize:", optimize);
 
-      // Calculate savings
-      const webpSavings = ImageOptimizationService.calculateSavings(
-        result.original.size, 
+    if (optimize) {
+      console.log("Starting optimization upload...");
+      // Use the DigitalOcean optimization service (WebP only)
+      const result = await DigitalOceanOptimizationService.optimizeImage(
+        file,
+        {
+          quality: 85,
+          generateAvif: false, // Only generate WebP
+          maxWidth: 1920,
+          maxHeight: 1080,
+        },
+        "pictures"
+      );
+      console.log("Optimization upload completed successfully");
+
+      // Calculate savings (using original file size vs WebP)
+      const originalFileSize = file.size;
+      const webpSavings = DigitalOceanOptimizationService.calculateSavings(
+        originalFileSize,
         result.webp.size
       );
 
-      const avifSavings = result.avif 
-        ? ImageOptimizationService.calculateSavings(result.original.size, result.avif.size)
-        : null;
-
       return NextResponse.json({
         success: true,
-        url: result.webp.url, // Return WebP as primary URL
-        originalUrl: result.original.url,
+        url: result.webp.url, // Return WebP URL
         webpUrl: result.webp.url,
-        avifUrl: result.avif?.url,
         metadata: result.metadata,
         optimization: {
-          originalSize: result.original.size,
+          originalSize: originalFileSize,
           webpSize: result.webp.size,
-          avifSize: result.avif?.size,
           webpSavings,
-          avifSavings,
+          format: "webp",
         },
-        path: result.webp.path
+        path: result.webp.path,
       });
     } else {
-      // Fall back to original service for non-optimized uploads
-      const result = await LocalImageService.uploadImage(file);
+      console.log("Starting simple upload...");
+      // Fall back to DigitalOcean for non-optimized uploads
+      const result = await DigitalOceanImageService.uploadImage(file);
+      console.log("Simple upload completed successfully");
       return NextResponse.json({
         success: true,
         url: result.url,
-        path: result.path
+        path: result.path,
       });
     }
-
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error("Upload error:", error);
+
+    // More detailed error information
+    let errorMessage = "Failed to upload image";
+    let errorDetails = "";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+      errorDetails = error.stack || "";
+    }
+
+    console.error("Error details:", errorDetails);
+
     return NextResponse.json(
-      { error: 'Failed to upload image' },
+      {
+        error: errorMessage,
+        details:
+          process.env.NODE_ENV === "development" ? errorDetails : undefined,
+      },
       { status: 500 }
     );
   }
@@ -86,27 +120,26 @@ export async function PUT(request: NextRequest) {
 
     // Extract all files from form data
     for (const [key, value] of formData.entries()) {
-      if (key.startsWith('file') && value instanceof File) {
+      if (key.startsWith("file") && value instanceof File) {
         files.push(value);
       }
     }
 
     if (files.length === 0) {
-      return NextResponse.json({ error: 'No files provided' }, { status: 400 });
+      return NextResponse.json({ error: "No files provided" }, { status: 400 });
     }
 
-    // Upload all files to /pic directory
-    const results = await LocalImageService.uploadMultipleImages(files);
+    // Upload all files to DigitalOcean Spaces
+    const results = await DigitalOceanImageService.uploadMultipleImages(files);
 
     return NextResponse.json({
       success: true,
-      uploads: results
+      uploads: results,
     });
-
   } catch (error) {
-    console.error('Multiple upload error:', error);
+    console.error("Multiple upload error:", error);
     return NextResponse.json(
-      { error: 'Failed to upload images' },
+      { error: "Failed to upload images" },
       { status: 500 }
     );
   }
@@ -118,20 +151,22 @@ export async function DELETE(request: NextRequest) {
     const { path: imagePath } = await request.json();
 
     if (!imagePath) {
-      return NextResponse.json({ error: 'No image path provided' }, { status: 400 });
+      return NextResponse.json(
+        { error: "No image path provided" },
+        { status: 400 }
+      );
     }
 
-    const success = await LocalImageService.deleteImage(imagePath);
+    const success = await DigitalOceanImageService.deleteImage(imagePath);
 
     return NextResponse.json({
       success,
-      message: success ? 'Image deleted successfully' : 'Image not found'
+      message: success ? "Image deleted successfully" : "Image not found",
     });
-
   } catch (error) {
-    console.error('Delete error:', error);
+    console.error("Delete error:", error);
     return NextResponse.json(
-      { error: 'Failed to delete image' },
+      { error: "Failed to delete image" },
       { status: 500 }
     );
   }
