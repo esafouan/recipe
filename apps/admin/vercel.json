@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "src/app/api/upload/route.ts": {
+      "maxDuration": 30
+    },
+    "src/app/api/upload-free/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}

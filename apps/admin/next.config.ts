@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Vercel-specific optimizations
+  experimental: {
+    serverComponentsExternalPackages: ["sharp"],
+  },
+
   // Optimize images for production (FREE)
   images: {
     // Enable modern formats

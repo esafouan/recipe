@@ -4,11 +4,13 @@ import { DigitalOceanImageService } from "@/lib/images/digitalocean";
 
 export async function POST(request: NextRequest) {
   try {
-    // Debug environment variables
-    console.log("DO_SPACES_ENDPOINT:", process.env.DO_SPACES_ENDPOINT);
-    console.log("DO_SPACES_BUCKET:", process.env.DO_SPACES_BUCKET);
-    console.log("DO_SPACES_KEY exists:", !!process.env.DO_SPACES_KEY);
-    console.log("DO_SPACES_SECRET exists:", !!process.env.DO_SPACES_SECRET);
+    // Debug environment variables (only in development)
+    if (process.env.NODE_ENV === "development") {
+      console.log("DO_SPACES_ENDPOINT:", process.env.DO_SPACES_ENDPOINT);
+      console.log("DO_SPACES_BUCKET:", process.env.DO_SPACES_BUCKET);
+      console.log("DO_SPACES_KEY exists:", !!process.env.DO_SPACES_KEY);
+      console.log("DO_SPACES_SECRET exists:", !!process.env.DO_SPACES_SECRET);
+    }
 
     // Check authentication - you can add your auth check here
     // const user = await getAuthenticatedUser(request);
@@ -20,14 +22,16 @@ export async function POST(request: NextRequest) {
     const file = formData.get("file") as File;
     const optimize = formData.get("optimize") !== "false"; // Default to true
 
-    console.log(
-      "Received file:",
-      file?.name,
-      "Size:",
-      file?.size,
-      "Type:",
-      file?.type
-    );
+    if (process.env.NODE_ENV === "development") {
+      console.log(
+        "Received file:",
+        file?.name,
+        "Size:",
+        file?.size,
+        "Type:",
+        file?.type
+      );
+    }
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -39,10 +43,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
     }
 
-    console.log("File validation passed, optimize:", optimize);
+    if (process.env.NODE_ENV === "development") {
+      console.log("File validation passed, optimize:", optimize);
+    }
 
     if (optimize) {
-      console.log("Starting optimization upload...");
+      if (process.env.NODE_ENV === "development") {
+        console.log("Starting optimization upload...");
+      }
       // Use the DigitalOcean optimization service (WebP only)
       const result = await DigitalOceanOptimizationService.optimizeImage(
         file,
@@ -54,7 +62,9 @@ export async function POST(request: NextRequest) {
         },
         "pictures"
       );
-      console.log("Optimization upload completed successfully");
+      if (process.env.NODE_ENV === "development") {
+        console.log("Optimization upload completed successfully");
+      }
 
       // Calculate savings (using original file size vs WebP)
       const originalFileSize = file.size;
@@ -77,10 +87,14 @@ export async function POST(request: NextRequest) {
         path: result.webp.path,
       });
     } else {
-      console.log("Starting simple upload...");
+      if (process.env.NODE_ENV === "development") {
+        console.log("Starting simple upload...");
+      }
       // Fall back to DigitalOcean for non-optimized uploads
       const result = await DigitalOceanImageService.uploadImage(file);
-      console.log("Simple upload completed successfully");
+      if (process.env.NODE_ENV === "development") {
+        console.log("Simple upload completed successfully");
+      }
       return NextResponse.json({
         success: true,
         url: result.url,
