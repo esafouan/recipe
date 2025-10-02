@@ -3,8 +3,6 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { StructuredData } from "@/components/structured-data"
-import { PerformanceScript } from "@/components/performance-script"
-import { PreloadOptimizer } from "@/components/preload-optimizer"
 import { inter, playfair, fontVariables } from "@/lib/fonts"
 import "./globals.css"
 
@@ -92,8 +90,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://minirecipe.net" />
       </head>
       <body className={`${fontVariables} antialiased`}>
-        <PreloadOptimizer />
-        <PerformanceScript />
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
       </body>
