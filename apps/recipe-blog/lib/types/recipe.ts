@@ -102,4 +102,4 @@ export interface BlogRecipe {
   recipeCuisine: string;
 }
 
-export type RecipeCategory = 'breakfast' | 'lunch' | 'dinner' | 'dessert' | 'healthy' | 'mini-desserts' | 'mini-mains' | 'mini-sides';
+export type RecipeCategory = 'breakfast' | 'lunch' | 'dinner' | 'dessert' | 'healthy' ;

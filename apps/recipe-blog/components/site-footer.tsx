@@ -51,10 +51,18 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href="/recipes/desserts"
+                  href="recipes/dessert"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Desserts
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="recipes/healthy"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Healthy
                 </Link>
               </li>
             </ul>
@@ -94,7 +102,7 @@ export function SiteFooter() {
         </div>
 
         <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Culinary Canvas. All rights reserved.</p>
+          <p>&copy; 2024 Mahdi Dev. All rights reserved.</p>
         </div>
       </div>
     </footer>

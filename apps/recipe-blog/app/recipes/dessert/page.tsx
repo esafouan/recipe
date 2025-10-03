@@ -10,14 +10,14 @@ export const metadata: Metadata = {
     "Indulge in perfectly portioned dessert recipes for 1-2 servings. Small batch cookies, cakes, and treats that satisfy your sweet tooth without temptation or waste.",
   keywords: [
     "mini dessert recipes",
-    "small batch desserts",
-    "single serving desserts",
+    "small batch healthy",
+    "single serving healthy",
     "dessert for one",
     "small batch cookies",
     "mini cakes",
-    "portion control desserts",
+    "portion control healthy",
     "healthy dessert portions",
-    "no waste desserts",
+    "no waste healthy",
     "mini sweet treats"
   ],
   openGraph: {
