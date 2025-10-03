@@ -5,6 +5,7 @@ import { Menu, Heart, Search, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/search-bar"
 import { useState } from "react"
+import Image from "next/image"
 
 export function SiteHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -15,11 +16,15 @@ export function SiteHeader() {
       <div className="container mx-auto flex h-14 md:h-16 items-center justify-between px-4 md:px-6 max-w-7xl">
         <div className="flex items-center gap-4 md:gap-6">
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Heart className="h-3 w-3 md:h-4 md:w-4 text-white" />
+            <div className="flex items-center">
+              <Image
+                src="/logonobg.png"
+                alt="Mini Recipe Logo"
+                width={80}
+                height={60}
+               
+              />
             </div>
-            <span className="font-serif text-lg md:text-2xl font-bold mini-recipe-gradient">Mini Recipe</span>
-            {/* <Image src=></Image> */}
           </Link>
 
           <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 text-sm font-semibold">
