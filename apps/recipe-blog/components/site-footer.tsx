@@ -33,25 +33,25 @@ export function SiteFooter() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="/categories/breakfast"
+                  href="/recipes/breakfast"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Breakfast
                 </Link>
               </li>
               <li>
-                <Link href="/categories/lunch" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link href="/recipes/lunch" className="text-muted-foreground hover:text-primary transition-colors">
                   Lunch
                 </Link>
               </li>
               <li>
-                <Link href="/categories/dinner" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link href="/recipes/dinner" className="text-muted-foreground hover:text-primary transition-colors">
                   Dinner
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/categories/desserts"
+                  href="/recipes/desserts"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
                   Desserts

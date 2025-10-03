@@ -103,7 +103,7 @@ export function RecipeDetail({ recipe }: RecipeDetailProps) {
             <span>/</span>
             <a href="/recipes" className="hover:text-foreground transition-colors">Recipes</a>
             <span>/</span>
-            <a href={`/categories/${recipe.recipeCategory.toLowerCase()}`} className="hover:text-foreground transition-colors">{recipe.recipeCategory}</a>
+            <a href={`/recipes/${recipe.recipeCategory.toLowerCase()}`} className="hover:text-foreground transition-colors">{recipe.recipeCategory}</a>
             <span>/</span>
             <span className="text-foreground">{recipe.name}</span>
           </nav>

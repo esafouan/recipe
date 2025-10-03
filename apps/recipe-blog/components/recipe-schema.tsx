@@ -150,7 +150,7 @@ export function RecipeSchema({ recipe }: RecipeSchemaProps) {
         "@type": "ListItem",
         position: 3,
         name: recipe.recipeCategory,
-        item: `${baseUrl}/categories/${recipe.recipeCategory.toLowerCase()}`
+        item: `${baseUrl}/recipes/${recipe.recipeCategory.toLowerCase()}`
       },
       {
         "@type": "ListItem",

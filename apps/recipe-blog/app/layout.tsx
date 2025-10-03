@@ -1,6 +1,5 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { StructuredData } from "@/components/structured-data"
 import { inter, playfair, fontVariables } from "@/lib/fonts"
@@ -87,11 +86,16 @@ export default function RootLayout({
         <StructuredData />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://minirecipe.net" />
       </head>
       <body className={`${fontVariables} antialiased`}>
         <Suspense fallback={null}>{children}</Suspense>
-        <Analytics />
+        {process.env.NODE_ENV === 'production' && (
+          <script
+            defer
+            src="/_vercel/insights/script.js"
+            data-endpoint="/_vercel/insights"
+          />
+        )}
       </body>
     </html>
   )

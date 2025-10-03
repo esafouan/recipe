@@ -52,7 +52,7 @@ export default async function sitemap() {
 
     // Category pages - use actual categories from database
     const categoryPages = categories.map(category => ({
-      url: `${baseUrl}/categories/${category.toLowerCase()}`,
+      url: `${baseUrl}/recipes/${category.toLowerCase()}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,
@@ -89,7 +89,7 @@ export default async function sitemap() {
     
     // Fallback to static pages only if data fetching fails
     const fallbackCategoryPages = ['breakfast', 'lunch', 'dinner', 'dessert', 'healthy'].map(category => ({
-      url: `${baseUrl}/categories/${category}`,
+      url: `${baseUrl}/recipes/${category}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,
