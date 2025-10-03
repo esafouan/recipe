@@ -43,7 +43,7 @@ interface RecipeSchemaProps {
 }
 
 export function RecipeSchema({ recipe }: RecipeSchemaProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://minirecipe.com'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://minirecipe.net'
   const imageUrl = recipe.image.startsWith('http') ? recipe.image : `${baseUrl}${recipe.image}`
 
   // Enhanced Recipe Schema with all SEO-critical fields

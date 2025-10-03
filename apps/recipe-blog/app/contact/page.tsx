@@ -69,10 +69,10 @@ export default function ContactPage() {
                           <h3 className="font-serif font-semibold text-sm mb-1">Email Us</h3>
                           <p className="text-xs text-muted-foreground mb-1">For general inquiries and recipe questions</p>
                           <a
-                            href="mailto:hello@minirecipe.com"
+                            href="mailto:hello@minirecipe.net"
                             className="text-primary hover:underline text-xs font-medium transition-colors break-words"
                           >
-                            hello@minirecipe.com
+                            hello@minirecipe.net
                           </a>
                         </div>
                       </div>
@@ -87,10 +87,10 @@ export default function ContactPage() {
                             Need help with portion adjustments or ingredient substitutions?
                           </p>
                           <a
-                            href="mailto:support@minirecipe.com"
+                            href="mailto:support@minirecipe.net"
                             className="text-secondary hover:underline text-xs font-medium transition-colors break-words"
                           >
-                            support@minirecipe.com
+                            support@minirecipe.net
                           </a>
                         </div>
                       </div>

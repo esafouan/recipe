@@ -248,7 +248,7 @@ export default function TermsPage() {
                     <div className="bg-muted/50 p-6 rounded-lg mt-4 space-y-3">
                       <div>
                         <strong className="text-sm">Email:</strong>
-                        <p className="text-sm">legal@minirecipe.com</p>
+                        <p className="text-sm">legal@minirecipe.net</p>
                       </div>
                       <div>
                         <strong className="text-sm">Business Information:</strong>

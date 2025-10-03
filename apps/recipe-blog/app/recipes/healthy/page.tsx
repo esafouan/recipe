@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     images: ["/mediterranean-quinoa-bowl-colorful-vegetables.jpg"],
   },
   alternates: {
-    canonical: "https://minirecipe.com/recipes/healthy",
+    canonical: "https://minirecipe.net/recipes/healthy",
   },
 }
 

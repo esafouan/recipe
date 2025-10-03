@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "zero waste kitchen",
     "meal prep for one",
   ],
-  authors: [{ name: "Mini Recipe Team", url: "https://minirecipe.com" }],
+  authors: [{ name: "Mini Recipe Team", url: "https://minirecipe.net" }],
   creator: "Mini Recipe",
   publisher: "Mini Recipe",
   formatDetection: {
@@ -33,14 +33,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://minirecipe.com"),
+  metadataBase: new URL("https://minirecipe.net"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Mini Recipe - Perfect Portions for Busy American Women",
     description: "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste with small-batch cooking.",
-    url: "https://minirecipe.com",
+    url: "https://minirecipe.net",
     siteName: "Mini Recipe",
     images: [
       {

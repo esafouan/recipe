@@ -4,19 +4,19 @@ export function StructuredData() {
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://minirecipe.com/#website",
-        "url": "https://minirecipe.com/",
+        "@id": "https://minirecipe.net/#website",
+        "url": "https://minirecipe.net/",
         "name": "Mini Recipe",
         "description": "Perfect portions for busy American women. 500+ mini recipes designed to eliminate food waste and save time.",
         "publisher": {
-          "@id": "https://minirecipe.com/#organization"
+          "@id": "https://minirecipe.net/#organization"
         },
         "potentialAction": [
           {
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://minirecipe.com/search?q={search_term_string}"
+              "urlTemplate": "https://minirecipe.net/search?q={search_term_string}"
             },
             "query-input": "required name=search_term_string"
           }
@@ -25,21 +25,21 @@ export function StructuredData() {
       },
       {
         "@type": "Organization",
-        "@id": "https://minirecipe.com/#organization",
+        "@id": "https://minirecipe.net/#organization",
         "name": "Mini Recipe",
-        "url": "https://minirecipe.com/",
+        "url": "https://minirecipe.net/",
         "logo": {
           "@type": "ImageObject",
           "inLanguage": "en-US",
-          "@id": "https://minirecipe.com/#/schema/logo/image/",
-          "url": "https://minirecipe.com/logo.png",
-          "contentUrl": "https://minirecipe.com/logo.png",
+          "@id": "https://minirecipe.net/#/schema/logo/image/",
+          "url": "https://minirecipe.net/logo.png",
+          "contentUrl": "https://minirecipe.net/logo.png",
           "width": 200,
           "height": 200,
           "caption": "Mini Recipe"
         },
         "image": {
-          "@id": "https://minirecipe.com/#/schema/logo/image/"
+          "@id": "https://minirecipe.net/#/schema/logo/image/"
         },
         "sameAs": [
           "https://facebook.com/minirecipe",
@@ -50,32 +50,32 @@ export function StructuredData() {
       },
       {
         "@type": "WebPage",
-        "@id": "https://minirecipe.com/#webpage",
-        "url": "https://minirecipe.com/",
+        "@id": "https://minirecipe.net/#webpage",
+        "url": "https://minirecipe.net/",
         "name": "Mini Recipe - Perfect Portions for Busy American Women | Zero Food Waste Cooking",
         "isPartOf": {
-          "@id": "https://minirecipe.com/#website"
+          "@id": "https://minirecipe.net/#website"
         },
         "about": {
-          "@id": "https://minirecipe.com/#organization"
+          "@id": "https://minirecipe.net/#organization"
         },
         "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste with our small-batch cooking guides.",
         "breadcrumb": {
-          "@id": "https://minirecipe.com/#breadcrumb"
+          "@id": "https://minirecipe.net/#breadcrumb"
         },
         "inLanguage": "en-US",
         "potentialAction": [
           {
             "@type": "ReadAction",
             "target": [
-              "https://minirecipe.com/"
+              "https://minirecipe.net/"
             ]
           }
         ]
       },
       {
         "@type": "BreadcrumbList",
-        "@id": "https://minirecipe.com/#breadcrumb",
+        "@id": "https://minirecipe.net/#breadcrumb",
         "itemListElement": [
           {
             "@type": "ListItem",

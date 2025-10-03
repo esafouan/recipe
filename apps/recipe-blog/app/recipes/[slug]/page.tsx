@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
   }
 
   // Enhanced SEO metadata with absolute URLs and comprehensive data
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://minirecipe.com'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://minirecipe.net'
   const imageUrl = recipe.image.startsWith('http') ? recipe.image : `${baseUrl}${recipe.image}`
   const canonicalUrl = `${baseUrl}/recipes/${recipe.slug}`
 

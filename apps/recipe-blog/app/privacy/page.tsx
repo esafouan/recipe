@@ -214,7 +214,7 @@ export default function PrivacyPage() {
                     <div className="bg-muted/50 p-6 rounded-lg mt-4 space-y-3">
                       <div>
                         <strong className="text-sm">Email:</strong>
-                        <p className="text-sm">privacy@minirecipe.com</p>
+                        <p className="text-sm">privacy@minirecipe.net</p>
                       </div>
                       <div>
                         <strong className="text-sm">Business Information:</strong>

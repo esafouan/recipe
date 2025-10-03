@@ -14,7 +14,7 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=G-VPMML9MMWN
 NEXT_PUBLIC_USE_FIREBASE_EMULATORS=false
 
 # Admin Configuration
-NEXT_PUBLIC_ADMIN_EMAIL=admin@minirecipe.com
+NEXT_PUBLIC_ADMIN_EMAIL=admin@minirecipe.net
 
 # SEO Configuration
 NEXT_PUBLIC_SITE_URL=http://localhost:3001
