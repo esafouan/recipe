@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 export default function AdminSetup() {
   const [formData, setFormData] = useState({
-    email: 'admin@minirecipe.com',
+    email: 'admin@minirecipe.net',
     password: '',
     displayName: 'Recipe Blog Admin',
   });
@@ -125,7 +125,7 @@ export default function AdminSetup() {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                placeholder="admin@minirecipe.com"
+                placeholder="admin@minirecipe.net"
               />
             </div>
 

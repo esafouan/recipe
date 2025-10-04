@@ -103,7 +103,7 @@ export default function FirebaseDebugPage() {
     try {
       addDebugInfo('Attempting to sign in...');
       // You should replace these with actual admin credentials
-      await AuthService.signIn('admin@minirecipe.com', 'your-password');
+      await AuthService.signIn('admin@minirecipe.net', 'your-password');
       addDebugInfo('✅ Successfully signed in');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';

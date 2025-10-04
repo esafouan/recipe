@@ -87,6 +87,7 @@ export default function RootLayout({
         <StructuredData />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <meta name="p:domain_verify" content="ab552ac2d12dbf81c53e0cf20c40d964"/>
       </head>
       <body className={`${fontVariables} antialiased`}>
         <Suspense fallback={null}>{children}</Suspense>

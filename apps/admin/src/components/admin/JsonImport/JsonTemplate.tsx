@@ -7,7 +7,7 @@ export default function JsonTemplate() {
     title: "Delicious Chocolate Chip Cookies",
     description: "Perfectly chewy chocolate chip cookies with crispy edges",
     content: "These cookies are the perfect balance of chewy and crispy. The secret is using brown butter and chilling the dough for at least 2 hours.",
-    category: "desserts",
+    category: "healthy",
     tags: ["cookies", "chocolate", "baking", "dessert"],
     prepTime: 15,
     cookTime: 12,
