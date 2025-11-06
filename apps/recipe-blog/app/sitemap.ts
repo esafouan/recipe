@@ -1,47 +1,17 @@
 import { getAllRecipes, getAllCategories } from "@/lib/recipes-data"
+import { getSitemapConfig } from "@/lib/config"
 
 export default async function sitemap() {
-  const baseUrl = 'https://minirecipe.net' // Updated to match robots.ts
+  const sitemapConfig = getSitemapConfig()
+  const baseUrl = sitemapConfig.baseUrl
 
-  // Static pages
-  const staticPages = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/recipes`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    },
-  ]
+  // Static pages from config
+  const staticPages = sitemapConfig.staticPages.map(page => ({
+    url: `${baseUrl}${page.url}`,
+    lastModified: page.lastModified === 'auto' ? new Date() : new Date(page.lastModified),
+    changeFrequency: page.changeFrequency as 'daily' | 'weekly' | 'monthly' | 'yearly',
+    priority: page.priority,
+  }))
 
   try {
     // Fetch dynamic data
@@ -54,8 +24,8 @@ export default async function sitemap() {
     const categoryPages = categories.map(category => ({
       url: `${baseUrl}/recipes/${category.toLowerCase()}`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
+      changeFrequency: sitemapConfig.changeFrequency.categories as 'weekly',
+      priority: sitemapConfig.priority.categories,
     }))
 
     // Individual recipe pages
@@ -75,7 +45,7 @@ export default async function sitemap() {
         url: `${baseUrl}/recipes/${recipe.slug}`,
         lastModified,
         changeFrequency: 'monthly' as const,
-        priority: 0.7,
+        priority: sitemapConfig.priority.recipeDetail,
       }
     })
 
@@ -91,8 +61,8 @@ export default async function sitemap() {
     const fallbackCategoryPages = ['breakfast', 'lunch', 'dinner', 'dessert', 'healthy'].map(category => ({
       url: `${baseUrl}/recipes/${category}`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
+      changeFrequency: sitemapConfig.changeFrequency.categories as 'weekly',
+      priority: sitemapConfig.priority.categories,
     }))
 
     return [

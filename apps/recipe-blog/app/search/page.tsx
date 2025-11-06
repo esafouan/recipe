@@ -1,7 +1,5 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { SearchResults } from "@/components/search-results"
 import { SearchBar } from "@/components/search-bar"
 import { Badge } from "@/components/ui/badge"
@@ -21,7 +19,6 @@ export const metadata: Metadata = {
 export default function SearchPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <SiteHeader />
       <main className="flex-1 bg-gradient-to-b from-background to-muted/10">
         <div className="container px-4 py-16">
           <div className="max-w-4xl mx-auto">
@@ -67,7 +64,6 @@ export default function SearchPage() {
           </div>
         </div>
       </main>
-      <SiteFooter />
     </div>
   )
 }

@@ -1,13 +1,17 @@
 import { MetadataRoute } from 'next'
+import { getRobotsConfig } from '@/lib/config'
  
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://minirecipe.net' 
+  const robotsConfig = getRobotsConfig()
   
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    rules: robotsConfig.rules.map(rule => ({
+      userAgent: rule.userAgent,
+      allow: rule.allow,
+      disallow: rule.disallow,
+      crawlDelay: rule.crawlDelay,
+    })),
+    sitemap: robotsConfig.sitemap,
+    host: robotsConfig.host,
   }
 }

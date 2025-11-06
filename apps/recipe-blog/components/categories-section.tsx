@@ -8,33 +8,7 @@ import {
   IceCream,
   ArrowRight,
 } from "lucide-react";
-
-const mealCategories = [
-  {
-    id: "breakfast",
-    title: "BREAKFAST",
-    image: "/Yay-Recipes-84-1.webp",
-    bgColor: "bg-primary",
-  },
-  {
-    id: "lunch",
-    title: "LUNCH",
-    image: "/Yay-Recipes-84-1.webp",
-    bgColor: "bg-primary",
-  },
-  {
-    id: "dinner",
-    title: "DINNER",
-    image: "/Yay-Recipes-84-1.webp",
-    bgColor: "bg-primary",
-  },
-  {
-    id: "dessert",
-    title: "DESSERT",
-    image: "/Yay-Recipes-84-1.webp",
-    bgColor: "bg-primary",
-  },
-];
+import { getCategoriesConfig } from "@/lib/config";
 
 const categoryIcons = [
   {
@@ -76,19 +50,25 @@ const categoryIcons = [
 ];
 
 export function CategoriesSection() {
+  const categoriesConfig = getCategoriesConfig()
+
   return (
     <section className="py-8 md:py-12 lg:py-16 bg-white">
       <div className="mx-auto px-2 md:px-3 max-w-6xl">
         {/* Section Heading */}
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-foreground">
-            Where Every Bite is a Tasty Delight
-          </h2>
+     
+        <div className="text-center mb-8 md:mb-12 relative">
+          <div className="flex items-center justify-center mb-4">
+            <div className="flex-1 h-0.5 bg-primary max-w-32 md:max-w-48"></div>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-foreground px-6 md:px-8">
+              {categoriesConfig.title}
+            </h2>
+            <div className="flex-1 h-0.5 bg-primary max-w-32 md:max-w-48"></div>
+          </div>
         </div>
-
         {/* Meal Categories Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-12 md:mb-16">
-          {mealCategories.map((category) => (
+          {categoriesConfig.main.map((category) => (
             <div key={category.id} className="flex flex-col">
               <figure className="">
                 <Link href={`/categories/${category.id}`}>
@@ -99,6 +79,7 @@ export function CategoriesSection() {
                     height={1200}
                     className="w-full h-auto object-cover hover:opacity-90 transition-opacity duration-300"
                     loading="lazy"
+                    unoptimized={process.env.NODE_ENV === 'development'}
                   />
                 </Link>
               </figure>

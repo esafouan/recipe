@@ -1,0 +1,340 @@
+{
+  "site": {
+    "name": "Mini Recipe",
+    "title": "Mini Recipe - Perfect Portions for Busy American Women | Zero Food Waste Cooking",
+    "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste with our small-batch cooking guides. Quick, healthy, sustainable recipes for busy lifestyles.",
+    "url": "https://minirecipe.net",
+    "logo": "/logonobg.png",
+    "logoAlt": "Mini Recipe Logo",
+    "author": "Mini Recipe Team",
+    "creator": "Mini Recipe",
+    "publisher": "Mini Recipe",
+    "keywords": [
+      "mini recipes",
+      "small batch cooking", 
+      "single serving recipes",
+      "food waste reduction",
+      "sustainable cooking",
+      "portion control recipes",
+      "quick healthy meals",
+      "eco-friendly cooking",
+      "American women cooking",
+      "busy mom recipes",
+      "zero waste kitchen",
+      "meal prep for one"
+    ]
+  },
+  "seo": {
+    "openGraph": {
+      "title": "Mini Recipe - Perfect Portions for Busy American Women",
+      "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste with small-batch cooling.",
+      "images": [
+        {
+          "url": "/og-image.jpg",
+          "width": 1200,
+          "height": 630,
+          "alt": "Mini Recipe - Small batch cooking for busy women"
+        }
+      ],
+      "type": "website"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "site": "@minirecipe",
+      "creator": "@minirecipe",
+      "title": "Mini Recipe - Perfect Portions for Busy American Women",
+      "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste.",
+      "image": "/og-image.jpg"
+    },
+    "verification": {
+      "google": "",
+      "bing": "",
+      "pinterest": "ab552ac2d12dbf81c53e0cf20c40d964",
+      "facebook": ""
+    },
+    "structuredData": {
+      "organization": {
+        "@type": "Organization",
+        "name": "Mini Recipe",
+        "url": "https://minirecipe.net",
+        "logo": "https://minirecipe.net/logonobg.png",
+        "description": "Your go-to source for delicious, easy-to-make mini recipes perfect for small portions.",
+        "sameAs": [
+          "https://pinterest.com/minirecipe",
+          "https://instagram.com/minirecipe",
+          "https://facebook.com/minirecipe"
+        ]
+      },
+      "website": {
+        "@type": "WebSite",
+        "name": "Mini Recipe",
+        "url": "https://minirecipe.net",
+        "description": "Discover 500+ mini recipes perfect for 1-2 servings.",
+        "inLanguage": "en-US",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://minirecipe.net/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    }
+  },
+  "robots": {
+    "rules": [
+      {
+        "userAgent": "*",
+        "allow": ["/"],
+        "disallow": ["/api/", "/admin/", "/_next/", "/scripts/"],
+        "crawlDelay": 1
+      },
+      {
+        "userAgent": "Googlebot",
+        "allow": ["/", "/recipes/", "/categories/"],
+        "disallow": ["/api/", "/admin/"]
+      }
+    ],
+    "sitemap": "https://minirecipe.net/sitemap.xml",
+    "host": "https://minirecipe.net"
+  },
+  "sitemap": {
+    "baseUrl": "https://minirecipe.net",
+    "changeFrequency": {
+      "home": "daily",
+      "recipes": "weekly", 
+      "categories": "weekly",
+      "static": "monthly"
+    },
+    "priority": {
+      "home": 1.0,
+      "recipes": 0.9,
+      "categories": 0.8,
+      "recipeDetail": 0.7,
+      "static": 0.5
+    },
+    "staticPages": [
+      {
+        "url": "/",
+        "lastModified": "auto",
+        "changeFrequency": "daily",
+        "priority": 1.0
+      },
+      {
+        "url": "/recipes", 
+        "lastModified": "auto",
+        "changeFrequency": "daily",
+        "priority": 0.9
+      },
+      {
+        "url": "/about",
+        "lastModified": "auto", 
+        "changeFrequency": "monthly",
+        "priority": 0.5
+      },
+      {
+        "url": "/contact",
+        "lastModified": "auto",
+        "changeFrequency": "monthly", 
+        "priority": 0.5
+      },
+      {
+        "url": "/privacy",
+        "lastModified": "auto",
+        "changeFrequency": "yearly",
+        "priority": 0.3
+      },
+      {
+        "url": "/terms",
+        "lastModified": "auto",
+        "changeFrequency": "yearly",
+        "priority": 0.3
+      }
+    ],
+    "excludeRoutes": ["/api", "/admin", "/_next", "/scripts"]
+  },
+  "navigation": {
+    "main": [
+      {
+        "label": "Recipes",
+        "href": "/recipes"
+      },
+      {
+        "label": "About",
+        "href": "/about"
+      },
+      {
+        "label": "Contact",
+        "href": "/contact"
+      }
+    ]
+  },
+  "hero": {
+    "title": "FAMILY-FRIENDLY RECIPES",
+    "subtitle": "YOU CAN MAKE AT HOME",
+    "description": "Welcome to Mini Recipe 👩‍🍳! **Simple cooking that brings joy to your table.** Find recipes that won't stress you out - basic ingredients, budget-friendly meals, and dishes your family will love. From creamy milkshakes to tasty fries, whether you're using kitchen gadgets or just your hands, we're here to make cooking feel like second nature.",
+    "ctaText": "Explore Latest Recipes",
+    "ctaTarget": "#recent-recipes"
+  },
+  "categories": {
+    "title": "RECIPE CATEGORIES",
+    "subtitle": "Browse by meal type",
+    "main": [
+      {
+        "id": "breakfast",
+        "title": "BREAKFAST",
+        "image": "/Yay-Recipes-84-1.webp",
+        "bgColor": "bg-primary"
+      },
+      {
+        "id": "lunch", 
+        "title": "LUNCH",
+        "image": "/Yay-Recipes-84-1.webp",
+        "bgColor": "bg-primary"
+      },
+      {
+        "id": "dinner",
+        "title": "DINNER", 
+        "image": "/Yay-Recipes-84-1.webp",
+        "bgColor": "bg-primary"
+      },
+      {
+        "id": "dessert",
+        "title": "DESSERT",
+        "image": "/Yay-Recipes-84-1.webp",
+        "bgColor": "bg-primary"
+      }
+    ],
+    "additional": [
+      {
+        "id": "appetizers",
+        "title": "Appetizers",
+        "href": "/categories/appetizers"
+      },
+      {
+        "id": "breakfast",
+        "title": "Breakfast", 
+        "href": "/categories/breakfast"
+      },
+      {
+        "id": "lunch",
+        "title": "Lunch",
+        "href": "/categories/lunch"
+      },
+      {
+        "id": "dinner",
+        "title": "Dinner",
+        "href": "/categories/dinner"
+      },
+      {
+        "id": "dessert",
+        "title": "Dessert",
+        "href": "/categories/dessert"
+      },
+      {
+        "id": "healthy",
+        "title": "Healthy",
+        "href": "/categories/healthy"
+      }
+    ]
+  },
+  "recentRecipes": {
+    "title": "LATEST RECIPES",
+    "subtitle": "Fresh ideas for your kitchen",
+    "ctaText": "View All Recipes",
+    "ctaHref": "/recipes"
+  },
+  "footer": {
+    "description": "Your go-to source for delicious, easy-to-make recipes. From quick weeknight dinners to special occasion treats, we've got you covered.",
+    "sections": [
+      {
+        "title": "Recipes",
+        "links": [
+          {
+            "label": "All Recipes",
+            "href": "/recipes"
+          },
+          {
+            "label": "Breakfast",
+            "href": "/recipes/breakfast"
+          },
+          {
+            "label": "Lunch", 
+            "href": "/recipes/lunch"
+          },
+          {
+            "label": "Dinner",
+            "href": "/recipes/dinner"
+          },
+          {
+            "label": "Dessert",
+            "href": "/recipes/dessert"
+          }
+        ]
+      },
+      {
+        "title": "About",
+        "links": [
+          {
+            "label": "About Us",
+            "href": "/about"
+          },
+          {
+            "label": "Contact",
+            "href": "/contact"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/privacy"
+          },
+          {
+            "label": "Terms of Service",
+            "href": "/terms"
+          }
+        ]
+      }
+    ],
+    "social": [
+      {
+        "platform": "Pinterest",
+        "url": "https://pinterest.com/minirecipe",
+        "icon": "pinterest"
+      },
+      {
+        "platform": "Instagram", 
+        "url": "https://instagram.com/minirecipe",
+        "icon": "instagram"
+      },
+      {
+        "platform": "Facebook",
+        "url": "https://facebook.com/minirecipe", 
+        "icon": "facebook"
+      }
+    ],
+    "copyright": "© 2024 Mini Recipe. All rights reserved."
+  },
+  "search": {
+    "placeholder": "Search recipes...",
+    "noResultsTitle": "No recipes found",
+    "noResultsMessage": "We couldn't find any recipes matching your search. Try searching for different ingredients or recipe names.",
+    "loadingMessage": "Searching recipes..."
+  },
+  "pages": {
+    "about": {
+      "title": "About Mini Recipe",
+      "subtitle": "Your partner in creating delicious meals",
+      "content": "We believe that great food brings people together. Our mission is to make cooking accessible, enjoyable, and rewarding for everyone."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "subtitle": "We'd love to hear from you",
+      "content": "Have a question, suggestion, or just want to say hello? Get in touch with us!"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "lastUpdated": "November 2024"
+    },
+    "terms": {
+      "title": "Terms of Service", 
+      "lastUpdated": "November 2024"
+    }
+  }
+}

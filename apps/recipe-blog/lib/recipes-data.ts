@@ -379,6 +379,11 @@ export async function getRecipesByCategory(category: RecipeCategory): Promise<Bl
 
 export async function getRecipeBySlug(slug: string): Promise<BlogRecipe | null> {
   try {
+    // Validate slug parameter
+    if (!slug || slug.trim() === '') {
+      return null;
+    }
+    
     console.log(`Fetching recipe by slug: ${slug}`);
     const recipesRef = collection(db, 'recipes');
     const q = query(recipesRef, where('slug', '==', slug));
@@ -461,11 +466,11 @@ export async function searchRecipes(searchTerm: string): Promise<BlogRecipe[]> {
   }
 }
 
-export async function getFeaturedRecipes(limit: number = 6): Promise<BlogRecipe[]> {
+export async function getFeaturedRecipes(maxResults: number = 6): Promise<BlogRecipe[]> {
   try {
-    console.log(`Fetching ${limit} featured recipes`);
+    console.log(`Fetching ${maxResults} featured recipes`);
     const recipesRef = collection(db, 'recipes');
-    const q = query(recipesRef, where('featured', '==', true), orderBy('datePublished', 'desc'), limit(limit));
+    const q = query(recipesRef, where('featured', '==', true), orderBy('datePublished', 'desc'), limit(maxResults));
     const querySnapshot = await getDocs(q);
     
     const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
@@ -485,11 +490,11 @@ export async function getFeaturedRecipes(limit: number = 6): Promise<BlogRecipe[
   }
 }
 
-export async function getRecentRecipes(limit: number = 10): Promise<BlogRecipe[]> {
+export async function getRecentRecipes(maxResults: number = 10): Promise<BlogRecipe[]> {
   try {
-    console.log(`Fetching ${limit} recent recipes`);
+    console.log(`Fetching ${maxResults} recent recipes`);
     const recipesRef = collection(db, 'recipes');
-    const q = query(recipesRef, orderBy('datePublished', 'desc'), limit(limit));
+    const q = query(recipesRef, orderBy('datePublished', 'desc'), limit(maxResults));
     const querySnapshot = await getDocs(q);
     
     const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);

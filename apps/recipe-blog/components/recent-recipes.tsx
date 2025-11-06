@@ -1,7 +1,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { db } from '@/lib/firebase/config'
-import { collection, query, orderBy, limit, getDocs, Timestamp } from 'firebase/firestore'
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore'
+import { getRecentRecipesConfig } from "@/lib/config"
 
 // Simple type for recipe data
 type Recipe = {
@@ -127,6 +128,7 @@ async function getRecentRecipes(): Promise<Recipe[]> {
 
 export async function RecentRecipes() {
   const recipes = await getRecentRecipes()
+  const recentRecipesConfig = getRecentRecipesConfig()
 
   // Always render exactly 8 recipes
   const displayRecipes = recipes.slice(0, 8)
@@ -139,7 +141,7 @@ export async function RecentRecipes() {
           <div className="flex items-center justify-center mb-4">
             <div className="flex-1 h-0.5 bg-primary max-w-32 md:max-w-48"></div>
             <h2 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-foreground px-6 md:px-8">
-              LATEST RECIPES
+              {recentRecipesConfig.title}
             </h2>
             <div className="flex-1 h-0.5 bg-primary max-w-32 md:max-w-48"></div>
           </div>
@@ -157,7 +159,9 @@ export async function RecentRecipes() {
                     className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                     width={300}
                     height={300}
+                    loading="lazy"
                     sizes="(max-width: 768px) 50vw, 25vw"
+                    unoptimized={process.env.NODE_ENV === 'development'}
                   />
                   
                   {/* Category Badge - Overlay on image */}

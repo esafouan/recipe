@@ -1,81 +1,68 @@
+import { getSeoConfig, getSiteConfig } from '@/lib/config'
+
 export function StructuredData() {
+  const siteConfig = getSiteConfig()
+  const seoConfig = getSeoConfig()
+  
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebSite",
-        "@id": "https://minirecipe.net/#website",
-        "url": "https://minirecipe.net/",
-        "name": "Mini Recipe",
-        "description": "Perfect portions for busy American women. 500+ mini recipes designed to eliminate food waste and save time.",
+        ...seoConfig.structuredData.website,
+        "@id": `${siteConfig.url}/#website`,
+        "url": `${siteConfig.url}/`,
+        "name": siteConfig.name,
         "publisher": {
-          "@id": "https://minirecipe.net/#organization"
-        },
-        "potentialAction": [
-          {
-            "@type": "SearchAction",
-            "target": {
-              "@type": "EntryPoint",
-              "urlTemplate": "https://minirecipe.net/search?q={search_term_string}"
-            },
-            "query-input": "required name=search_term_string"
-          }
-        ],
-        "inLanguage": "en-US"
+          "@id": `${siteConfig.url}/#organization`
+        }
       },
       {
-        "@type": "Organization",
-        "@id": "https://minirecipe.net/#organization",
-        "name": "Mini Recipe",
-        "url": "https://minirecipe.net/",
+        ...seoConfig.structuredData.organization,
+        "@id": `${siteConfig.url}/#organization`,
+        "url": `${siteConfig.url}/`,
+        "name": siteConfig.name,
         "logo": {
           "@type": "ImageObject",
-          "inLanguage": "en-US",
-          "@id": "https://minirecipe.net/#/schema/logo/image/",
-          "url": "https://minirecipe.net/logo.png",
-          "contentUrl": "https://minirecipe.net/logo.png",
+          "inLanguage": seoConfig.structuredData.website.inLanguage,
+          "@id": `${siteConfig.url}/#/schema/logo/image/`,
+          "url": siteConfig.logo.startsWith('http') ? siteConfig.logo : `${siteConfig.url}${siteConfig.logo}`,
+          "contentUrl": siteConfig.logo.startsWith('http') ? siteConfig.logo : `${siteConfig.url}${siteConfig.logo}`,
           "width": 200,
           "height": 200,
-          "caption": "Mini Recipe"
+          "caption": siteConfig.name
         },
         "image": {
-          "@id": "https://minirecipe.net/#/schema/logo/image/"
-        },
-        "sameAs": [
-          "https://facebook.com/minirecipe",
-          "https://instagram.com/minirecipe",
-          "https://pinterest.com/minirecipe",
-          "https://twitter.com/minirecipe"
-        ]
+          "@id": `${siteConfig.url}/#/schema/logo/image/`
+        }
       },
       {
         "@type": "WebPage",
-        "@id": "https://minirecipe.net/#webpage",
-        "url": "https://minirecipe.net/",
-        "name": "Mini Recipe - Perfect Portions for Busy American Women | Zero Food Waste Cooking",
+        "@id": `${siteConfig.url}/#webpage`,
+        "url": `${siteConfig.url}/`,
+        "name": siteConfig.title,
         "isPartOf": {
-          "@id": "https://minirecipe.net/#website"
+          "@id": `${siteConfig.url}/#website`
         },
         "about": {
-          "@id": "https://minirecipe.net/#organization"
+          "@id": `${siteConfig.url}/#organization`
         },
-        "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste with our small-batch cooking guides.",
+        "description": siteConfig.description,
         "breadcrumb": {
-          "@id": "https://minirecipe.net/#breadcrumb"
+          "@id": `${siteConfig.url}/#breadcrumb`
         },
-        "inLanguage": "en-US",
+        "inLanguage": seoConfig.structuredData.website.inLanguage,
         "potentialAction": [
           {
             "@type": "ReadAction",
             "target": [
-              "https://minirecipe.net/"
+              `${siteConfig.url}/`
             ]
           }
         ]
       },
       {
         "@type": "BreadcrumbList",
-        "@id": "https://minirecipe.net/#breadcrumb",
+        "@id": `${siteConfig.url}/#breadcrumb`,
         "itemListElement": [
           {
             "@type": "ListItem",

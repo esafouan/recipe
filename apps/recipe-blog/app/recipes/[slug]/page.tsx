@@ -1,7 +1,5 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { RecipeDetail } from "@/components/recipe-detail"
 import { RecipeSchema } from "@/components/recipe-schema"
 import { getRecipeBySlug, getAllRecipes } from "@/lib/recipes-data"
@@ -14,9 +12,12 @@ interface RecipePageProps {
 
 export async function generateStaticParams() {
   const recipes = await getAllRecipes()
-  return recipes.map((recipe) => ({
-    slug: recipe.slug,
-  }))
+  // Filter out recipes with invalid or undefined slugs
+  return recipes
+    .filter((recipe) => recipe.slug && recipe.slug.trim() !== '')
+    .map((recipe) => ({
+      slug: recipe.slug,
+    }))
 }
 
 export async function generateMetadata({ params }: RecipePageProps): Promise<Metadata> {
@@ -140,7 +141,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
     name: recipe.name || recipe.title, // Ensure compatibility with both fields
     title: recipe.title, // Add title field for consistency
     description: recipe.description,
-    content: recipe.content, // Blog content for better engagement
     image: recipe.image,
     prepTime: recipe.prepTimeISO,
     cookTime: recipe.cookTimeISO,
@@ -159,8 +159,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
     equipment: recipe.equipment || [], // Ensure array exists
     tips: recipe.tips || [], // Ensure array exists
     // Enhanced engagement fields
-    notes: recipe.notes, // Recipe notes
-    faqs: recipe.faqs, // FAQ section for better SEO
     dietary: recipe.dietary, // Dietary restrictions for badges
     cuisine: recipe.cuisine, // Cuisine for additional context
   }
@@ -168,11 +166,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <RecipeSchema recipe={recipeForComponents} />
-      <SiteHeader />
       <main className="flex-1">
         <RecipeDetail recipe={recipeForComponents} />
       </main>
-      <SiteFooter />
     </div>
   )
 }

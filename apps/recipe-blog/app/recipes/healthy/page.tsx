@@ -1,6 +1,4 @@
 import type { Metadata } from "next"
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 
 export const metadata: Metadata = {
   title: "Healthy Mini Recipes - Nutritious Small Batch Meals | Mini Recipe",
@@ -49,10 +47,8 @@ export const metadata: Metadata = {
 export default function HealthyRecipesPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <SiteHeader />
       <main className="flex-1">
       </main>
-      <SiteFooter />
     </div>
   )
 }

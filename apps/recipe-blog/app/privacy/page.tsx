@@ -1,6 +1,4 @@
 import type { Metadata } from "next"
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata: Metadata = {
@@ -29,7 +27,6 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <SiteHeader />
       <main className="flex-1">
         <div className="py-16">
           <div className="container mx-auto px-4 md:px-6 max-w-4xl">
@@ -233,7 +230,6 @@ export default function PrivacyPage() {
           </div>
         </div>
       </main>
-      <SiteFooter />
     </div>
   )
 }

@@ -1,59 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable standalone output for Docker
-  output: "standalone",
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // Use Turbopack (Next.js 16 default) which should fix webpack issues
+  turbopack: {},
   images: {
-    // Enable image optimization for better performance
-    unoptimized: false,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "minirecipe.sfo3.cdn.digitaloceanspaces.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "minirecipe.sfo3.digitaloceanspaces.com",
-        port: "",
-        pathname: "/**",
-      },
-    ],
-    domains: ["localhost"],
-    formats: ["image/webp", "image/avif"],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 31536000, // 1 year
-  },
-  // Performance optimizations
-  swcMinify: true, // Use SWC for faster minification
-  compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
-  },
-  // Bundle optimization
-  experimental: {
-    // Keep minimal experimental features for RSC compatibility
-  },
-  // Compression
-  compress: true,
-  // Webpack optimizations
-  webpack: (config, { dev, isServer }) => {
-    // Bundle analyzer
-    if (process.env.ANALYZE === "true") {
-      const withBundleAnalyzer = require("@next/bundle-analyzer")({
-        enabled: true,
-      });
-      return withBundleAnalyzer.webpack(config, { dev, isServer });
-    }
-
-    // Let Next.js handle chunking for RSC compatibility
-    return config;
+    unoptimized: true,
   },
   // Headers for caching and security
   async headers() {
