@@ -5,7 +5,6 @@ import { SiteFooter } from "@/components/site-footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Leaf, Heart, Users, Award, Utensils, Recycle } from "lucide-react"
-import { PageBreadcrumb } from "@/components/page-breadcrumb"
 
 export const metadata: Metadata = {
   title: "About Mini Recipe | Small Recipes for Busy American Women | Our Story",
@@ -44,7 +43,6 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
-      <PageBreadcrumb />
       <main className="flex-1">
         <div className="py-16">
           <div className="container mx-auto px-4 md:px-6 max-w-4xl">

@@ -4,7 +4,6 @@ import { SiteFooter } from "@/components/site-footer"
 import { ContactForm } from "@/components/contact-form"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Mail, MessageSquare, Clock, Leaf, Heart } from "lucide-react"
-import { PageBreadcrumb } from "@/components/page-breadcrumb"
 
 export const metadata: Metadata = {
   title: "Contact Us - Mini Recipe",
@@ -22,7 +21,6 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
-      <PageBreadcrumb />
       <main className="flex-1">
         <div className="py-16">
           <div className="container mx-auto px-4 md:px-6 max-w-4xl">

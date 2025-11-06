@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { RecipeArchiveWrapper } from "@/components/recipe-archive-wrapper"
-import { PageBreadcrumb } from "@/components/page-breadcrumb"
 
 export const metadata: Metadata = {
   title: "Mini Dessert Recipes - Small Batch Sweet Treats | Mini Recipe",
@@ -39,11 +37,8 @@ export default function DessertRecipesPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
-      <PageBreadcrumb />
       <main className="flex-1">
-        {/* SEO Content Section */}
         
-        <RecipeArchiveWrapper defaultCategory="Dessert" />
       </main>
       <SiteFooter />
     </div>

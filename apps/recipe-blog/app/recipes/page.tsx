@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { RecipeArchiveWithParams } from "@/components/recipe-archive-with-params"
 
 export const metadata: Metadata = {
   title: "All Mini Recipes - Mini Recipe | Small Portion Recipes",
@@ -20,7 +19,6 @@ export default function RecipesPage() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
       <main className="flex-1">
-        <RecipeArchiveWithParams />
       </main>
       <SiteFooter />
     </div>

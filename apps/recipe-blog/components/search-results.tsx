@@ -8,13 +8,24 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Clock, Users, Star, Search } from "lucide-react"
-import { getAllRecipes, searchRecipes } from "@/lib/recipes-data"
-import { type BlogRecipe } from "@/lib/types/recipe"
+// Simple type for search results
+type Recipe = {
+  id: string
+  slug: string
+  title: string
+  description: string
+  image: string
+  category: string
+  datePublished: string
+  totalTime?: number
+  servings?: number
+  rating?: { value: number }
+}
 
 export function SearchResults() {
   const searchParams = useSearchParams()
   const query = searchParams.get("q") || ""
-  const [results, setResults] = useState<BlogRecipe[]>([])
+  const [results, setResults] = useState<Recipe[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -22,11 +33,18 @@ export function SearchResults() {
       setIsLoading(true)
       try {
         if (query) {
-          const filtered = await searchRecipes(query)
-          setResults(filtered)
+          const response = await fetch(`/api/recipes/search?q=${encodeURIComponent(query)}`)
+          if (response.ok) {
+            const filtered = await response.json()
+            setResults(filtered)
+          }
         } else {
-          const allRecipes = await getAllRecipes()
-          setResults(allRecipes)
+          // For empty query, show recent recipes
+          const response = await fetch('/api/recipes/recent')
+          if (response.ok) {
+            const allRecipes = await response.json()
+            setResults(allRecipes)
+          }
         }
       } catch (error) {
         console.error('Error searching recipes:', error)
@@ -99,11 +117,12 @@ export function SearchResults() {
                 <Badge variant="secondary" className="text-xs">
                   {recipe.category}
                 </Badge>
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-primary text-primary" />
-                  <span className="text-sm font-medium">{recipe.rating}</span>
-                  <span className="text-xs text-muted-foreground">({recipe.reviewCount})</span>
-                </div>
+                {recipe.rating && (
+                  <div className="flex items-center gap-1">
+                    <Star className="h-4 w-4 fill-primary text-primary" />
+                    <span className="text-sm font-medium">{recipe.rating.value}</span>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -114,26 +133,24 @@ export function SearchResults() {
               </div>
 
               <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  <span>{recipe.totalTime} min</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Users className="h-4 w-4" />
-                  <span>{recipe.servings} serving{recipe.servings !== 1 ? 's' : ''}</span>
-                </div>
+                {recipe.totalTime && (
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{recipe.totalTime} min</span>
+                  </div>
+                )}
+                {recipe.servings && (
+                  <div className="flex items-center gap-1">
+                    <Users className="h-4 w-4" />
+                    <span>{recipe.servings} serving{recipe.servings !== 1 ? 's' : ''}</span>
+                  </div>
+                )}
                 <Badge variant="outline" className="text-xs">
-                  {recipe.difficulty}
+                  {recipe.category}
                 </Badge>
               </div>
 
-              <div className="flex flex-wrap gap-1 mb-2">
-                {recipe.dietary.slice(0, 2).map((diet: string) => (
-                  <Badge key={diet} variant="outline" className="text-xs">
-                    {diet}
-                  </Badge>
-                ))}
-              </div>
+              {/* Removed dietary badges since they're not in our simplified type */}
 
               <Button asChild className="w-full">
                 <Link href={`/recipes/${recipe.slug}`}>View Recipe</Link>

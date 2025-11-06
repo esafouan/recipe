@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Suspense } from "react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import { StructuredData } from "@/components/structured-data"
 import { fontVariables } from "@/lib/fonts"
 import "./globals.css"
@@ -91,14 +90,6 @@ export default function RootLayout({
       </head>
       <body className={`${fontVariables} antialiased`}>
         <Suspense fallback={null}>{children}</Suspense>
-        <SpeedInsights />
-        {process.env.NODE_ENV === 'production' && (
-          <script
-            defer
-            src="/_vercel/insights/script.js"
-            data-endpoint="/_vercel/insights"
-          />
-        )}
       </body>
     </html>
   )

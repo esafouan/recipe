@@ -38,8 +38,7 @@ const nextConfig = {
   },
   // Bundle optimization
   experimental: {
-    // Remove optimizeCss to fix critters error
-    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
+    // Keep minimal experimental features for RSC compatibility
   },
   // Compression
   compress: true,
@@ -53,27 +52,7 @@ const nextConfig = {
       return withBundleAnalyzer.webpack(config, { dev, isServer });
     }
 
-    if (!dev && !isServer) {
-      // Production client-side optimizations
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: "all",
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: "vendors",
-              chunks: "all",
-            },
-            common: {
-              minChunks: 2,
-              priority: -10,
-              reuseExistingChunk: true,
-            },
-          },
-        },
-      };
-    }
+    // Let Next.js handle chunking for RSC compatibility
     return config;
   },
   // Headers for caching and security
