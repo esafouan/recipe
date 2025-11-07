@@ -1,19 +1,12 @@
-import type { Metadata } from "next"
 import { AllRecipes } from "@/components/all-recipes"
 
-export const metadata: Metadata = {
-  title: "All Mini Recipes - Mini Recipe | Small Portion Recipes",
-  description:
-    "Browse our complete collection of small-batch recipes designed for 1-2 servings. Find perfectly portioned recipes that eliminate food waste and fit your busy lifestyle.",
-  keywords: ["mini recipes", "small batch", "small portions", "1-2 servings", "zero waste cooking", "quick recipes", "busy women recipes"],
-  openGraph: {
-    title: "All Mini Recipes - Small Portion Collection",
-    description: "Browse our complete collection of small-batch recipes designed for 1-2 servings",
-    type: "website",
-  },
+interface CategoryPageProps {
+  category: string
+  title: string
+  description: string
 }
 
-export default function RecipesPage() {
+export function CategoryPage({ category, title, description }: CategoryPageProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
@@ -22,12 +15,12 @@ export default function RecipesPage() {
           <div className="container mx-auto px-4 md:px-6 max-w-6xl">
             <div className="text-center space-y-6 md:space-y-8">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight max-w-4xl mx-auto">
-                All Mini Recipes
+                {title}
               </h1>
               
               <div className="max-w-3xl mx-auto">
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-                  {("Discover our complete collection of **perfectly portioned recipes** designed for 1-2 servings. From quick breakfasts to satisfying dinners, find recipes that eliminate food waste and fit your busy lifestyle.")
+                  {description
                     .split('**')
                     .map((part, index) => 
                       index % 2 === 1 ? <strong key={index}>{part}</strong> : part
@@ -39,10 +32,10 @@ export default function RecipesPage() {
           </div>
         </section>
 
-        {/* Recipes Section */}
+        {/* Category Recipes Section */}
         <section className="py-16 md:py-20 lg:py-24 bg-white">
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-            <AllRecipes />
+            <AllRecipes category={category} />
           </div>
         </section>
       </main>

@@ -1,185 +1,88 @@
 import type { Metadata } from "next"
 import { ContactForm } from "@/components/contact-form"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Mail, MessageSquare, Clock, Leaf, Heart } from "lucide-react"
+import { ChefProfileCard } from "@/components/chef-profile-card"
+import { getContactPageData, getChefData } from "@/lib/site-config"
+
+const contactData = getContactPageData()
+const chefData = getChefData()
 
 export const metadata: Metadata = {
-  title: "Contact Us - Mini Recipe",
-  description:
-    "Get in touch with the Mini Recipe team. Share your small recipe ideas, ask questions about portion sizes, or tell us about your zero-waste cooking journey.",
-  keywords: ["contact", "support", "questions", "feedback", "mini recipe", "small portions", "zero waste"],
-  openGraph: {
-    title: "Contact Us - Mini Recipe",
-    description: "Get in touch with our team. We'd love to hear about your small recipe journey!",
-    type: "website",
-  },
+  title: contactData.title,
+  description: contactData.description,
+  keywords: contactData.keywords,
+  openGraph: contactData.openGraph,
 }
 
 export default function ContactPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
-        <div className="py-16">
-          <div className="container mx-auto px-4 md:px-6 max-w-4xl">
-            {/* Header */}
-            <div className="text-center space-y-6 mb-16">
-              <h1 className="text-4xl lg:text-5xl font-serif font-bold text-balance">Get in Touch</h1>
-              <p className="text-xl text-muted-foreground text-pretty max-w-3xl mx-auto leading-relaxed">
-                We'd love to hear from you! Whether you have questions about portion sizes, want to share your
-                zero-waste cooking success, or have ideas for new mini recipes, don't hesitate to reach out.
-              </p>
-            </div>
+        {/* Hero Section */}
+        <section className="relative py-12 md:py-16 lg:py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
+          <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+            <div className="text-center space-y-6 md:space-y-8">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight max-w-4xl mx-auto">
+                {contactData.hero.title}
+              </h1>
+              
+              <div className="max-w-3xl mx-auto space-y-6">
+                <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+                  {contactData.hero.description}
+                </p>
 
-            <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
-              {/* Contact Form */}
-              <div className="lg:col-span-2">
-                <Card className="shadow-lg border-0 bg-background/50 backdrop-blur-sm h-fit">
-                  <CardHeader className="pb-6">
-                    <CardTitle className="font-serif text-xl lg:text-2xl">Send us a Message</CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      We're here to help with your mini recipe journey. Let us know how we can assist you!
-                    </p>
-                  </CardHeader>
-                  <CardContent>
-                    <ContactForm />
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Contact Info */}
-              <div className="space-y-4">
-                <Card className="shadow-lg border-0 bg-background/50 backdrop-blur-sm">
-                  <CardContent className="p-4 lg:p-6 space-y-4">
-                    <div className="text-center mb-4">
-                      <h2 className="font-serif text-lg font-semibold mb-1">Ways to Connect</h2>
-                      <p className="text-xs text-muted-foreground">Choose the best way to reach our team</p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
-                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                          <Mail className="h-5 w-5 text-primary" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-serif font-semibold text-sm mb-1">Email Us</h3>
-                          <p className="text-xs text-muted-foreground mb-1">For general inquiries and recipe questions</p>
-                          <a
-                            href="mailto:hello@minirecipe.net"
-                            className="text-primary hover:underline text-xs font-medium transition-colors break-words"
-                          >
-                            hello@minirecipe.net
-                          </a>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3 p-3 rounded-lg bg-secondary/5 border border-secondary/10">
-                        <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0">
-                          <MessageSquare className="h-5 w-5 text-secondary" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-serif font-semibold text-sm mb-1">Recipe Support</h3>
-                          <p className="text-xs text-muted-foreground mb-1">
-                            Need help with portion adjustments or ingredient substitutions?
-                          </p>
-                          <a
-                            href="mailto:support@minirecipe.net"
-                            className="text-secondary hover:underline text-xs font-medium transition-colors break-words"
-                          >
-                            support@minirecipe.net
-                          </a>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3 p-3 rounded-lg bg-background border border-border">
-                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                          <Clock className="h-5 w-5 text-muted-foreground" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-serif font-semibold text-sm mb-1">Response Time</h3>
-                          <p className="text-xs text-muted-foreground">
-                            We typically respond within 24-48 hours during business days.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
-                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                          <Leaf className="h-5 w-5 text-primary" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-serif font-semibold text-sm mb-1">Our Mission</h3>
-                          <p className="text-xs text-muted-foreground">
-                            Reducing food waste one small recipe at a time
-                            <br />
-                            Serving conscious cooks worldwide
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-br from-primary/10 to-secondary/5 border-primary/20 shadow-lg">
-                  <CardContent className="p-4 text-center space-y-3">
-                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mx-auto">
-                      <Leaf className="h-6 w-6 text-primary" />
-                    </div>
-                    <h3 className="font-serif font-semibold text-base">Recipe Ideas</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      Have a favorite dish you'd like to see in mini portions? We love creating small-batch versions of
-                      classic recipes that eliminate waste!
-                    </p>
-                    <div className="pt-1">
-                      <div className="text-xs text-muted-foreground font-medium">Join 50K+ women reducing food waste</div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* FAQ Section */}
-            <div className="mt-12">
-              <h2 className="text-2xl lg:text-3xl font-serif font-bold text-center mb-8">Frequently Asked Questions</h2>
-              <div className="grid md:grid-cols-2 gap-4 lg:gap-6">
-                <Card className="shadow-sm border-0 bg-background/50">
-                  <CardContent className="p-4 lg:p-6 space-y-3">
-                    <h3 className="font-serif font-semibold text-base lg:text-lg">How do I scale recipes?</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Our recipes are designed for 1-2 servings, but you can easily scale them up. Use our portion calculator or contact our recipe support team for help with ingredient adjustments.
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card className="shadow-sm border-0 bg-background/50">
-                  <CardContent className="p-4 lg:p-6 space-y-3">
-                    <h3 className="font-serif font-semibold text-base lg:text-lg">Can I suggest recipe ideas?</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Absolutely! We love hearing from our community. Send us your recipe requests through the contact form above, and we'll work on creating mini versions of your favorite dishes.
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card className="shadow-sm border-0 bg-background/50">
-                  <CardContent className="p-4 lg:p-6 space-y-3">
-                    <h3 className="font-serif font-semibold text-base lg:text-lg">Do you offer meal planning?</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Yes! We provide weekly meal plans designed for small households. Contact us to learn more about our personalized meal planning services for busy women.
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card className="shadow-sm border-0 bg-background/50">
-                  <CardContent className="p-4 lg:p-6 space-y-3">
-                    <h3 className="font-serif font-semibold text-base lg:text-lg">How can I reduce food waste?</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Our recipes are specifically designed to use ingredients completely. Check out our zero-waste cooking tips and follow our portion-controlled recipes to minimize waste.
-                    </p>
-                  </CardContent>
-                </Card>
+                {/* Call to action */}
+                <div className="pt-4">
+                  <a
+                    href={contactData.hero.ctaTarget}
+                    className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-medium hover:bg-primary/90 transition-colors duration-200 shadow-md hover:shadow-lg"
+                  >
+                    {contactData.hero.ctaText}
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                      />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="py-16 md:py-20 lg:py-24 bg-gray-50">
+          <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+            {/* Main Content Grid */}
+            <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+              {/* Left Content - Contact Info and Image */}
+              <div className="lg:col-span-2 space-y-8">
+                {/* Content Grid - Image Left, Text Right */}
+
+                {/* Contact Information Box */}
+                <div id="contact-form" className="bg-white rounded-2xl shadow-lg p-8 border-2 border-primary/20">
+                  <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4">{contactData.contactInfo.title}</h2>
+                  <p className="text-gray-700 leading-relaxed mb-6">
+                    {contactData.contactInfo.description}
+                  </p>
+                  
+                  {/* Contact Form */}
+                  <ContactForm />
+                </div>
+              </div>
+
+              {/* Right Sidebar - Chef Profile Card */}
+              <ChefProfileCard chefData={chefData} variant="contact" />
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   )

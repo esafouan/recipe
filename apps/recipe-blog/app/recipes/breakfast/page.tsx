@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { CategoryPage } from "@/components/category-page"
 
 export const metadata: Metadata = {
   title: "Mini Breakfast Recipes - Small Batch Morning Meals | Mini Recipe",
@@ -32,9 +33,10 @@ export const metadata: Metadata = {
 
 export default function BreakfastRecipesPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
-      </main>
-    </div>
+    <CategoryPage
+      category="breakfast"
+      title="Mini Breakfast Recipes"
+      description="Start your day with **perfectly portioned breakfast recipes** for 1-2 servings. Quick morning meals that eliminate waste and fuel your busy day."
+    />
   )
 }

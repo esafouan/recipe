@@ -77,12 +77,6 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-4">
-        <div className="flex items-start space-x-2">
-          <input type="checkbox" id="newsletter" name="newsletter" className="mt-1" />
-          <Label htmlFor="newsletter" className="text-sm leading-relaxed">
-            I'd like to receive the Mini Recipe newsletter with new small-batch recipes and zero-waste cooking tips.
-          </Label>
-        </div>
 
         <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? "Sending..." : "Send Message"}

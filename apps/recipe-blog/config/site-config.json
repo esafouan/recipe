@@ -319,14 +319,81 @@
   },
   "pages": {
     "about": {
-      "title": "About Mini Recipe",
-      "subtitle": "Your partner in creating delicious meals",
-      "content": "We believe that great food brings people together. Our mission is to make cooking accessible, enjoyable, and rewarding for everyone."
+      "title": "About Chef Isabella Martinez | Mini Recipe Creator | Culinary Journey",
+      "description": "Meet Chef Isabella Martinez, CIA graduate and creator of Mini Recipe. Learn her inspiring journey from single mom to celebrated chef, developing perfectly portioned recipes that eliminate food waste and bring joy to home cooking.",
+      "keywords": [
+        "chef isabella martinez",
+        "mini recipe creator",
+        "culinary institute america graduate",
+        "single mom chef",
+        "austin chef",
+        "small portion recipes",
+        "professional chef",
+        "food waste reduction chef",
+        "sustainable cooking expert",
+        "chef biography",
+        "recipe developer",
+        "culinary journey"
+      ],
+      "openGraph": {
+        "title": "Meet Chef Isabella Martinez - Creator of Mini Recipe",
+        "description": "From CIA graduate to single mom chef, discover Isabella's inspiring journey creating perfectly portioned recipes that eliminate waste and bring joy to home cooking.",
+        "type": "article",
+        "images": [
+          {
+            "url": "/beautiful-food-photography-colorful-ingredients-co.jpg",
+            "width": 1200,
+            "height": 630,
+            "alt": "Mini Recipe - Small batch cooking for busy women"
+          }
+        ]
+      },
+      "hero": {
+        "title": "Meet Chef Isabella",
+        "subtitle": "The Heart Behind Mini Recipe",
+        "description": "From **Culinary Institute graduate** to **passionate mom**, discover the inspiring journey of creating **perfectly portioned recipes** that eliminate waste and bring joy to every kitchen.",
+        "ctaText": "Read My Story",
+        "ctaTarget": "#story"
+      },
+      "chef": {
+        "name": "Isabella Martinez",
+        "greeting": "Hi I'm Isabella",
+        "image": "/chef.png",
+        "featuredImage": "/chef.png",
+        "description": "I'm an passionate chef with a culinary mind behind Mini Recipe. My passion for cooking was born in the heart of my mother's kitchen, where the aroma of fresh herbs, the warmth of family recipes, and the joy of sharing meals inspired my journey. Here, I bring you recipes crafted with love, flavor, and a touch of culinary tradition.",
+        "story": [
+          "Hi there! I'm Isabella, the chef, passionate foodie, and flavor enthusiast behind Mini Recipe. My love affair with cooking began as a young mom, standing beside my mother in the kitchen, fascinated by the way she turned fresh, simple ingredients into unforgettable meals that brought our family together. Those moments planted the seed for what has grown into my greatest passion: creating food that's not just delicious but a celebration of life.",
+          "After graduating from the Culinary Institute of America in 2018, I worked in high-end restaurants where I learned precision and technique. But it wasn't until I became a mom that I truly understood the challenge of home cooking - especially cooking for smaller households without waste.",
+          "Every Mini Recipe reflects my belief that great food doesn't require waste. Whether you're cooking for yourself, your partner, or introducing your kids to new flavors, these perfectly portioned recipes ensure every ingredient has purpose and every meal brings joy."
+        ],
+        "social": {
+          "pinterest": {
+            "url": "https://www.pinterest.com/minirecipe_/",
+            "label": "Follow Mini Recipe on Pinterest"
+          }
+        }
+      }
     },
     "contact": {
-      "title": "Contact Us",
-      "subtitle": "We'd love to hear from you",
-      "content": "Have a question, suggestion, or just want to say hello? Get in touch with us!"
+      "title": "Contact Us - Mini Recipe",
+      "description": "Get in touch with the Mini Recipe team. Share your small recipe ideas, ask questions about portion sizes, or tell us about your zero-waste cooking journey.",
+      "keywords": ["contact", "support", "questions", "feedback", "mini recipe", "small portions", "zero waste"],
+      "openGraph": {
+        "title": "Contact Us - Mini Recipe",
+        "description": "Get in touch with our team. We'd love to hear about your small recipe journey!",
+        "type": "website"
+      },
+      "hero": {
+        "title": "Contact Me",
+        "description": "Have a question, suggestion, or just want to say hello? Feel free to reach out to me via email. I'm always excited to connect with fellow food lovers and hear about your kitchen triumphs!",
+        "ctaText": "Get in Touch",
+        "ctaTarget": "#contact-form"
+      },
+      "contactInfo": {
+        "title": "Contact information",
+        "description": "Have a question, suggestion, or just want to say hello? Feel free to reach out to me via email at contact@minirecipe.com. I'm always excited to connect with fellow food lovers and hear about your kitchen triumphs!",
+        "email": "contact@minirecipe.com"
+      }
     },
     "privacy": {
       "title": "Privacy Policy",

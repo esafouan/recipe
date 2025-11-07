@@ -152,13 +152,61 @@ export interface SiteConfig {
   pages: {
     about: {
       title: string;
-      subtitle: string;
-      content: string;
+      description: string;
+      keywords: string[];
+      openGraph: {
+        title: string;
+        description: string;
+        type: string;
+        images: Array<{
+          url: string;
+          width: number;
+          height: number;
+          alt: string;
+        }>;
+      };
+      hero: {
+        title: string;
+        subtitle: string;
+        description: string;
+        ctaText: string;
+        ctaTarget: string;
+      };
+      chef: {
+        name: string;
+        greeting: string;
+        image: string;
+        featuredImage: string;
+        description: string;
+        story: string[];
+        social: {
+          pinterest: {
+            url: string;
+            label: string;
+          };
+        };
+      };
     };
     contact: {
       title: string;
-      subtitle: string;
-      content: string;
+      description: string;
+      keywords: string[];
+      openGraph: {
+        title: string;
+        description: string;
+        type: string;
+      };
+      hero: {
+        title: string;
+        description: string;
+        ctaText: string;
+        ctaTarget: string;
+      };
+      contactInfo: {
+        title: string;
+        description: string;
+        email: string;
+      };
     };
     privacy: {
       title: string;

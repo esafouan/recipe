@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { Menu, Search, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { SearchBar } from "@/components/search-bar"
 import { getSiteConfig, getNavigationConfig } from "@/lib/config"
 import { useState, useEffect } from "react"
 import Image from "next/image"
@@ -67,9 +66,6 @@ export function SiteHeader() {
             </Button>
           )}
 
-          <div className="hidden lg:block">
-            {mounted && <SearchBar className="w-48 xl:w-64" />}
-          </div>
 
           {mounted && (
             <Button
@@ -84,11 +80,6 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {mounted && isMobileSearchOpen && (
-        <div className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur p-3">
-          <SearchBar className="w-full" />
-        </div>
-      )}
 
       {mounted && isMobileMenuOpen && (
         <nav className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur p-4">
