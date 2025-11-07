@@ -1,32 +1,23 @@
 import type { Metadata } from "next"
 import { CategoryPage } from "@/components/category-page"
+import { getCategoryRecipesConfig } from "@/lib/config"
+
+const categoryConfig = getCategoryRecipesConfig("lunch")
 
 export const metadata: Metadata = {
-  title: "Mini Lunch Recipes - Small Batch Midday Meals | Mini Recipe",
-  description:
-    "Discover perfectly portioned lunch recipes for 1-2 servings. Quick, satisfying midday meals that keep you energized without creating leftovers. Perfect for busy professionals.",
-  keywords: [
-    "mini lunch recipes",
-    "small batch lunch",
-    "single serving lunch",
-    "lunch for one",
-    "quick lunch recipes",
-    "small portion lunch",
-    "office lunch",
-    "busy women lunch",
-    "efficient lunch meals",
-    "healthy lunch bowls"
-  ],
+  title: categoryConfig.metadata.title,
+  description: categoryConfig.metadata.description,
+  keywords: categoryConfig.metadata.keywords,
   openGraph: {
-    title: "Mini Lunch Recipes - Small Batch Midday Meals",
-    description: "Discover perfectly portioned lunch recipes for 1-2 servings. Quick, satisfying meals with zero waste.",
-    type: "website",
+    title: categoryConfig.metadata.openGraph.title,
+    description: categoryConfig.metadata.openGraph.description,
+    type: categoryConfig.metadata.openGraph.type as "website",
     images: [
       {
-        url: "/lunch-salad-sandwich-healthy.jpg",
+        url: categoryConfig.metadata.openGraph.image,
         width: 1200,
         height: 630,
-        alt: "Mini lunch recipes - Small batch midday meals",
+        alt: categoryConfig.metadata.openGraph.title,
       },
     ],
   },
@@ -34,10 +25,6 @@ export const metadata: Metadata = {
 
 export default function LunchRecipesPage() {
   return (
-    <CategoryPage
-      category="lunch"
-      title="Mini Lunch Recipes"
-      description="Discover **perfectly portioned lunch recipes** for 1-2 servings. Quick, satisfying midday meals that keep you energized without creating leftovers."
-    />
+    <CategoryPage category="lunch" />
   )
 }

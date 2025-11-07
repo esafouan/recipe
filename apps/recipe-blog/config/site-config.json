@@ -125,6 +125,12 @@
         "priority": 0.9
       },
       {
+        "url": "/categories",
+        "lastModified": "auto",
+        "changeFrequency": "weekly",
+        "priority": 0.8
+      },
+      {
         "url": "/about",
         "lastModified": "auto", 
         "changeFrequency": "monthly",
@@ -154,6 +160,10 @@
   "navigation": {
     "main": [
       {
+        "label": "Categories",
+        "href": "/categories"
+      },
+      {
         "label": "Recipes",
         "href": "/recipes"
       },
@@ -168,9 +178,9 @@
     ]
   },
   "hero": {
-    "title": "FAMILY-FRIENDLY RECIPES",
-    "subtitle": "YOU CAN MAKE AT HOME",
-    "description": "Welcome to Mini Recipe 👩‍🍳! **Simple cooking that brings joy to your table.** Find recipes that won't stress you out - basic ingredients, budget-friendly meals, and dishes your family will love. From creamy milkshakes to tasty fries, whether you're using kitchen gadgets or just your hands, we're here to make cooking feel like second nature.",
+    "title": "PERFECT PORTIONS",
+    "subtitle": "ZERO WASTE COOKING",
+    "description": "**500+ mini recipes for 1-2 servings.** Join 50K+ women eliminating food waste while creating **delicious meals** that fit your busy lifestyle.",
     "ctaText": "Explore Latest Recipes",
     "ctaTarget": "#recent-recipes"
   },
@@ -350,8 +360,8 @@
       },
       "hero": {
         "title": "Meet Chef Isabella",
-        "subtitle": "The Heart Behind Mini Recipe",
-        "description": "From **Culinary Institute graduate** to **passionate mom**, discover the inspiring journey of creating **perfectly portioned recipes** that eliminate waste and bring joy to every kitchen.",
+        "subtitle": "Creator of Mini Recipe",
+        "description": "**CIA graduate turned busy mom** - creating **perfectly portioned recipes** that eliminate waste and bring joy to your kitchen.",
         "ctaText": "Read My Story",
         "ctaTarget": "#story"
       },
@@ -384,9 +394,9 @@
         "type": "website"
       },
       "hero": {
-        "title": "Contact Me",
-        "description": "Have a question, suggestion, or just want to say hello? Feel free to reach out to me via email. I'm always excited to connect with fellow food lovers and hear about your kitchen triumphs!",
-        "ctaText": "Get in Touch",
+        "title": "Let's Connect!",
+        "description": "**Questions? Recipe ideas? Kitchen triumphs?** Share your mini recipe journey with us - we'd love to hear from you!",
+        "ctaText": "Send Message",
         "ctaTarget": "#contact-form"
       },
       "contactInfo": {
@@ -402,6 +412,185 @@
     "terms": {
       "title": "Terms of Service", 
       "lastUpdated": "November 2024"
+    },
+    "categories": {
+      "title": "Recipe Categories",
+      "description": "Find your **perfect recipe** by meal type. **Zero waste, maximum flavor** - perfectly portioned for your lifestyle.",
+      "subtitle": "Zero waste, maximum flavor",
+      "resultsText": "{count} categories available",
+      "hero": {
+        "title": "Recipe Categories",
+        "subtitle": "Zero waste, maximum flavor",
+        "description": "Find your **perfect recipe** by meal type. **Zero waste, maximum flavor** - perfectly portioned for your lifestyle.",
+        "ctaText": "Explore Categories",
+        "ctaTarget": "#categories-grid"
+      },
+      "metadata": {
+        "title": "Recipe Categories - Mini Recipe | Browse All Categories",
+        "description": "Explore all recipe categories on Mini Recipe. From breakfast to dessert, find perfectly portioned recipes organized by meal type for easy browsing.",
+        "keywords": [
+          "recipe categories",
+          "mini recipe categories", 
+          "small batch categories",
+          "breakfast recipes",
+          "lunch recipes",
+          "dinner recipes",
+          "dessert recipes",
+          "healthy recipes",
+          "recipe collection"
+        ],
+        "openGraph": {
+          "title": "Recipe Categories - Explore All Our Mini Recipes",
+          "description": "Explore all recipe categories on Mini Recipe. From breakfast to dessert, find perfectly portioned recipes organized by meal type.",
+          "type": "website",
+          "image": "/beautiful-food-photography-colorful-ingredients-co.jpg"
+        }
+      },
+      "sectionTitle": "OUR RECIPE CATEGORIES"
+    }
+  },
+  "recipes": {
+    "allRecipes": {
+      "title": "All Mini Recipes",
+      "description": "**500+ perfectly portioned recipes** for 1-2 servings. **Zero waste, maximum flavor** - browse our complete collection.",
+      "metadata": {
+        "title": "All Mini Recipes - Mini Recipe | Small Portion Recipes",
+        "description": "Browse our complete collection of small-batch recipes designed for 1-2 servings. Find perfectly portioned recipes that eliminate food waste and fit your busy lifestyle.",
+        "keywords": ["mini recipes", "small batch", "small portions", "1-2 servings", "zero waste cooking", "quick recipes", "busy women recipes"],
+        "openGraph": {
+          "title": "All Mini Recipes - Small Portion Collection",
+          "description": "Browse our complete collection of small-batch recipes designed for 1-2 servings",
+          "type": "website"
+        }
+      }
+    },
+    "categories": {
+      "breakfast": {
+        "title": "Mini Breakfast Recipes",
+        "description": "**Perfect morning portions** for 1-2 servings. Start your day energized with **zero waste** breakfast recipes.",
+        "metadata": {
+          "title": "Mini Breakfast Recipes - Small Batch Morning Meals | Mini Recipe",
+          "description": "Start your day with perfectly portioned breakfast recipes for 1-2 servings. Quick morning meals that eliminate waste and fuel your busy day. Mini pancakes, eggs, and more.",
+          "keywords": [
+            "mini breakfast recipes",
+            "small batch breakfast",
+            "single serving breakfast",
+            "breakfast for one",
+            "quick breakfast recipes",
+            "small portion breakfast",
+            "mini pancakes",
+            "breakfast for busy women",
+            "efficient morning meals"
+          ],
+          "openGraph": {
+            "title": "Mini Breakfast Recipes - Small Batch Morning Meals",
+            "description": "Start your day with perfectly portioned breakfast recipes for 1-2 servings. Quick morning meals with zero waste.",
+            "type": "website",
+            "image": "/breakfast-pancakes-coffee-morning.jpg"
+          }
+        }
+      },
+      "lunch": {
+        "title": "Mini Lunch Recipes",
+        "description": "**Perfectly portioned midday meals** for 1-2 servings. Stay energized with **satisfying lunches** and zero leftovers.",
+        "metadata": {
+          "title": "Mini Lunch Recipes - Small Batch Midday Meals | Mini Recipe",
+          "description": "Discover perfectly portioned lunch recipes for 1-2 servings. Quick, satisfying midday meals that keep you energized without creating leftovers. Perfect for busy professionals.",
+          "keywords": [
+            "mini lunch recipes",
+            "small batch lunch",
+            "single serving lunch",
+            "lunch for one",
+            "quick lunch recipes",
+            "small portion lunch",
+            "office lunch",
+            "busy women lunch",
+            "efficient lunch meals",
+            "healthy lunch bowls"
+          ],
+          "openGraph": {
+            "title": "Mini Lunch Recipes - Small Batch Midday Meals",
+            "description": "Discover perfectly portioned lunch recipes for 1-2 servings. Quick, satisfying meals with zero waste.",
+            "type": "website",
+            "image": "/lunch-salad-sandwich-healthy.jpg"
+          }
+        }
+      },
+      "dinner": {
+        "title": "Mini Dinner Recipes",
+        "description": "**Evening meals perfected** for 1-2 servings. Satisfying dinners with **zero waste** and maximum flavor.",
+        "metadata": {
+          "title": "Mini Dinner Recipes - Small Batch Evening Meals | Mini Recipe",
+          "description": "End your day with perfectly portioned dinner recipes for 1-2 servings. Satisfying evening meals that reduce waste and simplify cooking for busy households.",
+          "keywords": [
+            "mini dinner recipes",
+            "small batch dinner",
+            "single serving dinner",
+            "dinner for one",
+            "quick dinner recipes",
+            "small portion dinner",
+            "weeknight dinner",
+            "easy dinner for busy women",
+            "efficient dinner meals"
+          ],
+          "openGraph": {
+            "title": "Mini Dinner Recipes - Small Batch Evening Meals",
+            "description": "End your day with perfectly portioned dinner recipes for 1-2 servings. Satisfying meals with zero waste.",
+            "type": "website",
+            "image": "/dinner-pasta-vegetables-herbs.jpg"
+          }
+        }
+      },
+      "dessert": {
+        "title": "Mini Dessert Recipes",
+        "description": "**Sweet treats perfected** for 1-2 servings. Indulge **guilt-free** with portion-controlled desserts.",
+        "metadata": {
+          "title": "Mini Dessert Recipes - Small Batch Sweet Treats | Mini Recipe",
+          "description": "Indulge in perfectly portioned dessert recipes for 1-2 servings. Sweet treats without the guilt of leftovers or food waste. Mini cakes, cookies, and more.",
+          "keywords": [
+            "mini dessert recipes",
+            "small batch dessert",
+            "single serving dessert",
+            "dessert for one",
+            "mini cakes",
+            "small portion dessert",
+            "individual desserts",
+            "sweet treats for busy women",
+            "portion control desserts"
+          ],
+          "openGraph": {
+            "title": "Mini Dessert Recipes - Small Batch Sweet Treats",
+            "description": "Indulge in perfectly portioned dessert recipes for 1-2 servings. Sweet treats with zero waste.",
+            "type": "website",
+            "image": "/dessert-mini-cake-berries.jpg"
+          }
+        }
+      },
+      "healthy": {
+        "title": "Mini Healthy Recipes",
+        "description": "**Nutritious meals simplified** for 1-2 servings. **Fuel your wellness** with perfectly portioned healthy recipes.",
+        "metadata": {
+          "title": "Mini Healthy Recipes - Small Batch Nutritious Meals | Mini Recipe",
+          "description": "Nourish your body with perfectly portioned healthy recipes for 1-2 servings. Nutritious meals that support your wellness goals without waste.",
+          "keywords": [
+            "mini healthy recipes",
+            "small batch healthy",
+            "single serving healthy",
+            "healthy for one",
+            "nutritious mini meals",
+            "small portion healthy",
+            "clean eating recipes",
+            "healthy meals for busy women",
+            "wellness recipes"
+          ],
+          "openGraph": {
+            "title": "Mini Healthy Recipes - Small Batch Nutritious Meals",
+            "description": "Nourish your body with perfectly portioned healthy recipes for 1-2 servings. Nutritious meals with zero waste.",
+            "type": "website",
+            "image": "/healthy-bowl-vegetables-protein.jpg"
+          }
+        }
+      }
     }
   }
 }

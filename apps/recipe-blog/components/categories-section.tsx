@@ -9,6 +9,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { getCategoriesConfig } from "@/lib/config";
+import { SectionHeader } from "./section-header";
 
 const categoryIcons = [
   {
@@ -56,15 +57,8 @@ export function CategoriesSection() {
     <section className="py-8 md:py-12 lg:py-16 bg-white">
       <div className="mx-auto px-2 md:px-3 max-w-6xl">
         {/* Section Heading */}
-     
         <div className="text-center mb-8 md:mb-12 relative">
-          <div className="flex items-center justify-center mb-4">
-            <div className="flex-1 h-0.5 bg-primary max-w-32 md:max-w-48"></div>
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-foreground px-6 md:px-8">
-              {categoriesConfig.title}
-            </h2>
-            <div className="flex-1 h-0.5 bg-primary max-w-32 md:max-w-48"></div>
-          </div>
+          <SectionHeader title={categoriesConfig.title} />
         </div>
         {/* Meal Categories Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-12 md:mb-16">

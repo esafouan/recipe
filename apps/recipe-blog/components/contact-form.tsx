@@ -8,11 +8,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/hooks/use-toast"
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { toast } = useToast()
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -21,17 +20,21 @@ export function ContactForm() {
     // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    toast({
-      title: "Message sent!",
-      description: "Thank you for your message. We'll get back to you soon.",
-    })
-
+    setIsSubmitted(true)
     setIsSubmitting(false)
     ;(e.target as HTMLFormElement).reset()
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="space-y-6">
+      {isSubmitted && (
+        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+          <p className="text-green-800 font-medium">Message sent successfully!</p>
+          <p className="text-green-700 text-sm">Thank you for your message. We'll get back to you soon.</p>
+        </div>
+      )}
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="firstName">First Name *</Label>
@@ -87,5 +90,6 @@ export function ContactForm() {
         * Required fields. We respect your privacy and will never share your information with third parties.
       </p>
     </form>
+    </div>
   )
 }

@@ -1,19 +1,20 @@
-import Link from "next/link"
-import Image from "next/image"
-import { db } from '@/lib/firebase/config'
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore'
-import { getRecentRecipesConfig } from "@/lib/config"
+import Link from "next/link";
+import Image from "next/image";
+import { db } from "@/lib/firebase/config";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
+import { getRecentRecipesConfig } from "@/lib/config";
+import { SectionHeader } from "./section-header";
 
 // Simple type for recipe data
 type Recipe = {
-  id: string
-  slug: string
-  title: string
-  image: string
-  featuredImage?: string
-  category: string
-  datePublished: string
-}
+  id: string;
+  slug: string;
+  title: string;
+  image: string;
+  featuredImage?: string;
+  category: string;
+  datePublished: string;
+};
 
 // Fallback recipes to prevent hydration issues if API fails
 const fallbackRecipes = [
@@ -23,31 +24,31 @@ const fallbackRecipes = [
     title: "Single-Serve Creamy Pasta",
     image: "/Yay-Recipes-84-1.webp",
     category: "Dinner",
-    datePublished: "2024-11-05"
+    datePublished: "2024-11-05",
   },
   {
-    id: "2", 
+    id: "2",
     slug: "mini-chocolate-chip-cookies",
     title: "Mini Chocolate Chip Cookies",
     image: "/Yay-Recipes-84-1.webp",
     category: "Dessert",
-    datePublished: "2024-11-04"
+    datePublished: "2024-11-04",
   },
   {
     id: "3",
-    slug: "personal-quinoa-power-bowl", 
+    slug: "personal-quinoa-power-bowl",
     title: "Personal Quinoa Power Bowl",
     image: "/Yay-Recipes-84-1.webp",
     category: "Healthy",
-    datePublished: "2024-11-03"
+    datePublished: "2024-11-03",
   },
   {
     id: "4",
     slug: "quick-avocado-toast",
-    title: "Quick Avocado Toast", 
+    title: "Quick Avocado Toast",
     image: "/Yay-Recipes-84-1.webp",
     category: "Breakfast",
-    datePublished: "2024-11-02"
+    datePublished: "2024-11-02",
   },
   {
     id: "5",
@@ -55,7 +56,7 @@ const fallbackRecipes = [
     title: "Mini Berry Muffin",
     image: "/Yay-Recipes-84-1.webp",
     category: "Breakfast",
-    datePublished: "2024-11-01"
+    datePublished: "2024-11-01",
   },
   {
     id: "6",
@@ -63,15 +64,15 @@ const fallbackRecipes = [
     title: "Personal Caesar Salad",
     image: "/Yay-Recipes-84-1.webp",
     category: "Salad",
-    datePublished: "2024-10-31"
+    datePublished: "2024-10-31",
   },
   {
     id: "7",
-    slug: "single-serve-smoothie-bowl", 
+    slug: "single-serve-smoothie-bowl",
     title: "Single-Serve Smoothie Bowl",
     image: "/Yay-Recipes-84-1.webp",
     category: "Breakfast",
-    datePublished: "2024-10-30"
+    datePublished: "2024-10-30",
   },
   {
     id: "8",
@@ -79,72 +80,70 @@ const fallbackRecipes = [
     title: "Mini Chicken Wrap",
     image: "/Yay-Recipes-84-1.webp",
     category: "Lunch",
-    datePublished: "2024-10-29"
-  }
-]
+    datePublished: "2024-10-29",
+  },
+];
 
 async function getRecentRecipes(): Promise<Recipe[]> {
   try {
-    console.log('🔥 Fetching recipes directly from Firebase...')
-    
+    console.log("🔥 Fetching recipes directly from Firebase...");
+
     // Direct Firebase query - no HTTP call needed
-    const recipesRef = collection(db, 'recipes')
-    const q = query(recipesRef, orderBy('datePublished', 'desc'), limit(8))
-    const querySnapshot = await getDocs(q)
-    
-    const recipes = querySnapshot.docs.map(doc => {
-      const data = doc.data()
-      
+    const recipesRef = collection(db, "recipes");
+    const q = query(recipesRef, orderBy("datePublished", "desc"), limit(8));
+    const querySnapshot = await getDocs(q);
+
+    const recipes = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+
       // Convert Firestore timestamp to ISO string
-      let datePublished = new Date().toISOString()
+      let datePublished = new Date().toISOString();
       if (data.datePublished?.toDate) {
-        datePublished = data.datePublished.toDate().toISOString()
+        datePublished = data.datePublished.toDate().toISOString();
       } else if (data.publishedAt?.toDate) {
-        datePublished = data.publishedAt.toDate().toISOString()
+        datePublished = data.publishedAt.toDate().toISOString();
       } else if (data.datePublished) {
-        datePublished = new Date(data.datePublished).toISOString()
+        datePublished = new Date(data.datePublished).toISOString();
       }
-      
+
       return {
         id: doc.id,
-        slug: data.slug || '',
-        title: data.title || '',
-        image: data.featuredImage || data.image || '/Yay-Recipes-84-1.webp',
-        category: data.category || '',
-        datePublished
-      }
-    })
-    
-    console.log('✅ Successfully fetched', recipes.length, 'recipes from Firebase')
-    console.log('📝 First recipe:', recipes[0]?.title)
-    
-    return recipes.slice(0, 8)
+        slug: data.slug || "",
+        title: data.title || "",
+        image: data.featuredImage || data.image || "/Yay-Recipes-84-1.webp",
+        category: data.category || "",
+        datePublished,
+      };
+    });
+
+    console.log(
+      "✅ Successfully fetched",
+      recipes.length,
+      "recipes from Firebase"
+    );
+    console.log("📝 First recipe:", recipes[0]?.title);
+
+    return recipes.slice(0, 8);
   } catch (error) {
-    console.error('❌ Error fetching recipes from Firebase:', error)
-    console.log('🔄 Using fallback recipes')
-    return fallbackRecipes
+    console.error("❌ Error fetching recipes from Firebase:", error);
+    console.log("🔄 Using fallback recipes");
+    return fallbackRecipes;
   }
 }
 
 export async function RecentRecipes() {
-  const recipes = await getRecentRecipes()
-  const recentRecipesConfig = getRecentRecipesConfig()
+  const recipes = await getRecentRecipes();
+  const recentRecipesConfig = getRecentRecipesConfig();
 
   // Always render exactly 8 recipes
-  const displayRecipes = recipes.slice(0, 8)
+  const displayRecipes = recipes.slice(0, 8);
 
   return (
     <section id="recent-recipes" className="py-8 md:py-12 lg:py-16 bg-gray-50">
       <div className="container mx-auto px-2 md:px-3 max-w-6xl">
         {/* Section Heading with decorative lines */}
         <div className="text-center mb-8 md:mb-12 relative">
-          <div className="flex items-center justify-center mb-4">
-            <div className="flex-1 h-0.5 bg-primary max-w-32 md:max-w-48"></div>
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-foreground px-6 md:px-8">
-              {recentRecipesConfig.title}
-            </h2>
-            <div className="flex-1 h-0.5 bg-primary max-w-32 md:max-w-48"></div>
-          </div>
+          <SectionHeader title={recentRecipesConfig.title} />
         </div>
 
         {/* Recipe Grid - 2x4 layout */}
@@ -161,9 +160,9 @@ export async function RecentRecipes() {
                     height={300}
                     loading="lazy"
                     sizes="(max-width: 768px) 50vw, 25vw"
-                    unoptimized={process.env.NODE_ENV === 'development'}
+                    unoptimized={process.env.NODE_ENV === "development"}
                   />
-                  
+
                   {/* Category Badge - Overlay on image */}
                   <div className="absolute top-3 left-3">
                     <span className="bg-white/90 backdrop-blur-sm text-xs font-medium px-3 py-1 rounded-full text-gray-700 shadow-sm">
@@ -177,20 +176,22 @@ export async function RecentRecipes() {
                   <h3 className="font-serif font-bold text-sm md:text-base text-center text-foreground group-hover:text-primary transition-colors duration-200 leading-tight line-clamp-2">
                     {recipe.title}
                   </h3>
-                  
+
                   {/* Date */}
                   <div className="text-center">
                     <span className="text-xs text-muted-foreground font-medium">
-                      {recipe.datePublished 
-                        ? new Date(recipe.datePublished).toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric'
-                          })
-                        : 'Recent'
-                      }
+                      {recipe.datePublished
+                        ? new Date(recipe.datePublished).toLocaleDateString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "numeric",
+                            }
+                          )
+                        : "Recent"}
                     </span>
                   </div>
-                  
+
                   {/* Learn More */}
                   <div className="text-center pt-1">
                     <span className="text-xs md:text-sm text-primary font-medium group-hover:underline transition-all duration-200">
@@ -204,5 +205,5 @@ export async function RecentRecipes() {
         </div>
       </div>
     </section>
-  )
+  );
 }

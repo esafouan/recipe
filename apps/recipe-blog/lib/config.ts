@@ -216,6 +216,64 @@ export interface SiteConfig {
       title: string;
       lastUpdated: string;
     };
+    categories: {
+      title: string;
+      description: string;
+      subtitle: string;
+      resultsText: string;
+      hero: {
+        title: string;
+        subtitle: string;
+        description: string;
+        ctaText: string;
+        ctaTarget: string;
+      };
+      metadata: {
+        title: string;
+        description: string;
+        keywords: string[];
+        openGraph: {
+          title: string;
+          description: string;
+          type: string;
+          image: string;
+        };
+      };
+      sectionTitle: string;
+    };
+  };
+  recipes: {
+    allRecipes: {
+      title: string;
+      description: string;
+      metadata: {
+        title: string;
+        description: string;
+        keywords: string[];
+        openGraph: {
+          title: string;
+          description: string;
+          type: string;
+        };
+      };
+    };
+    categories: {
+      [key: string]: {
+        title: string;
+        description: string;
+        metadata: {
+          title: string;
+          description: string;
+          keywords: string[];
+          openGraph: {
+            title: string;
+            description: string;
+            type: string;
+            image: string;
+          };
+        };
+      };
+    };
   };
 }
 
@@ -233,5 +291,9 @@ export const getRecentRecipesConfig = () => config.recentRecipes;
 export const getFooterConfig = () => config.footer;
 export const getSearchConfig = () => config.search;
 export const getPageConfig = (page: keyof SiteConfig['pages']) => config.pages[page];
+export const getRecipesConfig = () => config.recipes;
+export const getAllRecipesConfig = () => config.recipes.allRecipes;
+export const getCategoryRecipesConfig = (category: string) => config.recipes.categories[category];
+export const getCategoriesPageConfig = () => config.pages.categories;
 
 export default config;

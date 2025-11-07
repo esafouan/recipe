@@ -1,31 +1,23 @@
 import type { Metadata } from "next"
+import { CategoryPage } from "@/components/category-page"
+import { getCategoryRecipesConfig } from "@/lib/config"
+
+const categoryConfig = getCategoryRecipesConfig("dessert")
 
 export const metadata: Metadata = {
-  title: "Mini Dessert Recipes - Small Batch Sweet Treats | Mini Recipe",
-  description:
-    "Indulge in perfectly portioned dessert recipes for 1-2 servings. Small batch cookies, cakes, and treats that satisfy your sweet tooth without temptation or waste.",
-  keywords: [
-    "mini dessert recipes",
-    "small batch healthy",
-    "single serving healthy",
-    "dessert for one",
-    "small batch cookies",
-    "mini cakes",
-    "portion control healthy",
-    "healthy dessert portions",
-    "no waste healthy",
-    "mini sweet treats"
-  ],
+  title: categoryConfig.metadata.title,
+  description: categoryConfig.metadata.description,
+  keywords: categoryConfig.metadata.keywords,
   openGraph: {
-    title: "Mini Dessert Recipes - Small Batch Sweet Treats",
-    description: "Indulge in perfectly portioned dessert recipes for 1-2 servings. Small batch treats with zero waste.",
-    type: "website",
+    title: categoryConfig.metadata.openGraph.title,
+    description: categoryConfig.metadata.openGraph.description,
+    type: categoryConfig.metadata.openGraph.type as "website",
     images: [
       {
-        url: "/dessert-cake-sweet-treats.jpg",
+        url: categoryConfig.metadata.openGraph.image,
         width: 1200,
         height: 630,
-        alt: "Mini dessert recipes - Small batch sweet treats",
+        alt: categoryConfig.metadata.openGraph.title,
       },
     ],
   },
@@ -33,10 +25,6 @@ export const metadata: Metadata = {
 
 export default function DessertRecipesPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
-        
-      </main>
-    </div>
+    <CategoryPage category="dessert" />
   )
 }

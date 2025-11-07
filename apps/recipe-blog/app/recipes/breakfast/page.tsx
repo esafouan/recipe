@@ -1,31 +1,23 @@
 import type { Metadata } from "next"
 import { CategoryPage } from "@/components/category-page"
+import { getCategoryRecipesConfig } from "@/lib/config"
+
+const categoryConfig = getCategoryRecipesConfig("breakfast")
 
 export const metadata: Metadata = {
-  title: "Mini Breakfast Recipes - Small Batch Morning Meals | Mini Recipe",
-  description:
-    "Start your day with perfectly portioned breakfast recipes for 1-2 servings. Quick morning meals that eliminate waste and fuel your busy day. Mini pancakes, eggs, and more.",
-  keywords: [
-    "mini breakfast recipes",
-    "small batch breakfast",
-    "single serving breakfast",
-    "breakfast for one",
-    "quick breakfast recipes",
-    "small portion breakfast",
-    "mini pancakes",
-    "breakfast for busy women",
-    "efficient morning meals"
-  ],
+  title: categoryConfig.metadata.title,
+  description: categoryConfig.metadata.description,
+  keywords: categoryConfig.metadata.keywords,
   openGraph: {
-    title: "Mini Breakfast Recipes - Small Batch Morning Meals",
-    description: "Start your day with perfectly portioned breakfast recipes for 1-2 servings. Quick morning meals with zero waste.",
-    type: "website",
+    title: categoryConfig.metadata.openGraph.title,
+    description: categoryConfig.metadata.openGraph.description,
+    type: categoryConfig.metadata.openGraph.type as "website",
     images: [
       {
-        url: "/breakfast-pancakes-coffee-morning.jpg",
+        url: categoryConfig.metadata.openGraph.image,
         width: 1200,
         height: 630,
-        alt: "Mini breakfast recipes - Small batch morning meals",
+        alt: categoryConfig.metadata.openGraph.title,
       },
     ],
   },
@@ -33,10 +25,6 @@ export const metadata: Metadata = {
 
 export default function BreakfastRecipesPage() {
   return (
-    <CategoryPage
-      category="breakfast"
-      title="Mini Breakfast Recipes"
-      description="Start your day with **perfectly portioned breakfast recipes** for 1-2 servings. Quick morning meals that eliminate waste and fuel your busy day."
-    />
+    <CategoryPage category="breakfast" />
   )
 }
