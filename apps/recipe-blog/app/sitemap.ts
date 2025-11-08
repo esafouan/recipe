@@ -1,10 +1,11 @@
-import { getAllRecipes, getAllCategories } from "@/lib/recipes-data"
+import { getAllRecipes } from "@/lib/recipes-data"
 import { getSitemapConfig } from "@/lib/config"
+import { generateSlug } from "@/lib/schema-utils"
 
 export default async function sitemap() {
   const sitemapConfig = getSitemapConfig()
   const baseUrl = sitemapConfig.baseUrl
-
+  const categories = sitemapConfig.categories
   // Static pages from config
   const staticPages = sitemapConfig.staticPages.map(page => ({
     url: `${baseUrl}${page.url}`,
@@ -15,9 +16,8 @@ export default async function sitemap() {
 
   try {
     // Fetch dynamic data
-    const [recipes, categories] = await Promise.all([
+    const [recipes] = await Promise.all([
       getAllRecipes(),
-      getAllCategories()
     ])
 
     // Category pages - use actual categories from database
@@ -30,19 +30,22 @@ export default async function sitemap() {
 
     // Individual recipe pages
     const recipePages = recipes.map(recipe => {
+      // Generate slug from recipe name
+      const slug = generateSlug(recipe.metadata.name)
+      
       // Ensure we have a valid date
       let lastModified = new Date()
       try {
-        const publishedDate = new Date(recipe.datePublished)
+        const publishedDate = new Date(recipe.metadata.datePublished)
         if (!isNaN(publishedDate.getTime())) {
           lastModified = publishedDate
         }
       } catch (error) {
-        console.warn(`Invalid date for recipe ${recipe.slug}:`, recipe.datePublished)
+        console.warn(`Invalid date for recipe ${recipe.metadata.name}:`, recipe.metadata.datePublished)
       }
 
       return {
-        url: `${baseUrl}/recipes/${recipe.slug}`,
+        url: `${baseUrl}/recipes/${slug}`,
         lastModified,
         changeFrequency: 'monthly' as const,
         priority: sitemapConfig.priority.recipeDetail,

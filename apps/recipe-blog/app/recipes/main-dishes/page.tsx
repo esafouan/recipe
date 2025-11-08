@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { CategoryPage } from "@/components/category-page"
 import { getCategoryRecipesConfig } from "@/lib/config"
 
-const categoryConfig = getCategoryRecipesConfig("lunch")
+const categoryConfig = getCategoryRecipesConfig("main-dishes")
 
 export const metadata: Metadata = {
   title: categoryConfig.metadata.title,
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function LunchRecipesPage() {
+export default function MainDishesRecipesPage() {
   return (
-    <CategoryPage category="lunch" />
+    <CategoryPage category="main-dishes" />
   )
 }

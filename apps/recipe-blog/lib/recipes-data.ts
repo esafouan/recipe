@@ -2,268 +2,143 @@
 import { db } from './firebase/config';
 import { collection, getDocs, query, orderBy, limit, where } from 'firebase/firestore';
 
-// Type definitions
-interface BlogRecipe {
-  id: string;
-  slug: string;
-  title: string;
+
+export interface RecipeMetadata {
   name: string;
   description: string;
-  image: string;
-  category: string;
-  cuisine: string;
-  prepTime: number;
-  cookTime: number;
-  totalTime: number;
-  servings: number;
-  rating: number;
-  reviewCount: number;
-  difficulty: string;
-  dietary: string[];
-  keywords: string[];
-  author: {
-    "@type": string;
-    name: string;
-  };
   datePublished: string;
-  recipeIngredient: string[];
-  recipeInstructions: Array<{
-    "@type": string;
-    text: string;
-  }>;
-  nutrition: {
-    "@type": string;
-    calories: string;
-    proteinContent: string;
-    carbohydrateContent: string;  
-    fatContent: string;
-    fiberContent: string;
-    sodiumContent: string;
-  };
-  aggregateRating: {
-    "@type": string;
-    ratingValue: string;
-    reviewCount: string;
-  };
-  equipment: string[];
-  tips: string[];
-  prepTimeISO: string;
-  cookTimeISO: string;
-  totalTimeISO: string;
+  dateModified: string;
+  prepTime: string;
+  cookTime: string;
+  totalTime: string;
   recipeYield: string;
   recipeCategory: string;
   recipeCuisine: string;
+  difficulty: string;
+  dietary: string[];
+  keywords: string;
+  images: string[];
 }
+
+export interface RecipeIngredient {
+  item: string;
+  description?: string;
+}
+
+export interface RecipeInstruction {
+  stepNumber: number;
+  name: string;
+  text: string;
+}
+
+export interface RecipeFAQ {
+  question: string;
+  answer: string;
+}
+
+export interface RecipeSection {
+  title: string;
+  content: string;
+}
+
+export interface RecipeData {
+  // Metadata
+  metadata: RecipeMetadata;
+  
+  // Introduction & Story
+  introduction: string;
+  whyYouLlLove: string[];
+  authorStory: string;
+  
+  // Ingredients
+  ingredients: RecipeIngredient[];
+  
+  // Instructions
+  instructions: RecipeInstruction[];
+  
+  // Additional Content Sections
+  youMustKnow: string[];
+  personalNote: string;
+  storage: RecipeSection;
+  substitutions: RecipeSection;
+  servingSuggestions: RecipeSection;
+  proTips: string[];
+  closingThought: string;
+  
+  // FAQs
+  faqs: RecipeFAQ[];
+  
+  // Tools & Notes
+  tools: string[];
+  notes: string[];
+}
+
 
 type RecipeCategory = string;
 
-// Helper function to convert Firestore document to BlogRecipe
-function convertFirestoreToRecipe(doc: any): BlogRecipe {
+// Helper function to convert Firestore document to RecipeData
+
+function convertFirestoreToRecipe(doc: any): RecipeData {
   const data = doc.data();
+  
   return {
-    id: doc.id,
-    slug: data.slug || '',
-    title: data.title || '',
-    name: data.name || data.title || '',
-    description: data.description || '',
-    image: data.featuredImage || data.image || '/placeholder.svg',
-    category: data.category || '',
-    cuisine: data.recipeCuisine || data.cuisine || '',
-    prepTime: data.prepTime || 0,
-    cookTime: data.cookTime || 0,
-    totalTime: data.totalTime || 0,
-    servings: data.servings || data.recipeYield || 1,
-    rating: data.rating || 4.5,
-    reviewCount: data.reviewCount || 0,
-    difficulty: data.difficulty || 'Easy',
-    dietary: data.dietary || [],
-    keywords: data.keywords || [],
-    author: data.author || { "@type": "Person", name: "Mini Recipe Chef" },
-    datePublished: data.datePublished?.toDate?.()?.toISOString() || data.datePublished || new Date().toISOString(),
-    recipeIngredient: data.recipeIngredient || [],
-    recipeInstructions: data.recipeInstructions || [],
-    nutrition: data.nutrition || {
-      "@type": "NutritionInformation",
-      calories: "0",
-      proteinContent: "0g",
-      carbohydrateContent: "0g",
-      fatContent: "0g",
-      fiberContent: "0g",
-      sodiumContent: "0mg"
+    // Metadata
+    metadata: {
+      name: data.name || data.title || '',
+      description: data.description || '',
+      datePublished: data.datePublished?.toDate?.()?.toISOString() || data.datePublished || new Date().toISOString(),
+      dateModified: data.dateModified?.toDate?.()?.toISOString() || data.dateModified || new Date().toISOString(),
+      prepTime: data.prepTime?.toString() || '0',
+      cookTime: data.cookTime?.toString() || '0',
+      totalTime: data.totalTime?.toString() || '0',
+      recipeYield: data.recipeYield || `${data.servings || 1} servings`,
+      recipeCategory: data.recipeCategory || data.category || '',
+      recipeCuisine: data.recipeCuisine || data.cuisine || '',
+      difficulty: data.difficulty || 'Easy',
+      dietary: data.dietary || [],
+      keywords: Array.isArray(data.keywords) ? data.keywords.join(', ') : data.keywords || '',
+      images: data.images || [data.featuredImage || data.image || '/placeholder.svg']
     },
-    aggregateRating: data.aggregateRating || {
-      "@type": "AggregateRating",
-      ratingValue: "4.5",
-      reviewCount: "0"
-    },
-    equipment: data.equipment || [],
-    tips: data.tips || [],
-    prepTimeISO: data.prepTimeISO || `PT${data.prepTime || 0}M`,
-    cookTimeISO: data.cookTimeISO || `PT${data.cookTime || 0}M`,
-    totalTimeISO: data.totalTimeISO || `PT${data.totalTime || 0}M`,
-    recipeYield: data.recipeYield || `${data.servings || 1} servings`,
-    recipeCategory: data.recipeCategory || data.category || '',
-    recipeCuisine: data.recipeCuisine || data.cuisine || ''
-  } as BlogRecipe;
+    
+    // Introduction & Story
+    introduction: data.introduction || '',
+    whyYouLlLove: data.whyYouLlLove || [],
+    authorStory: data.authorStory || '',
+    
+    // Ingredients
+    ingredients: data.ingredients || data.recipeIngredient?.map((ingredient: any) => ({
+      item: typeof ingredient === 'string' ? ingredient : ingredient.item || '',
+      description: typeof ingredient === 'object' ? ingredient.description : undefined
+    })) || [],
+    
+    // Instructions
+    instructions: data.instructions || data.recipeInstructions?.map((instruction: any, index: number) => ({
+      stepNumber: index + 1,
+      name: instruction.name || `Step ${index + 1}`,
+      text: typeof instruction === 'string' ? instruction : instruction.text || ''
+    })) || [],
+    
+    // Additional Content Sections
+    youMustKnow: data.youMustKnow || [],
+    personalNote: data.personalNote || '',
+    storage: data.storage || { title: 'Storage', content: '' },
+    substitutions: data.substitutions || { title: 'Substitutions', content: '' },
+    servingSuggestions: data.servingSuggestions || { title: 'Serving Suggestions', content: '' },
+    proTips: data.proTips || data.tips || [],
+    closingThought: data.closingThought || '',
+    
+    // FAQs
+    faqs: data.faqs || [],
+    
+    // Tools & Notes
+    tools: data.tools || data.equipment || [],
+    notes: data.notes || []
+  };
 }
 
-// Static fallback data for development/offline mode
-const fallbackRecipes: BlogRecipe[] = [
-  {
-    id: "1",
-    slug: "mini-chocolate-chip-pancakes",
-    title: "Mini Chocolate Chip Pancakes",
-    name: "Mini Chocolate Chip Pancakes",
-    description: "Fluffy mini pancakes with chocolate chips, perfect for 1-2 servings. Quick breakfast that won't leave you with leftovers.",
-    image: "/chocolate-chip-cookies-golden-brown.jpg",
-    category: "Breakfast",
-    cuisine: "American",
-    prepTime: 5,
-    cookTime: 10,
-    totalTime: 15,
-    servings: 2,
-    rating: 4.8,
-    reviewCount: 24,
-    difficulty: "Easy",
-    dietary: ["Vegetarian"],
-    keywords: ["pancakes", "breakfast", "chocolate", "mini", "quick"],
-    author: {
-      "@type": "Person",
-      name: "Mini Recipe Chef"
-    },
-    datePublished: "2024-01-15",
-    recipeIngredient: [
-      "1/2 cup all-purpose flour",
-      "1 tablespoon sugar",
-      "1/2 teaspoon baking powder",
-      "1/4 teaspoon salt",
-      "1/3 cup milk",
-      "1 egg",
-      "1 tablespoon melted butter",
-      "2 tablespoons mini chocolate chips"
-    ],
-    recipeInstructions: [
-      {
-        "@type": "HowToStep",
-        text: "Mix dry ingredients in a bowl"
-      },
-      {
-        "@type": "HowToStep",
-        text: "Whisk wet ingredients separately"
-      },
-      {
-        "@type": "HowToStep",
-        text: "Combine wet and dry ingredients, fold in chocolate chips"
-      },
-      {
-        "@type": "HowToStep",
-        text: "Cook small pancakes on griddle for 2-3 minutes per side"
-      }
-    ],
-    nutrition: {
-      "@type": "NutritionInformation",
-      calories: "285",
-      proteinContent: "8g",
-      carbohydrateContent: "42g",
-      fatContent: "9g",
-      fiberContent: "2g",
-      sodiumContent: "320mg"
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "24"
-    },
-    equipment: ["Non-stick pan", "Mixing bowls", "Whisk"],
-    tips: ["Don't overmix the batter", "Use a small ladle for even-sized pancakes"],
-    prepTimeISO: "PT5M",
-    cookTimeISO: "PT10M",
-    totalTimeISO: "PT15M",
-    recipeYield: "2 servings",
-    recipeCategory: "Breakfast",
-    recipeCuisine: "American"
-  },
-  {
-    id: "2",
-    slug: "single-serving-pasta-primavera",
-    title: "Single Serving Pasta Primavera",
-    name: "Single Serving Pasta Primavera",
-    description: "Fresh vegetable pasta for one person. Light, healthy, and perfectly portioned with seasonal vegetables.",
-    image: "/creamy-pasta-dish-with-herbs.jpg",
-    category: "Lunch",
-    cuisine: "Italian",
-    prepTime: 10,
-    cookTime: 15,
-    totalTime: 25,
-    servings: 1,
-    rating: 4.6,
-    reviewCount: 18,
-    difficulty: "Easy",
-    dietary: ["Vegetarian", "Healthy"],
-    keywords: ["pasta", "vegetables", "healthy", "single serving", "lunch"],
-    author: {
-      "@type": "Person",
-      name: "Mini Recipe Chef"
-    },
-    datePublished: "2024-01-20",
-    recipeIngredient: [
-      "2 oz pasta (about 1/2 cup dry)",
-      "1/4 cup cherry tomatoes, halved",
-      "1/4 cup zucchini, diced",
-      "2 tablespoons bell pepper, diced",
-      "1 clove garlic, minced",
-      "1 tablespoon olive oil",
-      "2 tablespoons grated Parmesan",
-      "Salt and pepper to taste",
-      "Fresh basil leaves"
-    ],
-    recipeInstructions: [
-      {
-        "@type": "HowToStep",
-        text: "Cook pasta according to package directions"
-      },
-      {
-        "@type": "HowToStep",
-        text: "Heat olive oil in pan, sauté vegetables until tender"
-      },
-      {
-        "@type": "HowToStep",
-        text: "Add cooked pasta to vegetables"
-      },
-      {
-        "@type": "HowToStep",
-        text: "Toss with Parmesan and fresh basil"
-      }
-    ],
-    nutrition: {
-      "@type": "NutritionInformation",
-      calories: "320",
-      proteinContent: "12g",
-      carbohydrateContent: "45g",
-      fatContent: "11g",
-      fiberContent: "4g",
-      sodiumContent: "180mg"
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.6",
-      reviewCount: "18"
-    },
-    equipment: ["Medium saucepan", "Skillet", "Colander"],
-    tips: ["Use seasonal vegetables for best flavor", "Save pasta water to adjust consistency"],
-    prepTimeISO: "PT10M",
-    cookTimeISO: "PT15M",
-    totalTimeISO: "PT25M",
-    recipeYield: "1 serving",
-    recipeCategory: "Lunch",
-    recipeCuisine: "Italian"
-  }
-];
-
-const fallbackCategories = ["Breakfast", "Lunch", "Dinner", "Dessert", "Healthy"];
 
 // Cache for recipes to avoid repeated Firebase calls
-let recipesCache: BlogRecipe[] | null = null;
+let recipesCache: RecipeData[] | null = null;
 let categoriesCache: string[] | null = null;
 let cacheTimestamp: number = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -279,237 +154,208 @@ function clearCache(): void {
 }
 
 // Main functions to get recipes from Firebase with fallback
-export async function getAllRecipes(): Promise<BlogRecipe[]> {
+export async function getAllRecipes(): Promise<RecipeData[]> {
   // Return cached data if valid
   if (isCacheValid() && recipesCache) {
     return recipesCache;
   }
 
   try {
-    console.log('Fetching recipes from Firebase...');
+    console.log('Using test recipe data instead of Firebase...');
     
-    const recipesRef = collection(db, 'recipes');
-    const q = query(recipesRef, orderBy('datePublished', 'desc'));
-    const querySnapshot = await getDocs(q);
+    // Firebase call commented out for testing
+    // const recipesRef = collection(db, 'recipes');
+    // const q = query(recipesRef, orderBy('datePublished', 'desc'));
+    // const querySnapshot = await getDocs(q);
+    // const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
     
-    const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
+    // Return test recipe for UI testing
+    const recipes = [TestRecipe];
     
     if (recipes.length > 0) {
       // Update cache
       recipesCache = recipes;
       cacheTimestamp = Date.now();
-      console.log(`Successfully fetched ${recipes.length} recipes from Firebase`);
+      console.log(`Successfully loaded ${recipes.length} test recipes`);
       return recipes;
     } else {
-      console.log('No recipes found in Firebase database');
-      return []; // Return empty array instead of fallback
+      console.log('No test recipes available');
+      return [];
     }
   } catch (error) {
-    console.error('Error fetching recipes from Firebase:', error);
+    console.error('Error loading test recipes:', error);
     console.log('Returning empty array due to error');
-    return []; // Return empty array instead of fallback
+    return [];
   }
 }
 
-export async function getAllCategories(): Promise<string[]> {
-  // Return cached data if valid
-  if (isCacheValid() && categoriesCache) {
-    return categoriesCache;
-  }
 
+export async function getRecipesByCategory(category: RecipeCategory): Promise<RecipeData[]> {
   try {
-    console.log('Fetching categories from Firebase...');
-    const recipesRef = collection(db, 'recipes');
-    const querySnapshot = await getDocs(recipesRef);
+    console.log(`Loading test recipe for category: ${category}`);
     
-    const categories = new Set<string>();
-    querySnapshot.docs.forEach(doc => {
-      const data = doc.data();
-      if (data.category) {
-        categories.add(data.category);
-      }
-    });
+    // Firebase call commented out for testing
+    // const recipesRef = collection(db, 'recipes');
+    // const q = query(recipesRef, where('category', '==', category), orderBy('datePublished', 'desc'));
+    // const querySnapshot = await getDocs(q);
+    // const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
     
-    const categoryArray = Array.from(categories);
-    
-    if (categoryArray.length > 0) {
-      // Update cache
-      categoriesCache = categoryArray;
-      cacheTimestamp = Date.now();
-      console.log(`Successfully fetched ${categoryArray.length} categories from Firebase`);
-      return categoryArray;
-    } else {
-      console.log('No categories found in Firebase database, using fallback data');
-      return fallbackCategories;
-    }
-  } catch (error) {
-    console.error('Error fetching categories from Firebase:', error);
-    console.log('Using fallback category data due to error');
-    return fallbackCategories;
-  }
-}
-
-export async function getRecipesByCategory(category: RecipeCategory): Promise<BlogRecipe[]> {
-  try {
-    console.log(`Fetching recipes for category: ${category}`);
-    const recipesRef = collection(db, 'recipes');
-    const q = query(recipesRef, where('category', '==', category), orderBy('datePublished', 'desc'));
-    const querySnapshot = await getDocs(q);
-    
-    const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
+    // Return test recipe if category matches, otherwise empty
+    const recipes = TestRecipe.metadata.recipeCategory.toLowerCase() === category.toLowerCase() 
+      ? [TestRecipe] 
+      : [];
     
     if (recipes.length > 0) {
-      console.log(`Successfully fetched ${recipes.length} recipes for category: ${category}`);
+      console.log(`Successfully loaded ${recipes.length} test recipes for category: ${category}`);
       return recipes;
     } else {
-      // Fallback: filter static recipes by category
-      console.log(`No recipes found for category ${category} in Firebase, using fallback data`);
-      return fallbackRecipes.filter(recipe => 
-        recipe.category.toLowerCase() === category.toLowerCase()
-      );
+      console.log(`No test recipes found for category ${category}`);
+      return [];
     }
   } catch (error) {
-    console.error(`Error fetching recipes for category ${category}:`, error);
-    // Fallback: filter static recipes by category
-    return fallbackRecipes.filter(recipe => 
-      recipe.category.toLowerCase() === category.toLowerCase()
-    );
+    console.error(`Error loading test recipes for category ${category}:`, error);
+    return [];
   }
 }
 
-export async function getRecipeBySlug(slug: string): Promise<BlogRecipe | null> {
+export async function getRecipeBySlug(slug: string): Promise<RecipeData | null> {
   try {
     // Validate slug parameter
     if (!slug || slug.trim() === '') {
       return null;
     }
     
-    console.log(`Fetching recipe by slug: ${slug}`);
-    const recipesRef = collection(db, 'recipes');
-    const q = query(recipesRef, where('slug', '==', slug));
-    const querySnapshot = await getDocs(q);
+    console.log(`Looking for test recipe by slug: ${slug}`);
     
-    if (!querySnapshot.empty) {
-      const recipe = convertFirestoreToRecipe(querySnapshot.docs[0]);
-      console.log(`Successfully fetched recipe: ${recipe.title}`);
-      return recipe;
+    // Firebase call commented out - using test recipe
+    // const allRecipes = await getAllRecipes();
+    // const recipe = allRecipes.find(r => {
+    //   const generatedSlug = r.metadata.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    //   return generatedSlug === slug;
+    // });
+    
+    // Check if the test recipe slug matches
+    const generatedSlug = TestRecipe.metadata.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    
+    if (generatedSlug === slug) {
+      console.log(`Found test recipe: ${TestRecipe.metadata.name}`);
+      return TestRecipe;
     } else {
-      // Fallback: search static recipes
-      console.log(`No recipe found for slug ${slug} in Firebase, searching fallback data`);
-      return fallbackRecipes.find(recipe => recipe.slug === slug) || null;
+      console.log(`No test recipe found for slug ${slug} (available: ${generatedSlug})`);
+      return null;
     }
   } catch (error) {
     console.error(`Error fetching recipe by slug ${slug}:`, error);
-    // Fallback: search static recipes
-    return fallbackRecipes.find(recipe => recipe.slug === slug) || null;
+    return null;
   }
 }
 
-export async function getRecipeById(id: string): Promise<BlogRecipe | null> {
+export async function getRecipeById(id: string): Promise<RecipeData | null> {
   try {
-    console.log(`Fetching recipe by ID: ${id}`);
-    const recipesRef = collection(db, 'recipes');
-    const q = query(recipesRef, where('__name__', '==', id));
-    const querySnapshot = await getDocs(q);
+    console.log(`Looking for test recipe by ID: ${id}`);
     
-    if (!querySnapshot.empty) {
-      const recipe = convertFirestoreToRecipe(querySnapshot.docs[0]);
-      console.log(`Successfully fetched recipe: ${recipe.title}`);
-      return recipe;
+    // Firebase call commented out for testing
+    // const recipesRef = collection(db, 'recipes');
+    // const q = query(recipesRef, where('__name__', '==', id));
+    // const querySnapshot = await getDocs(q);
+    
+    // For testing, use a simple ID check (could be slug or test-recipe)
+    if (id === 'test-recipe' || id === 'hawaiian-mai-tai-drink') {
+      console.log(`Found test recipe: ${TestRecipe.metadata.name}`);
+      return TestRecipe;
     } else {
-      // Fallback: search static recipes
-      console.log(`No recipe found for ID ${id} in Firebase, searching fallback data`);
-      return fallbackRecipes.find(recipe => recipe.id === id) || null;
+      console.log(`No test recipe found for ID ${id}`);
+      return null;
     }
   } catch (error) {
     console.error(`Error fetching recipe by ID ${id}:`, error);
-    // Fallback: search static recipes
-    return fallbackRecipes.find(recipe => recipe.id === id) || null;
+    return null;
   }
 }
 
-export async function searchRecipes(searchTerm: string): Promise<BlogRecipe[]> {
+export async function searchRecipes(searchTerm: string): Promise<RecipeData[]> {
   try {
-    console.log(`Searching recipes for: ${searchTerm}`);
-    // Simple search - get all recipes and filter client-side
-    // For better performance, consider using Algolia or similar
-    const allRecipes = await getAllRecipes();
-    const searchTermLower = searchTerm.toLowerCase();
+    console.log(`Searching test recipes for: ${searchTerm}`);
     
-    const filteredRecipes = allRecipes.filter(recipe =>
-      recipe.title.toLowerCase().includes(searchTermLower) ||
-      recipe.description.toLowerCase().includes(searchTermLower) ||
-      recipe.keywords.some(keyword => keyword.toLowerCase().includes(searchTermLower))
-    );
+    // Firebase call commented out for testing
+    // const allRecipes = await getAllRecipes();
+    // const searchTermLower = searchTerm.toLowerCase();
+    // const filteredRecipes = allRecipes.filter(recipe =>
+    //   recipe.metadata.name.toLowerCase().includes(searchTermLower) ||
+    //   recipe.metadata.description.toLowerCase().includes(searchTermLower) ||
+    //   recipe.metadata.keywords.toLowerCase().includes(searchTermLower)
+    // );
+    
+    // Search in test recipe
+    const searchTermLower = searchTerm.toLowerCase();
+    const testRecipeMatches = 
+      TestRecipe.metadata.name.toLowerCase().includes(searchTermLower) ||
+      TestRecipe.metadata.description.toLowerCase().includes(searchTermLower) ||
+      TestRecipe.metadata.keywords.toLowerCase().includes(searchTermLower);
+    
+    const filteredRecipes = testRecipeMatches ? [TestRecipe] : [];
     
     if (filteredRecipes.length > 0) {
-      console.log(`Found ${filteredRecipes.length} recipes matching: ${searchTerm}`);
+      console.log(`Found ${filteredRecipes.length} test recipes matching: ${searchTerm}`);
       return filteredRecipes;
     } else {
-      // Fallback: search static recipes
-      console.log(`No search results found for: ${searchTerm}, searching fallback data`);
-      return fallbackRecipes.filter(recipe =>
-        recipe.title.toLowerCase().includes(searchTermLower) ||
-        recipe.description.toLowerCase().includes(searchTermLower) ||
-        recipe.keywords.some(keyword => keyword.toLowerCase().includes(searchTermLower))
-      );
-    }
-  } catch (error) {
-    console.error(`Error searching recipes for ${searchTerm}:`, error);
-    // Fallback: search static recipes
-    const searchTermLower = searchTerm.toLowerCase();
-    return fallbackRecipes.filter(recipe =>
-      recipe.title.toLowerCase().includes(searchTermLower) ||
-      recipe.description.toLowerCase().includes(searchTermLower) ||
-      recipe.keywords.some(keyword => keyword.toLowerCase().includes(searchTermLower))
-    );
-  }
-}
-
-export async function getFeaturedRecipes(maxResults: number = 6): Promise<BlogRecipe[]> {
-  try {
-    console.log(`Fetching ${maxResults} featured recipes`);
-    const recipesRef = collection(db, 'recipes');
-    const q = query(recipesRef, where('featured', '==', true), orderBy('datePublished', 'desc'), limit(maxResults));
-    const querySnapshot = await getDocs(q);
-    
-    const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
-    
-    if (recipes.length > 0) {
-      console.log(`Successfully fetched ${recipes.length} featured recipes`);
-      return recipes;
-    } else {
-      // No featured recipes found
-      console.log('No featured recipes found in Firebase');
+      console.log(`No test search results found for: ${searchTerm}`);
       return [];
     }
   } catch (error) {
-    console.error('Error fetching featured recipes:', error);
-    // Return empty array on error
+    console.error(`Error searching test recipes for ${searchTerm}:`, error);
+    return [];    
+  }
+}
+
+export async function getFeaturedRecipes(maxResults: number = 6): Promise<RecipeData[]> {
+  try {
+    console.log(`Loading test featured recipe (max: ${maxResults})`);
+    
+    // Firebase call commented out for testing
+    // const recipesRef = collection(db, 'recipes');
+    // const q = query(recipesRef, where('featured', '==', true), orderBy('datePublished', 'desc'), limit(maxResults));
+    // const querySnapshot = await getDocs(q);
+    // const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
+    
+    // Return test recipe as featured for testing
+    const recipes = [TestRecipe];
+    
+    if (recipes.length > 0) {
+      console.log(`Successfully loaded ${recipes.length} test featured recipes`);
+      return recipes;
+    } else {
+      console.log('No test featured recipes found');
+      return [];
+    }
+  } catch (error) {
+    console.error('Error loading test featured recipes:', error);
     return [];
   }
 }
 
-export async function getRecentRecipes(maxResults: number = 10): Promise<BlogRecipe[]> {
+export async function getRecentRecipes(maxResults: number = 10): Promise<RecipeData[]> {
   try {
-    console.log(`Fetching ${maxResults} recent recipes`);
-    const recipesRef = collection(db, 'recipes');
-    const q = query(recipesRef, orderBy('datePublished', 'desc'), limit(maxResults));
-    const querySnapshot = await getDocs(q);
+    console.log(`Loading test recipe for recent recipes (max: ${maxResults})`);
     
-    const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
+    // Firebase call commented out for testing
+    // const recipesRef = collection(db, 'recipes');
+    // const q = query(recipesRef, orderBy('datePublished', 'desc'), limit(maxResults));
+    // const querySnapshot = await getDocs(q);
+    // const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
+    
+    // Return test recipe for testing
+    const recipes = [TestRecipe];
     
     if (recipes.length > 0) {
-      console.log(`Successfully fetched ${recipes.length} recent recipes`);
+      console.log(`Successfully loaded ${recipes.length} test recent recipes`);
       return recipes;
     } else {
-      // No recent recipes found
-      console.log('No recent recipes found in Firebase');
+      console.log('No test recent recipes found');
       return [];
     }
   } catch (error) {
-    console.error('Error fetching recent recipes:', error);
-    // Return empty array on error
+    console.error('Error loading test recent recipes:', error);
     return [];
   }
 }
@@ -519,3 +365,190 @@ export function refreshRecipeCache(): void {
   console.log('Manually clearing recipe cache');
   clearCache();
 }
+
+
+export const TestRecipe: RecipeData = {
+  // Metadata
+  metadata: {
+    name: "Hawaiian Mai Tai Drink",
+    description: "Bright, tropical Hawaiian Mai Tai with rum, lime, and orgeat. Perfectly shaken for a refreshing cocktail experience. Experience the classic flavors featuring a balanced blend of white and dark rum, fresh lime juice, and fragrant orgeat.",
+    datePublished: "2025-07-27T21:12:58Z",
+    dateModified: "2025-07-27T21:12:58Z",
+    prepTime: "PT5M",
+    cookTime: "PT0M",
+    totalTime: "PT5M",
+    recipeYield: "1 cocktail",
+    recipeCategory: "Beverages",
+    recipeCuisine: "Hawaiian",
+    difficulty: "Easy",
+    dietary: ["Vegan", "Vegetarian", "Gluten-Free", "Dairy-Free"],
+    keywords: "Hawaiian Mai Tai, tropical cocktail, rum cocktail, tiki drink, orgeat cocktail, summer drinks, party cocktails",
+    images: [
+      "/Yay-Recipes-84-1.webp"
+    ]
+  },
+
+  // Introduction & Story
+  introduction: "If you are dreaming of a perfect tropical cocktail that feels both refreshing and a little indulgent, this Hawaiian Mai Tai is exactly what you need. The balance of tart lime, deeply fragrant rum, and sweet almond orgeat makes every sip a mini vacation. This is the drink I mix for friends any time I want conversation to flow and the mood to feel festive, whether at a backyard cookout or a quiet evening at home.",
+
+  whyYouLlLove: [
+    "Uses everyday ingredients from a basic liquor shelf and pantry",
+    "Bursting with aromatic citrus and delicate almond notes",
+    "Beautifully layered flavor and a dramatic look with dual rums",
+    "Impresses guests yet comes together in five minutes flat"
+  ],
+
+  authorStory: "After discovering the magic of orgeat one summer, I started bringing this Mai Tai to every gathering and it always disappears first. This recipe became my signature drink for outdoor parties.",
+
+  // Ingredients with descriptions
+  ingredients: [
+    {
+      item: "Ice cubes",
+      description: "Sets a crisp base and helps chill the drink to frosty perfection"
+    },
+    {
+      item: "1 medium lime (30 ml juice)",
+      description: "Seek out a fresh juicy lime for the brightest flavor and squeeze just before using for best results"
+    },
+    {
+      item: "30 ml white rum",
+      description: "Choose a clean light-bodied Caribbean style rum for that smooth kick"
+    },
+    {
+      item: "30 ml dark rum",
+      description: "Look for a rich aged option with deep caramel notes for dramatic color and taste"
+    },
+    {
+      item: "22 ml orgeat syrup",
+      description: "A creamy almond syrup essential for the nutty floral sweetness opt for a quality brand if possible"
+    },
+    {
+      item: "15 ml Grand Marnier",
+      description: "Brings subtle elegance with hints of citrus Cognac for a mellow finish use fresh if you can"
+    },
+    {
+      item: "Lime wheel for garnish",
+      description: "Like a lime wheel mint sprig or cherry add fragrance and visual pop fresh mint in particular wakes up the nose with every sip"
+    },
+    {
+      item: "Fresh mint sprig for garnish",
+      description: "Like a lime wheel mint sprig or cherry add fragrance and visual pop fresh mint in particular wakes up the nose with every sip"
+    },
+    {
+      item: "Maraschino cherry for garnish",
+      description: "Like a lime wheel mint sprig or cherry add fragrance and visual pop fresh mint in particular wakes up the nose with every sip"
+    }
+  ],
+
+  // Instructions
+  instructions: [
+    {
+      stepNumber: 1,
+      name: "Prepare the Glass",
+      text: "Fill your rocks glass all the way with clean ice cubes. This not only chills the glass but makes the cocktail last longer on a hot day."
+    },
+    {
+      stepNumber: 2,
+      name: "Squeeze Fresh Lime Juice",
+      text: "Roll a lime on the counter then cut and juice until you measure out one ounce of fresh juice. Do not use bottled juice as it changes the whole profile."
+    },
+    {
+      stepNumber: 3,
+      name: "Measure and Combine Spirits",
+      text: "Pour one ounce white rum, three quarters ounce orgeat and half an ounce of Grand Marnier directly into a cocktail shaker. Pause here and consider your rums. Opt for that slightly aged dark rum for final layering."
+    },
+    {
+      stepNumber: 4,
+      name: "Shake Until Frosty",
+      text: "Fill the shaker with plenty of ice. Securely seal and shake briskly for about twenty seconds or until the outside of the shaker feels icy cold. This step chills and slightly dilutes the drink giving it perfect texture."
+    },
+    {
+      stepNumber: 5,
+      name: "Strain Over Fresh Ice",
+      text: "Using a fine mesh strainer pour the cocktail right into your prepared glass taking care to catch any shards of ice for the smoothest sip."
+    },
+    {
+      stepNumber: 6,
+      name: "Add the Dark Rum Float",
+      text: "Pour your reserved dark rum gently over the back of a spoon held just above the drink so it floats in a dramatic layer on top."
+    },
+    {
+      stepNumber: 7,
+      name: "Garnish for Aroma and Color",
+      text: "Finish with a lime wheel, a fresh mint sprig or even a maraschino cherry. Arrange so the first scents are vibrant citrus and mint."
+    }
+  ],
+
+  // You Must Know
+  youMustKnow: [
+    "Full of vibrant tropical flavor that feels both sophisticated and fun",
+    "High in vitamin C from the fresh lime juice",
+    "Layers beautifully for a show stopping presentation"
+  ],
+
+  personalNote: "My favorite part of every Mai Tai is the moment the dark rum floats slowly over the top forming a distinct layer. My dad first made me a nonalcoholic version as a kid so now it always reminds me of warm summer nights and a little bit of family magic.",
+
+  // Storage
+  storage: {
+    title: "Smart Storage for Your Mai Tai",
+    content: "It is best to mix Mai Tais fresh and serve them right away. Chilling the rum and orgeat in advance makes the process seamless. If you must make ahead dodge garnishes and ice until just before serving to keep things crisp and bright."
+  },
+
+  // Substitutions
+  substitutions: {
+    title: "Easy Ingredient Swaps",
+    content: "No Grand Marnier on hand? Reach for any orange liqueur like Cointreau or orange curaçao. If you want a more affordable or sweeter cocktail standard triple sec can fill in. In a pinch you can use a splash of simple syrup if orgeat is unavailable but you will lose the signature nuttiness."
+  },
+
+  // Serving Suggestions
+  servingSuggestions: {
+    title: "Perfect Serving Suggestions",
+    content: "Serve your Mai Tai with a paper umbrella or in a tiki mug for full Polynesian flair. I like to line up garnishes in little bowls so guests can pick their favorite. Each glass deserves a fragrant sprig of mint for a true vacation vibe."
+  },
+
+  // Pro Tips
+  proTips: [
+    "Always use fresh lime juice. Never ever bottled for an authentic burst of flavor",
+    "Gently float the dark rum for presentation it shows off your skills and adds drama",
+    "If your orgeat separates give the bottle a shake so you get all the creamy almond goodness in every sip"
+  ],
+
+  closingThought: "Let the Mai Tai transport you to warm shores and sand between your toes. Every time I make this cocktail people gather a little closer and the worries of the day fade away. For me the best memories start with a perfect drink shared in good company.",
+
+  // FAQs
+  faqs: [
+    {
+      question: "What type of rum works best for a Hawaiian Mai Tai?",
+      answer: "A combination of white and dark rum provides depth and complexity, enhancing the classic tropical profile."
+    },
+    {
+      question: "Can I substitute Grand Marnier?",
+      answer: "Yes, orange curaçao or Cointreau are suitable alternatives, delivering a similar citrusy sweetness."
+    },
+    {
+      question: "What garnish options are traditional?",
+      answer: "Popular choices include a fresh lime wheel, mint sprig, or a maraschino cherry for extra color and aroma."
+    },
+    {
+      question: "How important is orgeat in this cocktail?",
+      answer: "Orgeat, an almond syrup, adds a crucial nutty sweetness and silkiness, balancing the tart lime."
+    },
+    {
+      question: "How do I achieve a layered look?",
+      answer: "Pour the dark rum on top after straining the drink into the glass for a visually striking float."
+    }
+  ],
+
+  // Tools & Notes
+  tools: [
+    "Cocktail shaker",
+    "Fine mesh strainer",
+    "Rocks glass",
+    "Citrus juicer"
+  ],
+
+  notes: [
+    "Orange curaçao or Cointreau can replace Grand Marnier in equal measure.",
+    "For a rum float, omit the dark rum from the shaker. After straining, pour the dark rum over the finished drink before garnishing."
+  ]
+};

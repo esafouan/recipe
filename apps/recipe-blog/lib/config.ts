@@ -78,6 +78,7 @@ export interface SiteConfig {
       categories: string;
       static: string;
     };
+    categories: string[];
     priority: {
       home: number;
       recipes: number;

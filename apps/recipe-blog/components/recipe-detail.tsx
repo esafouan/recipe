@@ -1,599 +1,1182 @@
-"use client"
+"use client";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Clock, Users, ChefHat, Star, Printer, Share2, Heart, Utensils } from "lucide-react"
-import { useState } from "react"
-import Image from "next/image"
-
-interface Recipe {
-  id: string
-  name: string
-  title?: string // Add title for compatibility
-  description: string
-  content?: string // Blog content for better engagement
-  image: string
-  prepTime: string
-  cookTime: string
-  totalTime: string
-  recipeYield: string
-  recipeCategory: string
-  recipeCuisine: string
-  keywords: string[]
-  author: {
-    "@type": string
-    name: string
-  }
-  datePublished: string
-  recipeIngredient: string[]
-  recipeInstructions: Array<{
-    "@type": string
-    text: string
-  }>
-  nutrition: {
-    "@type": string
-    calories: string
-    proteinContent: string
-    carbohydrateContent: string
-    fatContent: string
-    fiberContent: string
-    sodiumContent: string
-  }
-  aggregateRating: {
-    "@type": string
-    ratingValue: string
-    reviewCount: string
-  }
-  difficulty: string
-  equipment: string[]
-  tips: string[]
-  // Additional engagement fields
-  notes?: string
-  faqs?: Array<{
-    question: string
-    answer: string
-  }>
-  dietary?: string[]
-  cuisine?: string
-}
+import { Button } from "@/components/ui/button";
+import {
+  Clock,
+  Users,
+  ChefHat,
+  Star,
+  Printer,
+  Share2,
+  Heart,
+  Utensils,
+  ArrowDown,
+  Facebook,
+  ExternalLink,
+} from "lucide-react";
+import { useState, useEffect, useCallback, useMemo, memo } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { BasicHero } from "@/components/basic-hero";
+import { ChefProfileCard } from "@/components/chef-profile-card";
+import { getChefData } from "@/lib/site-config";
+import siteConfig from "@/config/site-config.json";
+import { RecipeData } from "@/lib/recipes-data";
 
 interface RecipeDetailProps {
-  recipe: Recipe
+  recipe: RecipeData | null;
+  relatedRecipes?: Array<{
+    id: string;
+    title: string;
+    image: string;
+    slug: string;
+  }>;
 }
 
-export function RecipeDetail({ recipe }: RecipeDetailProps) {
-  const [servings, setServings] = useState(4)
-  const [checkedIngredients, setCheckedIngredients] = useState<Set<number>>(new Set())
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set())
-
-  const toggleIngredient = (index: number) => {
-    const newChecked = new Set(checkedIngredients)
-    if (newChecked.has(index)) {
-      newChecked.delete(index)
-    } else {
-      newChecked.add(index)
-    }
-    setCheckedIngredients(newChecked)
-  }
-
-  const toggleStep = (index: number) => {
-    const newCompleted = new Set(completedSteps)
-    if (newCompleted.has(index)) {
-      newCompleted.delete(index)
-    } else {
-      newCompleted.add(index)
-    }
-    setCompletedSteps(newCompleted)
-  }
-
-  const formatTime = (duration: string) => {
-    const match = duration.match(/PT(\d+)M/)
-    return match ? `${match[1]} min` : duration
+// Memoized related recipe item
+const RelatedRecipeItem = memo(({ 
+  recipe, 
+  isPlaceholder 
+}: {
+  recipe: {
+    id: string;
+    title: string;
+    image: string;
+    slug: string;
+  };
+  isPlaceholder: boolean;
+}) => {
+  if (isPlaceholder) {
+    return (
+      <div className="flex gap-3">
+        <div className="w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
+          <Image
+            src={recipe.image}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="64px"
+            loading="lazy"
+            role="presentation"
+          />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-sm font-medium text-gray-500 line-clamp-2">
+            {recipe.title}
+          </h3>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <article className="py-8">
-      <div className="container px-4 max-w-4xl">
-        {/* Recipe Header */}
-        <header className="space-y-6 mb-8">
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-foreground transition-colors">Home</a>
-            <span>/</span>
-            <a href="/recipes" className="hover:text-foreground transition-colors">Recipes</a>
-            <span>/</span>
-            <a href={`/recipes/${recipe.recipeCategory.toLowerCase()}`} className="hover:text-foreground transition-colors">{recipe.recipeCategory}</a>
-            <span>/</span>
-            <span className="text-foreground">{recipe.name}</span>
-          </nav>
+    <Link
+      href={`/recipes/${recipe.slug}`}
+      className="flex gap-3 hover:bg-gray-50 p-2 rounded-lg transition-colors"
+      aria-label={`View recipe: ${recipe.title}`}
+    >
+      <div className="w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
+        <Image
+          src={recipe.image}
+          alt=""
+          fill
+          className="object-cover"
+          sizes="64px"
+          loading="lazy"
+          role="presentation"
+        />
+      </div>
+      <div className="flex-1">
+        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-orange-700 transition-colors">
+          {recipe.title}
+        </h3>
+      </div>
+    </Link>
+  );
+});
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="sr-only">Recipe categories:</span>
-              <Badge variant="secondary">{recipe.recipeCategory}</Badge>
-              <Badge variant="outline">{recipe.recipeCuisine}</Badge>
-              <Badge variant="outline">{recipe.difficulty}</Badge>
-              {/* Add dietary badges for better SEO and user info */}
-              {recipe.dietary?.map((diet, index) => (
-                <Badge key={index} variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                  {diet}
-                </Badge>
-              ))}
-            </div>
+RelatedRecipeItem.displayName = 'RelatedRecipeItem';
 
-            <h1 className="text-3xl lg:text-4xl font-sans font-bold text-balance">{recipe.name}</h1>
+export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
+  if (!recipe) return null;
+  
+  const [showJumpButton, setShowJumpButton] = useState(false);
+  const [checkedIngredients, setCheckedIngredients] = useState<Set<number>>(
+    new Set()
+  );
+  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+  const [userRating, setUserRating] = useState(0);
+  const [showFullNutrition, setShowFullNutrition] = useState(false);
+  const [servingSize, setServingSize] = useState(
+    parseInt(recipe.metadata.recipeYield) || 4
+  );
 
-            <p className="text-lg text-muted-foreground leading-relaxed">{recipe.description}</p>
+  // Memoized values to prevent unnecessary recalculations
+  const chef = useMemo(() => siteConfig.pages.about.chef, []);
+  const chefData = useMemo(() => getChefData(), []);
+  
+  const originalServings = useMemo(() => parseInt(recipe.metadata.recipeYield) || 4, [recipe.metadata.recipeYield]);
 
-            {/* Add content section for better SEO and engagement */}
-            {recipe.content && (
-              <div className="prose prose-gray max-w-none mb-6">
-                <div className="text-gray-700 leading-relaxed bg-gray-50 p-6 rounded-lg border-l-4 border-primary" dangerouslySetInnerHTML={{ __html: recipe.content }} />
-              </div>
-            )}
+  // Default related recipes - memoized to prevent recreation
+  const defaultRelatedRecipes = useMemo(() => [
+    {
+      id: "1",
+      title: "More Delicious Recipes",
+      image: "/api/placeholder/200/150",
+      slug: "#",
+    },
+    {
+      id: "2",
+      title: "Coming Soon",
+      image: "/api/placeholder/200/150",
+      slug: "#",
+    },
+    {
+      id: "3",
+      title: "Stay Tuned",
+      image: "/api/placeholder/200/150",
+      slug: "#",
+    },
+    {
+      id: "4",
+      title: "More Recipes",
+      image: "/api/placeholder/200/150",
+      slug: "#",
+    },
+  ], []);
 
-            {/* Enhanced metadata with keywords for SEO */}
-            <div className="flex items-center gap-6 text-sm flex-wrap mb-4">
-              <div className="flex items-center gap-1">
-                <Star className="h-4 w-4 fill-primary text-primary" aria-hidden="true" />
-                <span className="font-medium" itemProp="ratingValue">{recipe.aggregateRating.ratingValue}</span>
-                <span className="text-muted-foreground">
-                  (<span itemProp="reviewCount">{recipe.aggregateRating.reviewCount}</span> reviews)
-                </span>
-              </div>
-              <div className="text-muted-foreground">
-                By <span itemProp="author" className="font-medium">{recipe.author.name}</span>
-              </div>
-              <time className="text-muted-foreground" dateTime={recipe.datePublished}>
-                Published {new Date(recipe.datePublished).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </time>
-              {recipe.cuisine && recipe.cuisine !== recipe.recipeCuisine && (
-                <span className="text-muted-foreground">
-                  Cuisine: <span className="font-medium">{recipe.cuisine}</span>
-                </span>
-              )}
-            </div>
+  const displayedRelatedRecipes = relatedRecipes || defaultRelatedRecipes;
 
-            {/* Add keywords section for SEO */}
-            {recipe.keywords && recipe.keywords.length > 0 && (
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-sm font-medium text-muted-foreground">Tags:</span>
-                {recipe.keywords.map((keyword, index) => (
-                  <span 
-                    key={index} 
-                    className="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors"
-                  >
-                    #{keyword}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        </header>
+  // Optimized useEffect with proper dependencies
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowJumpButton(window.scrollY > 400);
+    };
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Recipe Image and Info */}
-          <div className="lg:col-span-2 space-y-8">
-            <figure className="aspect-video rounded-xl overflow-hidden">
-              <Image 
-                src={recipe.image || "/placeholder.svg"} 
-                alt={`${recipe.name} - ${recipe.description}`}
-                className="w-full h-full object-cover" 
-                itemProp="image"
-                priority={true}
-                width={800}
-                height={450}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px"
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-              />
-              <figcaption className="sr-only">{recipe.name} recipe image</figcaption>
-            </figure>
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-            {/* Recipe Meta */}
-            <section className="recipe-meta" itemScope itemType="https://schema.org/Recipe">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div className="text-center space-y-2">
-                      <Clock className="h-6 w-6 text-primary mx-auto" aria-hidden="true" />
-                      <div>
-                        <p className="font-medium">Prep Time</p>
-                        <p className="text-sm text-muted-foreground">
-                          <time itemProp="prepTime" dateTime={recipe.prepTime}>
-                            {formatTime(recipe.prepTime)}
-                          </time>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-center space-y-2">
-                      <ChefHat className="h-6 w-6 text-primary mx-auto" aria-hidden="true" />
-                      <div>
-                        <p className="font-medium">Cook Time</p>
-                        <p className="text-sm text-muted-foreground">
-                          <time itemProp="cookTime" dateTime={recipe.cookTime}>
-                            {formatTime(recipe.cookTime)}
-                          </time>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-center space-y-2">
-                      <Users className="h-6 w-6 text-primary mx-auto" aria-hidden="true" />
-                      <div>
-                        <p className="font-medium">Servings</p>
-                        <p className="text-sm text-muted-foreground">
-                          <span itemProp="recipeYield">{recipe.recipeYield}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-center space-y-2">
-                      <Utensils className="h-6 w-6 text-primary mx-auto" aria-hidden="true" />
-                      <div>
-                        <p className="font-medium">Difficulty</p>
-                        <p className="text-sm text-muted-foreground">{recipe.difficulty}</p>
-                      </div>
-                    </div>
+  // Memoized callback functions to prevent unnecessary re-renders
+  const toggleIngredient = useCallback((index: number) => {
+    setCheckedIngredients(prev => {
+      const newChecked = new Set(prev);
+      if (newChecked.has(index)) {
+        newChecked.delete(index);
+      } else {
+        newChecked.add(index);
+      }
+      return newChecked;
+    });
+  }, []);
+
+  const toggleStep = useCallback((index: number) => {
+    setCompletedSteps(prev => {
+      const newCompleted = new Set(prev);
+      if (newCompleted.has(index)) {
+        newCompleted.delete(index);
+      } else {
+        newCompleted.add(index);
+      }
+      return newCompleted;
+    });
+  }, []);
+
+  const formatTime = useCallback((duration: string) => {
+    const match = duration.match(/PT(\d+)M/);
+    return match ? `${match[1]} min` : duration;
+  }, []);
+
+  const jumpToRecipe = useCallback(() => {
+    document
+      .getElementById("recipe-instructions")
+      ?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  const handleShare = useCallback(async (platform?: string) => {
+    const shareData = {
+      title: `${recipe.metadata.name} - Mini Recipe`,
+      text: `Check out this delicious ${recipe.metadata.name} recipe! ${recipe.metadata.description}`,
+      url: window.location.href,
+    };
+
+    if (platform) {
+      let shareUrl = "";
+      switch (platform) {
+        case "facebook":
+          shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+            window.location.href
+          )}`;
+          break;
+        case "twitter":
+          shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            shareData.text
+          )}&url=${encodeURIComponent(shareData.url)}`;
+          break;
+        case "pinterest":
+          shareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(
+            shareData.url
+          )}&media=${encodeURIComponent(
+            recipe.metadata.images[0] || '/placeholder.svg'
+          )}&description=${encodeURIComponent(shareData.text)}`;
+          break;
+        case "whatsapp":
+          shareUrl = `https://wa.me/?text=${encodeURIComponent(
+            `${shareData.text} ${shareData.url}`
+          )}`;
+          break;
+      }
+      window.open(shareUrl, "_blank", "width=600,height=400");
+    } else if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        navigator.clipboard.writeText(window.location.href);
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+    }
+  }, [recipe.metadata.name, recipe.metadata.description, recipe.metadata.images]);
+
+  const handleRating = useCallback((rating: number) => {
+    setUserRating(rating);
+    // Here you would typically save the rating to your backend
+    console.log("Rating saved:", rating);
+  }, []);
+
+  const adjustServingSize = useCallback((newSize: number) => {
+    setServingSize(Math.max(1, newSize));
+  }, []);
+
+  const getAdjustedIngredient = useCallback((
+    ingredient: string,
+    originalServings: number,
+    newServings: number
+  ) => {
+    if (!ingredient || originalServings === newServings) return ingredient || '';
+
+    // Simple ingredient adjustment - you might want to make this more sophisticated
+    const multiplier = newServings / originalServings;
+    return ingredient.replace(/(\d+(?:\.\d+)?)/g, (match) => {
+      const num = parseFloat(match);
+      return (num * multiplier).toFixed(num % 1 === 0 ? 0 : 1);
+    });
+  }, []);
+
+  const handlePrint = useCallback(() => {
+    window.print();
+  }, []);
+
+  return (
+      <article className="min-h-screen">
+        {/* Sticky Jump to Recipe Button */}
+        {showJumpButton && (
+          <Button
+            onClick={jumpToRecipe}
+            className="fixed bottom-6 right-6 z-50 bg-orange-700 hover:bg-orange-800 text-white shadow-lg rounded-full px-6 py-3"
+            size="lg"
+            aria-label="Jump to recipe instructions"
+          >
+            <ArrowDown className="h-4 w-4 mr-2" aria-hidden="true" />
+            Jump to Recipe
+          </Button>
+        )}
+
+        {/* Hero Section */}
+        <BasicHero
+          title={recipe.metadata.name}
+          description={recipe.metadata.description}
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Recipes", href: "/recipes" },
+            { label: recipe.metadata.name },
+          ]}
+          size="medium"
+        />
+  
+        {/* Hero Image Section with Chef Card */}
+        <section className="container mx-auto max-w-7xl px-4 py-8">
+          <div className="template-main-sidebar grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* ContentMain */}
+            <div className="order-2 lg:order-1 lg:col-span-3">
+              {/* Article */}
+              <article className="article">
+                {/* MainFigure */}
+                <figure className="text-sm mb-8">
+                  <div className="aspect-video relative mb-2">
+                    <Image
+                      src={recipe.metadata.images[0] || "/api/placeholder/800/450"}
+                      alt={recipe.metadata.name}
+                      fill
+                      className="object-cover rounded-lg"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 75vw"
+                    />
+                    <a
+                      className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+                      href={chef.social.pinterest.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Pin ${recipe.metadata.name} recipe to Pinterest`}
+                    >
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                      <span>Pin it</span>
+                    </a>
                   </div>
-
-                  <Separator className="my-6" />
-
-                  <div className="flex items-center justify-center gap-4 flex-wrap">
-                    <Button variant="outline" size="sm" type="button" className="flex items-center gap-2">
-                      <Printer className="h-4 w-4" aria-hidden="true" />
-                      Print Recipe
-                    </Button>
-                    <Button variant="outline" size="sm" type="button" className="flex items-center gap-2">
-                      <Share2 className="h-4 w-4" aria-hidden="true" />
-                      Share Recipe
-                    </Button>
-                    <Button variant="outline" size="sm" type="button" className="flex items-center gap-2">
-                      <Heart className="h-4 w-4" aria-hidden="true" />
-                      Save Recipe
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </section>
-
-            {/* Recipe Instructions with enhanced UX */}
-            <section>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="font-sans flex items-center gap-2">
-                    <ChefHat className="h-5 w-5 text-primary" />
-                    Recipe Instructions
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground">Follow these step-by-step instructions for best results</p>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ol className="space-y-4" itemProp="recipeInstructions">
-                    {recipe.recipeInstructions.map((instruction, index) => (
-                      <li key={index} className="flex gap-4" itemProp="recipeInstruction" itemScope itemType="https://schema.org/HowToStep">
-                        <div className="flex-shrink-0">
-                          <button
-                            onClick={() => toggleStep(index)}
-                            className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-medium transition-colors ${
-                              completedSteps.has(index)
-                                ? "bg-primary text-primary-foreground border-primary"
-                                : "border-muted-foreground hover:border-primary"
-                            }`}
-                            aria-label={`Mark step ${index + 1} as ${completedSteps.has(index) ? 'incomplete' : 'complete'}`}
-                            type="button"
-                          >
-                            {index + 1}
-                          </button>
-                        </div>
-                        <div className="flex-1">
-                          <p
-                            className={`leading-relaxed ${completedSteps.has(index) ? "line-through text-muted-foreground" : ""}`}
-                            itemProp="text"
-                          >
-                            {instruction.text}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
-                </CardContent>
-              </Card>
-            </section>
-
-
-
-
-
-            {/* FAQ Section for better SEO and user engagement */}
-            {recipe.faqs && recipe.faqs.length > 0 && (
-              <section>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="font-sans">Frequently Asked Questions</CardTitle>
-                    <p className="text-sm text-muted-foreground">Everything you need to know about this recipe</p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6" itemScope itemType="https://schema.org/FAQPage">
-                      {recipe.faqs.map((faq, index) => (
-                        <div key={index} className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0" itemScope itemType="https://schema.org/Question">
-                          <h3 className="font-semibold text-gray-900 mb-3 flex items-start gap-2" itemProp="name">
-                            <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center mt-0.5 flex-shrink-0">
-                              Q{index + 1}
-                            </span>
-                            {faq.question}
-                          </h3>
-                          <div className="ml-8" itemScope itemType="https://schema.org/Answer">
-                            <p className="text-gray-700 leading-relaxed" itemProp="text">{faq.answer}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </section>
-            )}
-
-            {/* Recipe Variations / Tips Section */}
-            {recipe.tips && recipe.tips.length > 0 && (
-              <section>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="font-sans">Pro Tips & Variations</CardTitle>
-                    <p className="text-sm text-muted-foreground">Make this recipe your own with these expert suggestions</p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid gap-4 md:grid-cols-2">
-                      {recipe.tips.map((tip, index) => (
-                        <div key={index} className="flex items-start gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
-                          <div className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center mt-0.5 flex-shrink-0">
-                            {index + 1}
-                          </div>
-                          <p className="text-sm leading-relaxed text-gray-700">{tip}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </section>
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Ingredients */}
-            <aside>
-              <Card className="sticky top-24">
-                <CardHeader>
-                  <CardTitle className="font-sans">Recipe Ingredients</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <label htmlFor="servings-input" className="text-sm text-muted-foreground">Servings:</label>
-                    <div className="flex items-center gap-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => setServings(Math.max(1, servings - 1))}
-                        aria-label="Decrease servings"
-                        type="button"
-                      >
-                        -
-                      </Button>
-                      <span className="w-8 text-center" id="servings-input">{servings}</span>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => setServings(servings + 1)}
-                        aria-label="Increase servings"
-                        type="button"
-                      >
-                        +
-                      </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3" itemProp="recipeIngredient">
-                    {recipe.recipeIngredient.map((ingredient, index) => (
-                      <li key={index} className="flex items-start gap-3">
-                        <button
-                          onClick={() => toggleIngredient(index)}
-                          className={`w-5 h-5 rounded border-2 flex items-center justify-center mt-0.5 transition-colors ${
-                            checkedIngredients.has(index)
-                              ? "bg-primary border-primary"
-                              : "border-muted-foreground hover:border-primary"
-                          }`}
-                          aria-label={`Mark ${ingredient} as ${checkedIngredients.has(index) ? 'not used' : 'used'}`}
-                          type="button"
-                        >
-                          {checkedIngredients.has(index) && (
-                            <svg className="w-3 h-3 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          )}
-                        </button>
-                        <span
-                          className={`text-sm leading-relaxed ${checkedIngredients.has(index) ? "line-through text-muted-foreground" : ""}`}
-                          itemProp="recipeIngredient"
-                        >
-                          {ingredient}
+                  <figcaption className="text-gray-700 text-center">
+                    {recipe.metadata.name} - {recipe.metadata.description}
+                  </figcaption>
+                </figure>
+                {/* Author Info and Action Buttons */}
+                <div className="bg-white border-b border-gray-100 py-6">
+                  <div className="max-w-3xl mx-auto px-6">
+                    {/* Author and Date */}
+                    <div className="flex items-center justify-center gap-4 text-sm text-gray-700 mb-4">
+                      <span>
+                        By{" "}
+                        <span className="font-medium text-gray-900">
+                          {chef.name}
                         </span>
+                      </span>
+                      <span>•</span>
+                      <time dateTime={recipe.metadata.datePublished}>
+                        {new Date(recipe.metadata.datePublished).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
+                      </time>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                      <Button
+                        onClick={() => handleShare()}
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-2"
+                        aria-label={`Share ${recipe.metadata.name} recipe`}
+                      >
+                        <Share2 className="h-4 w-4" aria-hidden="true" />
+                        Share
+                      </Button>
+
+                      <div className="hidden sm:flex items-center gap-2">
+                        <Button
+                          onClick={() => handleShare("facebook")}
+                          variant="outline"
+                          size="sm"
+                          className="flex items-center gap-2"
+                          aria-label={`Share ${recipe.metadata.name} recipe on Facebook`}
+                        >
+                          <Facebook className="h-4 w-4" aria-hidden="true" />
+                          Facebook
+                        </Button>
+                        <Button
+                          onClick={() => handleShare("pinterest")}
+                          variant="outline"
+                          size="sm"
+                          className="flex items-center gap-2 text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                          aria-label={`Pin ${recipe.metadata.name} recipe to Pinterest`}
+                        >
+                          <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                          Pin it
+                        </Button>
+                      </div>
+
+                      <Button
+                        onClick={handlePrint}
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-2"
+                        aria-label={`Print ${recipe.metadata.name} recipe`}
+                      >
+                        <Printer className="h-4 w-4" aria-hidden="true" />
+                        Print
+                      </Button>
+                      <Button
+                        onClick={jumpToRecipe}
+                        className="bg-orange-700 hover:bg-orange-800 text-white"
+                        size="sm"
+                        aria-label="Jump to recipe instructions"
+                      >
+                        <ArrowDown className="h-4 w-4 mr-2" aria-hidden="true" />
+                        Jump to Recipe
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                {/* ArticleWrapper */}
+                <div className="article__wrapper space-y-8">
+                  {/* Introduction */}
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    {recipe.metadata.description} {recipe.introduction}
+                  </p>
+
+                  {/* Why You'll Love This Recipe */}
+                  <aside className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
+                    <h2 className="flex items-center gap-3 text-xl font-bold text-gray-900 mb-4">
+                      <Heart className="h-6 w-6 text-blue-600" aria-hidden="true" />
+                      <span>Why You'll Love This Recipe</span>
+                    </h2>
+                    <ul className="space-y-2">
+                      {recipe.whyYouLlLove.length > 0 ? (
+                        recipe.whyYouLlLove.map((reason, index) => (
+                          <li key={index} className="text-gray-700">{reason}</li>
+                        ))
+                      ) : (
+                        <>
+                          <li className="text-gray-700">
+                            Ready in just {parseInt(recipe.metadata.totalTime) || 30} minutes - perfect
+                            for {recipe.metadata.difficulty.toLowerCase()} weeknight cooking
+                          </li>
+                          <li className="text-gray-700">
+                            Serves {recipe.metadata.recipeYield} - great for{" "}
+                            {parseInt(recipe.metadata.recipeYield) > 4
+                              ? "family dinners and gatherings"
+                              : "intimate meals"}
+                          </li>
+                          <li className="text-gray-700">
+                            {recipe.metadata.recipeCuisine} flavors with a homemade touch
+                          </li>
+                          <li className="text-gray-700">
+                            Perfect way to use up extra ingredients in your fridge
+                          </li>
+                        </>
+                      )}
+                    </ul>
+                  </aside>
+
+                  {/* You Must Know Section */}
+                  {recipe.youMustKnow && recipe.youMustKnow.length > 0 && (
+                    <aside className="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg">
+                      <h2 className="flex items-center gap-3 text-xl font-bold text-gray-900 mb-4">
+                        <ExternalLink className="h-6 w-6 text-red-600" aria-hidden="true" />
+                        <span>You Must Know</span>
+                      </h2>
+                      <ul className="space-y-2">
+                        {recipe.youMustKnow.map((tip, index) => (
+                          <li key={index} className="text-gray-700">
+                            <strong>Important:</strong> {tip}
+                          </li>
+                        ))}
+                      </ul>
+                    </aside>
+                  )}
+
+                  {/* Personal Note */}
+                  {recipe.personalNote && (
+                    <blockquote className="border-l-4 border-orange-500 pl-6 py-4 bg-orange-50 italic text-lg text-gray-700">
+                      <p className="mb-2">"{recipe.personalNote}"</p>
+                      <cite className="text-sm font-medium text-orange-700">— {chef.name}</cite>
+                    </blockquote>
+                  )}
+
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    {recipe.authorStory || "I remember the first time I made this recipe for friends, and the room fell silent except for happy munching sounds. It's become one of our most requested dishes for game nights and gatherings."}
+                  </p>
+
+                  {/* Storage Instructions */}
+                  {recipe.storage && recipe.storage.content && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <div className="w-5 h-5 bg-blue-600 rounded-full"></div>
+                        {recipe.storage.title || "Storage Instructions"}
+                      </h3>
+                      <p className="text-gray-700">{recipe.storage.content}</p>
+                    </div>
+                  )}
+
+                  {/* Substitutions */}
+                  {recipe.substitutions && recipe.substitutions.content && (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <div className="w-5 h-5 bg-yellow-600 rounded-full"></div>
+                        {recipe.substitutions.title || "Ingredient Substitutions"}
+                      </h3>
+                      <p className="text-gray-700">{recipe.substitutions.content}</p>
+                    </div>
+                  )}
+
+                  {/* Serving Suggestions */}
+                  {recipe.servingSuggestions && recipe.servingSuggestions.content && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <Utensils className="h-5 w-5 text-green-600" aria-hidden="true" />
+                        {recipe.servingSuggestions.title || "Serving Suggestions"}
+                      </h3>
+                      <p className="text-gray-700">{recipe.servingSuggestions.content}</p>
+                    </div>
+                  )}
+
+                  {/* Ingredients Section */}
+                  <h2 className="text-3xl font-bold text-gray-900">
+                    Ingredients
+                  </h2>
+
+                  <ul className="space-y-3">
+                    {recipe.ingredients?.map((ingredient, index) => (
+                      <li key={index} className="text-gray-700 leading-relaxed">
+                        <strong>{ingredient?.item || ''}</strong>
+                        {ingredient?.description && (
+                          <span className="text-gray-600 ml-2">- {ingredient.description}</span>
+                        )}
                       </li>
                     ))}
                   </ul>
-                </CardContent>
-              </Card>
-            </aside>
 
-            {/* Enhanced Nutrition Facts with better visual design */}
-            <section>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="font-sans flex items-center gap-2">
-                    <Utensils className="h-5 w-5 text-primary" />
-                    Nutrition Facts
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground">Per serving • Values are approximate</p>
-                </CardHeader>
-                <CardContent itemScope itemType="https://schema.org/NutritionInformation">
-                  {/* Main calorie display */}
-                  <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 mb-6 border border-primary/20">
+                  {/* Instructions Section */}
+                  <h2 className="text-3xl font-bold text-gray-900">
+                    Instructions
+                  </h2>
+
+                  <div className="space-y-6">
+                    {recipe.instructions.map((instruction, index) => (
+                      <div
+                        key={index}
+                        className="border-l-4 border-orange-600 pl-4"
+                      >
+                        <div className="text-lg font-semibold text-gray-900 mb-2">
+                          Step {String(instruction.stepNumber).padStart(2, "0")}
+                          {instruction.name && (
+                            <span className="text-base font-medium text-gray-600 ml-2">
+                              - {instruction.name}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-gray-700 leading-relaxed">
+                          {instruction.text}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Recipe Notes */}
+                  {recipe.notes && recipe.notes.length > 0 && (
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <div className="w-5 h-5 bg-gray-600 rounded-full"></div>
+                        Recipe Notes
+                      </h3>
+                      <ul className="space-y-2">
+                        {recipe.notes.map((note, index) => (
+                          <li key={index} className="text-gray-700 flex items-start gap-2">
+                            <span className="text-gray-400 mt-2">•</span>
+                            <span>{note}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Second Featured Image */}
+                  <figure className="text-sm">
+                    <div className="aspect-video relative mb-2">
+                      <Image
+                        src={recipe.metadata.images[0] || "/api/placeholder/800/450"}
+                        alt={`${recipe.metadata.name} prepared and ready to serve`}
+                        fill
+                        className="object-cover rounded-lg"
+                        sizes="(max-width: 768px) 100vw, 800px"
+                        loading="lazy"
+                      />
+                      <a
+                        className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+                        href={chef.social.pinterest.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Pin ${recipe.metadata.name} recipe to Pinterest`}
+                      >
+                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                        <span>Pin it</span>
+                      </a>
+                    </div>
+                    <figcaption className="text-gray-700 text-center">
+                      A delicious {recipe.metadata.name.toLowerCase()} dish |
+                      minirecipe.net
+                    </figcaption>
+                  </figure>
+
+                  {/* Pro Tips Section */}
+                  {recipe.proTips && recipe.proTips.length > 0 && (
+                    <aside className="bg-green-50 border-l-4 border-green-500 p-6 rounded-r-lg">
+                      <h2 className="flex items-center gap-3 text-xl font-bold text-gray-900 mb-4">
+                        <ExternalLink className="h-6 w-6 text-green-600" aria-hidden="true" />
+                        <span>You Must Know</span>
+                      </h2>
+                      <ul className="space-y-2">
+                        {recipe.proTips.map((tip, index) => (
+                          <li key={index} className="text-gray-700">
+                            {tip}
+                          </li>
+                        ))}
+                      </ul>
+                    </aside>
+                  )}
+
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    {recipe.closingThought || "Serve this recipe straight from the kitchen for the best taste and texture. It's sure to become a favorite that you'll make again and again."}
+                  </p>
+
+                  {/* FAQ Section */}
+                  {recipe.faqs && recipe.faqs.length > 0 ? (
+                    <>
+                      <h2 className="text-3xl font-bold text-gray-900">
+                        Frequently Asked Questions
+                      </h2>
+                      <div className="space-y-4">
+                        {recipe.faqs.map((faq, index) => (
+                          <div key={index}>
+                            <h3 className="font-semibold text-gray-900 mb-2">
+                              → {faq.question}
+                            </h3>
+                            <p className="text-gray-700">{faq.answer}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="text-3xl font-bold text-gray-900">
+                        Frequently Asked Questions
+                      </h2>
+                      <div className="space-y-4">
+                        <div>
+                          <h3 className="font-semibold text-gray-900 mb-2">
+                            → What type of ingredients work best for this dish?
+                          </h3>
+                          <p className="text-gray-700">
+                            Use the freshest ingredients available for the best
+                            flavor and texture results.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 mb-2">
+                            → Can I make substitutions?
+                          </h3>
+                          <p className="text-gray-700">
+                            Yes, feel free to swap ingredients based on your
+                            preferences or dietary needs.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 mb-2">
+                            → How do I store leftovers?
+                          </h3>
+                          <p className="text-gray-700">
+                            Store in the refrigerator and reheat gently to maintain
+                            the best texture.
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+                {/* end ArticleWrapper */}
+              </article>
+              {/* end Article */}
+
+              {/* Recipe Card */}
+              <section className="recipe bg-white border border-gray-200 rounded-lg p-6 mt-8">
+                <div className="recipe__wrapper">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                    {recipe.metadata.name}
+                  </h2>
+                  <p className="text-gray-600 mb-6">{recipe.metadata.description}</p>
+
+                  {/* RecipeTimes */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-primary mb-2" itemProp="calories">
-                        {recipe.nutrition.calories}
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <Clock className="h-5 w-5 text-orange-700" aria-hidden="true" />
+                        <strong>Prep Time</strong>
                       </div>
-                      <div className="text-sm text-muted-foreground font-medium">Calories per serving</div>
+                      <span className="text-orange-700 font-semibold">
+                        {recipe.metadata.prepTime} min
+                      </span>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <ChefHat className="h-5 w-5 text-orange-700" aria-hidden="true" />
+                        <strong>Cook Time</strong>
+                      </div>
+                      <span className="text-orange-700 font-semibold">
+                        {recipe.metadata.cookTime} min
+                      </span>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <Clock className="h-5 w-5 text-orange-700" aria-hidden="true" />
+                        <strong>Total Time</strong>
+                      </div>
+                      <span className="text-orange-700 font-semibold">
+                        {recipe.metadata.totalTime} min
+                      </span>
                     </div>
                   </div>
-                  
-                  {/* Macronutrients grid */}
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-blue-600 mb-1" itemProp="proteinContent">
-                          {recipe.nutrition.proteinContent}
-                        </div>
-                        <div className="text-xs text-blue-700 font-medium">Protein</div>
+
+                  {/* Recipe Info */}
+                  <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <ChefHat className="h-4 w-4" aria-hidden="true" />
+                        <strong>By:</strong> <span>{chef.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Utensils className="h-4 w-4" aria-hidden="true" />
+                        <strong>Category:</strong>{" "}
+                        <span>{recipe.metadata.recipeCategory}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Star className="h-4 w-4" aria-hidden="true" />
+                        <strong>Difficulty:</strong>{" "}
+                        <span className="text-orange-700">
+                          {recipe.metadata.difficulty}
+                        </span>
                       </div>
                     </div>
-                    <div className="bg-orange-50 rounded-lg p-4 border border-orange-100">
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-orange-600 mb-1" itemProp="carbohydrateContent">
-                          {recipe.nutrition.carbohydrateContent}
-                        </div>
-                        <div className="text-xs text-orange-700 font-medium">Carbs</div>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <Users className="h-4 w-4" aria-hidden="true" />
+                        <strong>Yield:</strong>{" "}
+                        <span className="text-orange-700">
+                          {recipe.metadata.recipeYield}
+                        </span>
                       </div>
-                    </div>
-                    <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-100">
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-yellow-600 mb-1" itemProp="fatContent">
-                          {recipe.nutrition.fatContent}
+                      {recipe.metadata.recipeCuisine && (
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 bg-orange-700 rounded-sm"></div>
+                          <strong>Cuisine:</strong>{" "}
+                          <span>{recipe.metadata.recipeCuisine}</span>
                         </div>
-                        <div className="text-xs text-yellow-700 font-medium">Fat</div>
-                      </div>
-                    </div>
-                    <div className="bg-green-50 rounded-lg p-4 border border-green-100">
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-green-600 mb-1" itemProp="fiberContent">
-                          {recipe.nutrition.fiberContent}
+                      )}
+                      {recipe.metadata.dietary && recipe.metadata.dietary.length > 0 && (
+                        <div className="flex items-start gap-2">
+                          <Heart className="h-4 w-4 mt-0.5" aria-hidden="true" />
+                          <div>
+                            <strong>Dietary:</strong>
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {recipe.metadata.dietary.map((diet, index) => (
+                                <span 
+                                  key={index}
+                                  className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
+                                >
+                                  {diet}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-xs text-green-700 font-medium">Fiber</div>
-                      </div>
+                      )}
                     </div>
-                    <div className="bg-red-50 rounded-lg p-4 border border-red-100">
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-red-600 mb-1" itemProp="sodiumContent">
-                          {recipe.nutrition.sodiumContent}
-                        </div>
-                        <div className="text-xs text-red-700 font-medium">Sodium</div>
+                  </div>
+
+                  {/* Interactive Ingredients with Serving Size Adjustment */}
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900">
+                      Ingredients
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">Servings:</span>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => adjustServingSize(servingSize - 1)}
+                          className="w-8 h-8 rounded-full bg-orange-700 text-white hover:bg-orange-800 flex items-center justify-center font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={servingSize <= 1}
+                          aria-label="Decrease serving size"
+                        >
+                          -
+                        </button>
+                        <span 
+                          className="w-8 text-center font-bold"
+                          aria-label={`Current serving size: ${servingSize}`}
+                        >
+                          {servingSize}
+                        </span>
+                        <button
+                          onClick={() => adjustServingSize(servingSize + 1)}
+                          className="w-8 h-8 rounded-full bg-orange-700 text-white hover:bg-orange-800 flex items-center justify-center font-bold"
+                          aria-label="Increase serving size"
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
                   </div>
-                  
-                  {/* Dietary information */}
-                  {recipe.dietary && recipe.dietary.length > 0 && (
-                    <div className="mt-6 pt-4 border-t border-gray-100">
-                      <h4 className="text-sm font-medium text-gray-900 mb-2">Dietary Information</h4>
+                  <div className="space-y-3 mb-8">
+                    {recipe.ingredients?.map((ingredient, index) => {
+                      const adjustedIngredient = getAdjustedIngredient(
+                        ingredient?.item || '',
+                        originalServings,
+                        servingSize
+                      );
+                      return (
+                        <div key={index} className="flex items-start gap-3">
+                          <button
+                            onClick={() => toggleIngredient(index)}
+                            className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-colors flex-shrink-0 ${
+                              checkedIngredients.has(index)
+                                ? "bg-orange-600 text-white border-orange-600"
+                                : "border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white"
+                            }`}
+                            aria-label={`${checkedIngredients.has(index) ? 'Uncheck' : 'Check'} ingredient ${index + 1}: ${adjustedIngredient}`}
+                            aria-pressed={checkedIngredients.has(index)}
+                          >
+                            {String(index + 1).padStart(2, "0")}
+                          </button>
+                          <div className="flex-1">
+                            <span
+                              className={`leading-relaxed block ${
+                                checkedIngredients.has(index)
+                                  ? "line-through text-gray-500"
+                                  : "text-gray-900"
+                              }`}
+                            >
+                              {adjustedIngredient}
+                            </span>
+                            {ingredient?.description && (
+                              <span className="text-sm text-gray-600 italic block mt-1">
+                                {ingredient.description}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Interactive Instructions */}
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4" id="recipe-instructions">
+                    Instructions
+                  </h3>
+                  <div className="space-y-6 mb-8">
+                    {recipe.instructions.map((instruction, index) => (
+                      <div key={index} className="space-y-2">
+                        <button
+                          onClick={() => toggleStep(index)}
+                          className={`w-full text-left px-4 py-3 rounded-lg border transition-colors ${
+                            completedSteps.has(index)
+                              ? "bg-orange-600 text-white border-orange-600"
+                              : "border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white"
+                          }`}
+                          aria-label={`${completedSteps.has(index) ? 'Mark as incomplete' : 'Mark as complete'} step ${index + 1}: ${instruction.text}`}
+                          aria-pressed={completedSteps.has(index)}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold">
+                              Step {String(instruction.stepNumber).padStart(2, "0")}
+                            </span>
+                            {instruction.name && (
+                              <span className="font-medium opacity-90">
+                                - {instruction.name}
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                        <p
+                          className={`text-gray-700 leading-relaxed px-2 ${
+                            completedSteps.has(index)
+                              ? "line-through text-gray-500"
+                              : ""
+                          }`}
+                        >
+                          {instruction.text}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Rating Section */}
+                  <div className="mb-8 p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Rate This Recipe
+                    </h3>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            onClick={() => handleRating(star)}
+                            className={`w-8 h-8 transition-colors ${
+                              star <= userRating
+                                ? "text-yellow-500 hover:text-yellow-600"
+                                : "text-gray-300 hover:text-yellow-400"
+                            }`}
+                            aria-label={`Rate ${star} star${star !== 1 ? 's' : ''} out of 5`}
+                            aria-pressed={star <= userRating}
+                          >
+                            <Star
+                              className={`w-full h-full ${
+                                star <= userRating ? "fill-current" : ""
+                              }`}
+                              aria-hidden="true"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                      {userRating > 0 && (
+                        <span className="text-gray-600">
+                          You rated this {userRating} star
+                          {userRating !== 1 ? "s" : ""}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Star className="w-4 h-4 text-yellow-500 fill-current" aria-hidden="true" />
+                        <span className="font-medium">
+                          4.5/5
+                        </span>
+                        <span>
+                          (0 reviews)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Equipment */}
+                  {recipe.tools && recipe.tools.length > 0 && (
+                    <div className="mb-8">
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                        Tools You'll Need
+                      </h3>
+                      <ul className="space-y-2">
+                        {recipe.tools.map((item, index) => (
+                          <li key={index} className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-orange-700" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Nutrition */}
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Nutrition Facts (Per Serving)
+                    </h3>
+                    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                      <button
+                        onClick={() => setShowFullNutrition(!showFullNutrition)}
+                        className="w-full p-4 text-left font-medium hover:bg-gray-50 transition-colors flex items-center justify-between"
+                        aria-expanded={showFullNutrition}
+                        aria-controls="nutrition-details"
+                        aria-label={`${showFullNutrition ? 'Hide' : 'Show'} detailed nutritional information`}
+                      >
+                        <span>View nutritional information</span>
+                        <ArrowDown
+                          className={`h-4 w-4 transform transition-transform ${
+                            showFullNutrition ? "rotate-180" : ""
+                          }`}
+                          aria-hidden="true"
+                        />
+                      </button>
+                      {showFullNutrition && (
+                        <div className="p-4 border-t bg-gray-50" id="nutrition-details">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <div className="flex justify-between">
+                                <strong>Calories:</strong>
+                                <span className="text-orange-700 font-semibold">
+                                  0
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <strong>Protein:</strong>
+                                <span className="text-orange-700 font-semibold">
+                                  0g
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <strong>Carbohydrates:</strong>
+                                <span className="text-orange-700 font-semibold">
+                                  0g
+                                </span>
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="flex justify-between">
+                                <strong>Fat:</strong>
+                                <span className="text-orange-700 font-semibold">
+                                  0g
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <strong>Fiber:</strong>
+                                <span className="text-orange-700 font-semibold">
+                                  0g
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <strong>Sodium:</strong>
+                                <span className="text-orange-700 font-semibold">
+                                  0mg
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-3">
+                            * Nutritional values are approximate and may vary
+                            based on ingredients and portion sizes.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Recipe Keywords */}
+                  {recipe.metadata.keywords && (
+                    <div className="mb-8">
+                      <h3 className="text-lg font-bold text-gray-900 mb-3">
+                        Recipe Tags
+                      </h3>
                       <div className="flex flex-wrap gap-2">
-                        {recipe.dietary.map((diet, index) => (
-                          <Badge key={index} variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
-                            {diet}
-                          </Badge>
+                        {recipe.metadata.keywords.split(',').map((keyword, index) => (
+                          <span 
+                            key={index}
+                            className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full"
+                          >
+                            {keyword.trim()}
+                          </span>
                         ))}
                       </div>
                     </div>
                   )}
-                </CardContent>
-              </Card>
-            </section>
 
-            {/* Enhanced Equipment Section */}
-            {recipe.equipment && recipe.equipment.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="font-sans flex items-center gap-2">
-                    <ChefHat className="h-5 w-5 text-primary" />
-                    Equipment Needed
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground">Tools that will help you make this recipe perfectly</p>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {recipe.equipment.map((item, index) => (
-                      <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border">
-                        <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
-                        <span className="text-sm font-medium text-gray-900">{item}</span>
+                  {/* Cooking Progress Indicator */}
+                  {completedSteps.size > 0 && (
+                    <div className="mb-8 p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-medium text-green-800">
+                          Cooking Progress
+                        </span>
+                        <span className="text-sm text-green-600">
+                          {completedSteps.size} of{" "}
+                          {recipe.instructions.length} steps completed
+                        </span>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Recipe Storage & Reheating Tips */}
-            {recipe.notes && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="font-sans">Storage & Serving Tips</CardTitle>
-                  <p className="text-sm text-muted-foreground">Make the most of your delicious creation</p>
-                </CardHeader>
-                <CardContent>
-                  <div className="prose prose-sm max-w-none">
-                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                      <p className="text-gray-700 leading-relaxed m-0">{recipe.notes}</p>
+                      <div className="w-full bg-green-200 rounded-full h-2">
+                        <div
+                          className="bg-green-600 h-2 rounded-full transition-all duration-300"
+                          style={{
+                            width: `${
+                              (completedSteps.size /
+                                recipe.instructions.length) *
+                              100
+                            }%`,
+                          }}
+                        />
+                      </div>
+                      {completedSteps.size ===
+                        recipe.instructions.length && (
+                        <p className="text-sm text-green-600 mt-2 font-medium">
+                          🎉 Congratulations! Your recipe is complete!
+                        </p>
+                      )}
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        </div>
+                  )}
+                </div>
+              </section>
+              {/* end Recipe */}
 
-        {/* Bottom engagement section */}
-        <section className="mt-12 pt-8 border-t border-gray-200">
-          <div className="text-center space-y-6">
-            <div className="max-w-2xl mx-auto">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Did you make this recipe?</h2>
-              <p className="text-gray-600 leading-relaxed mb-6">
-                We'd love to hear how it turned out! Tag us on social media or leave a comment below with your experience and any modifications you made.
-              </p>
-              <div className="flex items-center justify-center gap-4 flex-wrap">
-                <Button variant="default" size="lg" className="flex items-center gap-2">
-                  <Star className="h-5 w-5" />
-                  Rate this Recipe
-                </Button>
-                <Button variant="outline" size="lg" className="flex items-center gap-2">
-                  <Share2 className="h-5 w-5" />
-                  Share your Photo
-                </Button>
-              </div>
+              {/* Mobile Chef Card - Only visible on mobile */}
+              <section className="lg:hidden mt-8">
+                <ChefProfileCard chefData={chefData} variant="contact" />
+              </section>
             </div>
-            
-            {/* Recipe tags for better discoverability */}
-            {recipe.keywords && recipe.keywords.length > 0 && (
-              <div className="pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recipe Tags</h3>
-                <div className="flex items-center justify-center gap-2 flex-wrap max-w-4xl mx-auto">
-                  {recipe.keywords.map((keyword, index) => (
-                    <a 
-                      key={index}
-                      href={`/search?q=${encodeURIComponent(keyword)}`}
-                      className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors"
-                    >
-                      #{keyword}
-                    </a>
-                  ))}
+            {/* end ContentMain */}
+
+            {/* ContentSideBar - Only visible on desktop */}
+            <aside className="hidden lg:block order-3 lg:order-2 lg:col-span-1">
+              <div className="sticky top-16 m-2 space-y-6">
+                {/* Author Card */}
+                <ChefProfileCard chefData={chefData} variant="contact" />
+
+                {/* Related Recipes */}
+                <div className="bg-white border border-gray-200 rounded-lg p-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">
+                    You Might Also Like
+                  </h2>
+                  <div className="space-y-4">
+                    {displayedRelatedRecipes
+                      .slice(0, 6)
+                      .map((relatedRecipe) => (
+                        <RelatedRecipeItem
+                          key={relatedRecipe.id}
+                          recipe={relatedRecipe}
+                          isPlaceholder={relatedRecipe.slug === "#"}
+                        />
+                      ))}
+                  </div>
                 </div>
               </div>
-            )}
+            </aside>
+            {/* end ContentSideBar */}
+
+            {/* Mobile Related Recipes Section */}
+            <section className="lg:hidden order-4 col-span-full">
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                  You Might Also Like
+                </h2>
+                <div className="grid grid-cols-2 gap-4">
+                  {displayedRelatedRecipes.slice(0, 4).map((relatedRecipe) => {
+                    const isPlaceholder = relatedRecipe.slug === "#";
+
+                    if (isPlaceholder) {
+                      return (
+                        <div key={relatedRecipe.id} className="space-y-2">
+                          <div className="aspect-video relative rounded-lg overflow-hidden">
+                            <Image
+                              src={relatedRecipe.image}
+                              alt=""
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 640px) 50vw, 200px"
+                              loading="lazy"
+                              role="presentation"
+                            />
+                          </div>
+                          <h3 className="text-sm font-medium text-gray-500 line-clamp-2">
+                            {relatedRecipe.title}
+                          </h3>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <Link
+                        key={relatedRecipe.id}
+                        href={`/recipes/${relatedRecipe.slug}`}
+                        className="space-y-2 hover:bg-gray-50 p-2 rounded-lg transition-colors -m-2"
+                        aria-label={`View recipe: ${relatedRecipe.title}`}
+                      >
+                        <div className="aspect-video relative rounded-lg overflow-hidden">
+                          <Image
+                            src={relatedRecipe.image}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 50vw, 200px"
+                            loading="lazy"
+                            role="presentation"
+                          />
+                        </div>
+                        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-orange-700 transition-colors">
+                          {relatedRecipe.title}
+                        </h3>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
           </div>
         </section>
-      </div>
-    </article>
-  )
+      </article>
+  );
 }

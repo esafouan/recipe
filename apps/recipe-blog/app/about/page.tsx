@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ChefProfileCard } from "@/components/chef-profile-card";
 import { HeroSection } from "@/components/hero-section-with-breadcrumb";
 import { getAboutPageData, getChefData } from "@/lib/site-config";
+import { SectionHeader } from "@/components/section-header";
 
 const aboutData = getAboutPageData();
 const chefData = getChefData();
@@ -41,6 +42,9 @@ export default function AboutPage() {
 
         {/* About Me Section */}
         <section id="story" className="py-16 md:py-20 lg:py-24 bg-gray-50">
+            <div className="text-center mb-8 md:mb-12 relative">
+                      <SectionHeader title={aboutData.title} />
+                    </div>
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">

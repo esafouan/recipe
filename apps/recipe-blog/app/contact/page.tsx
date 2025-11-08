@@ -1,24 +1,22 @@
-import type { Metadata } from "next"
-import { ContactForm } from "@/components/contact-form"
-import { ChefProfileCard } from "@/components/chef-profile-card"
-import { HeroSection } from "@/components/hero-section-with-breadcrumb"
-import { getContactPageData, getChefData } from "@/lib/site-config"
+import type { Metadata } from "next";
+import { ContactForm } from "@/components/contact-form";
+import { ChefProfileCard } from "@/components/chef-profile-card";
+import { HeroSection } from "@/components/hero-section-with-breadcrumb";
+import { getContactPageData, getChefData } from "@/lib/site-config";
+import { SectionHeader } from "@/components/section-header";
 
-const contactData = getContactPageData()
-const chefData = getChefData()
+const contactData = getContactPageData();
+const chefData = getChefData();
 
 // Generate breadcrumbs
-const breadcrumbs = [
-  { label: "Home", href: "/" },
-  { label: "Contact" }
-]
+const breadcrumbs = [{ label: "Home", href: "/" }, { label: "Contact" }];
 
 export const metadata: Metadata = {
   title: contactData.title,
   description: contactData.description,
   keywords: contactData.keywords,
   openGraph: contactData.openGraph,
-}
+};
 
 export default function ContactPage() {
   return (
@@ -32,12 +30,15 @@ export default function ContactPage() {
           cta={{
             text: contactData.hero.ctaText,
             href: contactData.hero.ctaTarget,
-            variant: "primary"
+            variant: "primary",
           }}
         />
 
         {/* Contact Section */}
         <section className="py-16 md:py-20 lg:py-24 bg-gray-50">
+          <div className="text-center mb-8 md:mb-12 relative">
+            <SectionHeader title={contactData.title} />
+          </div>
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
@@ -46,12 +47,17 @@ export default function ContactPage() {
                 {/* Content Grid - Image Left, Text Right */}
 
                 {/* Contact Information Box */}
-                <div id="contact-form" className="bg-white rounded-2xl shadow-lg p-8 border-2 border-primary/20">
-                  <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4">{contactData.contactInfo.title}</h2>
+                <div
+                  id="contact-form"
+                  className="bg-white rounded-2xl shadow-lg p-8 border-2 border-primary/20"
+                >
+                  <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4">
+                    {contactData.contactInfo.title}
+                  </h2>
                   <p className="text-gray-700 leading-relaxed mb-6">
                     {contactData.contactInfo.description}
                   </p>
-                  
+
                   {/* Contact Form */}
                   <ContactForm />
                 </div>
@@ -64,5 +70,5 @@ export default function ContactPage() {
         </section>
       </main>
     </div>
-  )
+  );
 }

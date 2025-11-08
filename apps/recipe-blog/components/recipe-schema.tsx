@@ -1,191 +1,170 @@
-interface Recipe {
-  id: string
-  name: string
-  title?: string // Add title for compatibility
-  description: string
-  image: string
-  prepTime: string
-  cookTime: string
-  totalTime: string
-  recipeYield: string
-  recipeCategory: string
-  recipeCuisine: string
-  keywords: string[]
-  author: {
-    "@type": string
-    name: string
-  }
-  datePublished: string
-  recipeIngredient: string[]
-  recipeInstructions: Array<{
-    "@type": string
-    text: string
-  }>
-  nutrition: {
-    "@type": string
-    calories: string
-    proteinContent: string
-    carbohydrateContent: string
-    fatContent: string
-    fiberContent: string
-    sodiumContent: string
-  }
-  aggregateRating: {
-    "@type": string
-    ratingValue: string
-    reviewCount: string
-  }
-  tips: string[]
-}
+import { RecipeData } from "@/lib/recipes-data"
+import { getSchemaConfig, getBaseUrl, generateSlug, getImageUrl } from "@/lib/schema-utils"
 
 interface RecipeSchemaProps {
-  recipe: Recipe
+  recipe: RecipeData | null
 }
 
 export function RecipeSchema({ recipe }: RecipeSchemaProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://minirecipe.net'
-  const imageUrl = recipe.image.startsWith('http') ? recipe.image : `${baseUrl}${recipe.image}`
+  if (!recipe) return null;
+  
+  const config = getSchemaConfig();
+  const baseUrl = getBaseUrl();
+  const imageUrl = getImageUrl(recipe.metadata.images[0], baseUrl);
+  const slug = generateSlug(recipe.metadata.name);
 
   // Enhanced Recipe Schema with all SEO-critical fields
   const recipeSchema = {
-    "@context": "https://schema.org/",
-    "@type": "Recipe",
-    "@id": `${baseUrl}/recipes/${recipe.id}`,
-    name: recipe.name,
-    headline: recipe.name,
-    description: recipe.description,
+    "@context": config.context,
+    "@type": config.types.recipe,
+    "@id": `${baseUrl}/recipes/${slug}`,
+    name: recipe.metadata.name,
+    headline: recipe.metadata.name,
+    description: recipe.metadata.description,
     image: [
       {
-        "@type": "ImageObject",
+        "@type": config.types.imageObject,
         url: imageUrl,
-        width: 1200,
-        height: 630,
-        caption: `${recipe.name} - ${recipe.description}`
+        width: config.defaults.image.width,
+        height: config.defaults.image.height,
+        caption: `${recipe.metadata.name} - ${recipe.metadata.description}`
       }
     ],
     author: {
-      "@type": "Person",
-      name: recipe.author.name,
-      url: `${baseUrl}/author/${recipe.author.name.toLowerCase().replace(/\s+/g, '-')}`
+      "@type": config.types.person,
+      name: config.author.name,
+      url: `${baseUrl}${config.author.url}`
     },
     publisher: {
-      "@type": "Organization",
-      name: "Mini Recipe",
+      "@type": config.types.organization,
+      name: config.organization.name,
       url: baseUrl,
       logo: {
-        "@type": "ImageObject",
-        url: `${baseUrl}/logo.png`,
+        "@type": config.types.imageObject,
+        url: `${baseUrl}${config.site.logo}`,
         width: 60,
         height: 60
       }
     },
-    datePublished: recipe.datePublished,
-    dateModified: recipe.datePublished, // Add updatedAt field later
-    url: `${baseUrl}/recipes/${recipe.id}`,
+    datePublished: recipe.metadata.datePublished,
+    dateModified: recipe.metadata.dateModified,
+    url: `${baseUrl}/recipes/${slug}`,
     mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${baseUrl}/recipes/${recipe.id}`
+      "@type": config.types.webPage,
+      "@id": `${baseUrl}/recipes/${slug}`
     },
-    keywords: recipe.keywords.join(", "),
-    recipeCategory: recipe.recipeCategory,
-    recipeCuisine: recipe.recipeCuisine,
-    prepTime: recipe.prepTime,
-    cookTime: recipe.cookTime,
-    totalTime: recipe.totalTime,
-    recipeYield: recipe.recipeYield,
-    recipeIngredient: recipe.recipeIngredient,
-    recipeInstructions: recipe.recipeInstructions.map((instruction, index) => ({
-      "@type": "HowToStep",
-      name: `Step ${index + 1}`,
+    keywords: recipe.metadata.keywords,
+    recipeCategory: recipe.metadata.recipeCategory,
+    recipeCuisine: recipe.metadata.recipeCuisine,
+    prepTime: `PT${recipe.metadata.prepTime}M`,
+    cookTime: `PT${recipe.metadata.cookTime}M`,
+    totalTime: `PT${recipe.metadata.totalTime}M`,
+    recipeYield: recipe.metadata.recipeYield,
+    recipeIngredient: recipe.ingredients.map(ing => ing.item),
+    recipeInstructions: recipe.instructions.map((instruction, index) => ({
+      "@type": config.types.howToStep,
+      name: instruction.name,
       text: instruction.text,
-      position: index + 1,
+      position: instruction.stepNumber,
       image: index === 0 ? imageUrl : undefined // Add step images later if available
     })),
     nutrition: {
-      "@type": "NutritionInformation",
-      calories: recipe.nutrition.calories,
-      proteinContent: recipe.nutrition.proteinContent,
-      carbohydrateContent: recipe.nutrition.carbohydrateContent,
-      fatContent: recipe.nutrition.fatContent,
-      fiberContent: recipe.nutrition.fiberContent,
-      sodiumContent: recipe.nutrition.sodiumContent,
-      servingSize: recipe.recipeYield
+      "@type": config.types.nutritionInformation,
+      calories: config.defaults.nutrition.calories,
+      proteinContent: config.defaults.nutrition.proteinContent,
+      carbohydrateContent: config.defaults.nutrition.carbohydrateContent,
+      fatContent: config.defaults.nutrition.fatContent,
+      fiberContent: config.defaults.nutrition.fiberContent,
+      sodiumContent: config.defaults.nutrition.sodiumContent,
+      servingSize: recipe.metadata.recipeYield
     },
     aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: recipe.aggregateRating.ratingValue,
-      reviewCount: recipe.aggregateRating.reviewCount,
-      bestRating: "5",
-      worstRating: "1"
+      "@type": config.types.aggregateRating,
+      ratingValue: config.defaults.rating.value,
+      reviewCount: config.defaults.rating.count,
+      bestRating: config.defaults.rating.best,
+      worstRating: config.defaults.rating.worst
     },
     video: undefined, // Add video schema later if videos are available
-    suitableForDiet: recipe.keywords.filter(keyword => 
-      ['vegetarian', 'vegan', 'gluten-free', 'dairy-free', 'keto', 'low-carb', 'healthy'].includes(keyword.toLowerCase())
-    ).map(diet => `https://schema.org/${diet.charAt(0).toUpperCase() + diet.slice(1)}Diet`),
+    suitableForDiet: recipe.metadata.dietary.map(diet => 
+      `${config.context}/${diet.charAt(0).toUpperCase() + diet.slice(1)}Diet`
+    ),
     isPartOf: {
-      "@type": "WebSite",
-      name: "Mini Recipe",
+      "@type": config.types.webSite,
+      name: config.site.name,
       url: baseUrl
     }
   }
 
   // Breadcrumb Schema
   const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    "@context": config.context,
+    "@type": config.types.breadcrumbList,
     itemListElement: [
       {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
+        "@type": config.types.listItem,
+        position: config.breadcrumbs.home.position,
+        name: config.breadcrumbs.home.name,
         item: baseUrl
       },
       {
-        "@type": "ListItem",
-        position: 2,
-        name: "Recipes",
-        item: `${baseUrl}/recipes`
+        "@type": config.types.listItem,
+        position: config.breadcrumbs.recipes.position,
+        name: config.breadcrumbs.recipes.name,
+        item: `${baseUrl}${config.breadcrumbs.recipes.path}`
       },
       {
-        "@type": "ListItem",
+        "@type": config.types.listItem,
         position: 3,
-        name: recipe.recipeCategory,
-        item: `${baseUrl}/recipes/${recipe.recipeCategory.toLowerCase()}`
+        name: recipe.metadata.recipeCategory,
+        item: `${baseUrl}/recipes/${recipe.metadata.recipeCategory.toLowerCase()}`
       },
       {
-        "@type": "ListItem",
+        "@type": config.types.listItem,
         position: 4,
-        name: recipe.name,
-        item: `${baseUrl}/recipes/${recipe.id}`
+        name: recipe.metadata.name,
+        item: `${baseUrl}/recipes/${slug}`
       }
     ]
   }
 
-  // FAQ Schema from tips
-  const faqSchema = recipe.tips.length > 0 ? {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: recipe.tips.map((tip, index) => ({
-      "@type": "Question",
-      name: `Tip ${index + 1} for ${recipe.name}`,
+  // FAQ Schema from proTips and FAQs
+  const faqItems = [
+    ...recipe.proTips.map((tip, index) => ({
+      "@type": config.types.question,
+      name: `Tip ${index + 1} for ${recipe.metadata.name}`,
       acceptedAnswer: {
-        "@type": "Answer",
+        "@type": config.types.answer,
         text: tip
       }
+    })),
+    ...recipe.faqs.map((faq) => ({
+      "@type": config.types.question,
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": config.types.answer,
+        text: faq.answer
+      }
     }))
+  ];
+
+  const faqSchema = faqItems.length > 0 ? {
+    "@context": config.context,
+    "@type": config.types.faqPage,
+    mainEntity: faqItems
   } : null
 
   // Website Schema
   const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Mini Recipe",
+    "@context": config.context,
+    "@type": config.types.webSite,
+    name: config.site.name,
     url: baseUrl,
-    description: "Small batch recipes perfect for 1-2 people. No more leftovers, just the right amount.",
+    description: config.site.description,
     potentialAction: {
-      "@type": "SearchAction",
-      target: `${baseUrl}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string"
+      "@type": config.types.searchAction,
+      target: `${baseUrl}${config.search.target}`,
+      "query-input": config.search.queryInput
     }
   }
 

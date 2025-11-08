@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { RecipeCard } from '@/components/recipe-card'
 import { Pagination } from '@/components/pagination'
+import { getAllRecipes, getRecipesByCategory, RecipeData } from '@/lib/recipes-data'
+import { generateSlug } from '@/lib/schema-utils'
 
 type Recipe = {
   id: string
@@ -30,55 +32,24 @@ export function AllRecipes({ category }: AllRecipesProps = {}) {
     async function fetchRecipes() {
       try {
         setLoading(true)
-        const response = await fetch('/api/recipes/all')
         
-        if (!response.ok) {
-          throw new Error('Failed to fetch recipes')
-        }
+        // Use direct function calls instead of API
+        const recipeData: RecipeData[] = category 
+          ? await getRecipesByCategory(category)
+          : await getAllRecipes()
         
-        const data = await response.json()
+        // Convert RecipeData to Recipe format for the component
+        const processedRecipes = recipeData.map((recipe) => ({
+          id: generateSlug(recipe.metadata.name), // Use generated slug as ID
+          slug: generateSlug(recipe.metadata.name),
+          title: recipe.metadata.name,
+          image: recipe.metadata.images[0] || '/Yay-Recipes-84-1.webp',
+          featuredImage: recipe.metadata.images[0],
+          category: recipe.metadata.recipeCategory,
+          datePublished: recipe.metadata.datePublished
+        }))
         
-        // Process and normalize the recipe data
-        const processedRecipes = data.map((recipe: any) => {
-          let datePublished = new Date().toISOString()
-          
-          // Handle different date formats from Firebase
-          try {
-            if (recipe.datePublished?.toDate) {
-              datePublished = recipe.datePublished.toDate().toISOString()
-            } else if (recipe.publishedAt?.toDate) {
-              datePublished = recipe.publishedAt.toDate().toISOString()
-            } else if (recipe.datePublished) {
-              // Try to parse the date, with fallback for invalid dates
-              const parsedDate = new Date(recipe.datePublished)
-              if (!isNaN(parsedDate.getTime())) {
-                datePublished = parsedDate.toISOString()
-              }
-            }
-          } catch (error) {
-            console.warn('Invalid date for recipe:', recipe.title || recipe.id, 'Using current date as fallback')
-            // datePublished already set to current date as fallback
-          }
-          
-          return {
-            id: recipe.id,
-            slug: recipe.slug || '',
-            title: recipe.title || '',
-            image: recipe.featuredImage || recipe.image || '/Yay-Recipes-84-1.webp',
-            featuredImage: recipe.featuredImage,
-            category: recipe.category || 'Recipe',
-            datePublished
-          }
-        })
-        
-        // Filter recipes by category if specified
-        const filteredRecipes = category 
-          ? processedRecipes.filter((recipe: Recipe) => 
-              recipe.category.toLowerCase() === category.toLowerCase()
-            )
-          : processedRecipes
-        
-        setRecipes(filteredRecipes)
+        setRecipes(processedRecipes)
       } catch (err) {
         console.error('Error fetching recipes:', err)
         setError('Failed to load recipes. Please try again later.')
@@ -88,7 +59,7 @@ export function AllRecipes({ category }: AllRecipesProps = {}) {
     }
 
     fetchRecipes()
-  }, [])
+  }, [category])
 
   const totalPages = Math.ceil(recipes.length / RECIPES_PER_PAGE)
   const startIndex = (currentPage - 1) * RECIPES_PER_PAGE

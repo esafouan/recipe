@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/firebase/config";
 import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
+import { getRecentRecipes as getRecentRecipesData, RecipeData } from "@/lib/recipes-data";
+import { generateSlug } from "@/lib/schema-utils";
 import { getRecentRecipesConfig } from "@/lib/config";
 import { SectionHeader } from "./section-header";
 
@@ -86,46 +88,30 @@ const fallbackRecipes = [
 
 async function getRecentRecipes(): Promise<Recipe[]> {
   try {
-    console.log("🔥 Fetching recipes directly from Firebase...");
+    console.log("🔥 Fetching recipes from recipes-data...");
 
-    // Direct Firebase query - no HTTP call needed
-    const recipesRef = collection(db, "recipes");
-    const q = query(recipesRef, orderBy("datePublished", "desc"), limit(8));
-    const querySnapshot = await getDocs(q);
+    // Use centralized function instead of direct Firebase
+    const recipeData: RecipeData[] = await getRecentRecipesData(8);
 
-    const recipes = querySnapshot.docs.map((doc) => {
-      const data = doc.data();
-
-      // Convert Firestore timestamp to ISO string
-      let datePublished = new Date().toISOString();
-      if (data.datePublished?.toDate) {
-        datePublished = data.datePublished.toDate().toISOString();
-      } else if (data.publishedAt?.toDate) {
-        datePublished = data.publishedAt.toDate().toISOString();
-      } else if (data.datePublished) {
-        datePublished = new Date(data.datePublished).toISOString();
-      }
-
-      return {
-        id: doc.id,
-        slug: data.slug || "",
-        title: data.title || "",
-        image: data.featuredImage || data.image || "/Yay-Recipes-84-1.webp",
-        category: data.category || "",
-        datePublished,
-      };
-    });
+    const recipes = recipeData.map((recipe) => ({
+      id: generateSlug(recipe.metadata.name),
+      slug: generateSlug(recipe.metadata.name),
+      title: recipe.metadata.name,
+      image: recipe.metadata.images[0] || "/Yay-Recipes-84-1.webp",
+      category: recipe.metadata.recipeCategory,
+      datePublished: recipe.metadata.datePublished,
+    }));
 
     console.log(
       "✅ Successfully fetched",
       recipes.length,
-      "recipes from Firebase"
+      "recipes from recipes-data"
     );
     console.log("📝 First recipe:", recipes[0]?.title);
 
     return recipes.slice(0, 8);
   } catch (error) {
-    console.error("❌ Error fetching recipes from Firebase:", error);
+    console.error("❌ Error fetching recipes from recipes-data:", error);
     console.log("🔄 Using fallback recipes");
     return fallbackRecipes;
   }

@@ -7,46 +7,68 @@ import {
   ChefHat,
   IceCream,
   ArrowRight,
+  Salad,
+  Cake,
+  Candy,
+  Leaf,
 } from "lucide-react";
 import { getCategoriesConfig } from "@/lib/config";
 import { SectionHeader } from "./section-header";
 
 const categoryIcons = [
   {
-    id: "appetizers",
-    title: "Appetizers",
+    id: "appetizer",
+    title: "Appetizer",
     icon: UtensilsCrossed,
-    href: "/categories/appetizers",
+    href: "/recipes/appetizer",
+  },
+  {
+    id: "soups-stews",
+    title: "Soups & Stews",
+    icon: Soup,
+    href: "/recipes/soups-stews",
+  },
+  {
+    id: "salads",
+    title: "Salads",
+    icon: Salad,
+    href: "/recipes/salads",
+  },
+  {
+    id: "main-dishes",
+    title: "Main Dishes",
+    icon: ChefHat,
+    href: "/recipes/main-dishes",
   },
   {
     id: "breakfast",
     title: "Breakfast",
     icon: Coffee,
-    href: "/categories/breakfast",
+    href: "/recipes/breakfast",
   },
   {
-    id: "lunch",
-    title: "Lunch",
-    icon: ChefHat,
-    href: "/categories/lunch",
+    id: "breads",
+    title: "Breads",
+    icon: Cake,
+    href: "/recipes/breads",
   },
   {
-    id: "dinner",
-    title: "Dinner",
-    icon: UtensilsCrossed,
-    href: "/categories/dinner",
-  },
-  {
-    id: "dessert",
-    title: "Dessert",
+    id: "desserts",
+    title: "Desserts",
     icon: IceCream,
-    href: "/categories/dessert",
+    href: "/recipes/desserts",
   },
   {
-    id: "soup",
-    title: "Soup",
-    icon: Soup,
-    href: "/categories/soup",
+    id: "easy-sweet-meals",
+    title: "Easy Sweet Meals",
+    icon: Candy,
+    href: "/recipes/easy-sweet-meals",
+  },
+  {
+    id: "vegetarian-vegan",
+    title: "Vegetarian & Vegan",
+    icon: Leaf,
+    href: "/recipes/vegetarian-vegan",
   },
 ];
 
@@ -62,10 +84,10 @@ export function CategoriesSection() {
         </div>
         {/* Meal Categories Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-12 md:mb-16">
-          {categoriesConfig.main.map((category) => (
+          {categoriesConfig.main.slice(0, 4).map((category) => (
             <div key={category.id} className="flex flex-col">
               <figure className="">
-                <Link href={`/categories/${category.id}`}>
+                <Link href={`/recipes/${category.id}`}>
                   <Image
                     src={category.image}
                     alt={category.title}
@@ -80,7 +102,7 @@ export function CategoriesSection() {
               <div className="text-center bg-primary p-2">
                 <p className="text-base md:text-lg font-bold text-foreground">
                   <Link
-                    href={`/categories/${category.id}`}
+                    href={`/recipes/${category.id}`}
                     className="text-white transition-colors duration-200"
                   >
                     {category.title}
@@ -99,7 +121,7 @@ export function CategoriesSection() {
 
           {/* Category Icons */}
           <div className="flex flex-wrap justify-center items-center gap-3 md:gap-4 lg:gap-6">
-            {categoryIcons.map((category) => {
+            {categoryIcons.slice(0, 7).map((category) => {
               const IconComponent = category.icon;
               return (
                 <Link

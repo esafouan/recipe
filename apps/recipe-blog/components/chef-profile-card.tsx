@@ -18,7 +18,7 @@ export function ChefProfileCard({
 }: ChefProfileCardProps) {
   return (
     <div className={`lg:col-span-1 ${className}`}>
-      <div className="sticky top-8">
+      <div className="sticky top-16">
         {/* Chef Profile Card */}
         <Card className="bg-white shadow-lg border-2 border-primary/20 mb-8">
           <CardContent className="p-6 text-center">
