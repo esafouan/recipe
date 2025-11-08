@@ -77,33 +77,34 @@ export function CategoriesSection() {
 
   return (
     <section className="py-8 md:py-12 lg:py-16 bg-white">
-      <div className="mx-auto px-2 md:px-3 max-w-6xl">
+      <div className="mx-auto px-2 sm:px-4 md:px-6 max-w-6xl">
         {/* Section Heading */}
         <div className="text-center mb-8 md:mb-12 relative">
           <SectionHeader title={categoriesConfig.title} />
         </div>
         {/* Meal Categories Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-12 md:mb-16">
-          {categoriesConfig.main.slice(0, 4).map((category) => (
-            <div key={category.id} className="flex flex-col">
-              <figure className="">
-                <Link href={`/recipes/${category.id}`}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1 sm:gap-2 md:gap-4 lg:gap-6 mb-12 md:mb-16">
+          {categoriesConfig.main.slice(0, 8).map((category) => (
+            <div key={category.id} className="flex flex-col w-full max-w-full">
+              <figure className="mb-0 w-full">
+                <Link href={`/recipes/${category.id}`} className="block w-full">
                   <Image
                     src={category.image}
                     alt={category.title}
-                    width={960}
-                    height={1200}
-                    className="w-full h-auto object-cover hover:opacity-90 transition-opacity duration-300"
+                    width={200}
+                    height={150}
+                    className="w-full h-auto aspect-[4/3] object-cover hover:opacity-90 transition-opacity duration-300 rounded-t-lg"
                     loading="lazy"
                     unoptimized={process.env.NODE_ENV === 'development'}
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                   />
                 </Link>
               </figure>
-              <div className="text-center bg-primary p-2">
-                <p className="text-base md:text-lg font-bold text-foreground">
+              <div className="text-center bg-primary p-1 sm:p-2 rounded-b-lg">
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-white leading-tight">
                   <Link
                     href={`/recipes/${category.id}`}
-                    className="text-white transition-colors duration-200"
+                    className="text-white transition-colors duration-200 hover:text-white/90"
                   >
                     {category.title}
                   </Link>

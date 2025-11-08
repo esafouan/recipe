@@ -116,7 +116,7 @@ export interface SiteConfig {
       image: string;
       bgColor: string;
     }>;
-    additional: Array<{
+    additional?: Array<{
       id: string;
       title: string;
       href: string;
