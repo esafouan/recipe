@@ -76,8 +76,8 @@ export function CategoriesSection() {
   const categoriesConfig = getCategoriesConfig()
 
   return (
-    <section className="py-8 md:py-12 lg:py-16 bg-white">
-      <div className="mx-auto px-2 sm:px-4 md:px-6 max-w-6xl">
+    <section className="py-12 md:py-16 lg:py-20 bg-white">
+      <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         {/* Section Heading */}
         <div className="text-center mb-8 md:mb-12 relative">
           <SectionHeader title={categoriesConfig.title} />

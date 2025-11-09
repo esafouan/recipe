@@ -125,8 +125,8 @@ export async function RecentRecipes() {
   const displayRecipes = recipes.slice(0, 8);
 
   return (
-    <section id="recent-recipes" className="py-8 md:py-12 lg:py-16 bg-gray-50">
-      <div className="container mx-auto px-2 md:px-3 max-w-6xl">
+    <section id="recent-recipes" className="py-12 md:py-16 lg:py-20 bg-gray-50">
+      <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         {/* Section Heading with decorative lines */}
         <div className="text-center mb-8 md:mb-12 relative">
           <SectionHeader title={recentRecipesConfig.title} />

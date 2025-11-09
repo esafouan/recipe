@@ -13,13 +13,15 @@ import {
   ArrowDown,
   Facebook,
   ExternalLink,
+  Twitter,
+  MessageCircle,
 } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BasicHero } from "@/components/basic-hero";
 import { ChefProfileCard } from "@/components/chef-profile-card";
-import { getChefData } from "@/lib/site-config";
+import { getChefData, getSocialSharingConfig } from "@/lib/site-config";
 import siteConfig from "@/config/site-config.json";
 import { RecipeData } from "@/lib/recipes-data";
 
@@ -114,6 +116,7 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
   // Memoized values to prevent unnecessary recalculations
   const chef = useMemo(() => siteConfig.pages.about.chef, []);
   const chefData = useMemo(() => getChefData(), []);
+  const socialSharingConfig = useMemo(() => getSocialSharingConfig(), []);
   
   const originalServings = useMemo(() => parseInt(recipe.metadata.recipeYield) || 4, [recipe.metadata.recipeYield]);
 
@@ -182,11 +185,6 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
     });
   }, []);
 
-  const formatTime = useCallback((duration: string) => {
-    const match = duration.match(/PT(\d+)M/);
-    return match ? `${match[1]} min` : duration;
-  }, []);
-
   const jumpToRecipe = useCallback(() => {
     document
       .getElementById("recipe-instructions")
@@ -240,8 +238,6 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
 
   const handleRating = useCallback((rating: number) => {
     setUserRating(rating);
-    // Here you would typically save the rating to your backend
-    console.log("Rating saved:", rating);
   }, []);
 
   const adjustServingSize = useCallback((newSize: number) => {
@@ -266,6 +262,63 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
   const handlePrint = useCallback(() => {
     window.print();
   }, []);
+
+  const handlePinterestPin = useCallback(() => {
+    const shareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(
+      window.location.href
+    )}&media=${encodeURIComponent(
+      recipe.metadata.images[0] || '/placeholder.svg'
+    )}&description=${encodeURIComponent(
+      `${recipe.metadata.name} - ${recipe.metadata.description} | Get the full recipe at minirecipe.net`
+    )}`;
+    window.open(shareUrl, "_blank", "width=600,height=400");
+  }, [recipe.metadata.name, recipe.metadata.description, recipe.metadata.images]);
+
+  // Helper function to get icon component
+  const getIconComponent = useCallback((iconName: string) => {
+    const iconMap = {
+      'share2': Share2,
+      'facebook': Facebook,
+      'external-link': ExternalLink,
+      'twitter': Twitter,
+      'message-circle': MessageCircle,
+      'printer': Printer,
+      'arrow-down': ArrowDown,
+    };
+    return iconMap[iconName as keyof typeof iconMap] || Share2;
+  }, []);
+
+  // Helper function to handle social sharing
+  const handleSocialShare = useCallback((platformId: string, platformType?: string) => {
+    // If it's a profile link, open the profile URL
+    if (platformType === 'profile') {
+      const profileUrl = socialSharingConfig.profileLinks?.[platformId as keyof typeof socialSharingConfig.profileLinks];
+      if (profileUrl) {
+        window.open(profileUrl, "_blank", "noopener,noreferrer");
+        return;
+      }
+    }
+
+    // Handle sharing and other actions
+    switch (platformId) {
+      case 'share':
+        return handleShare();
+      case 'facebook':
+        return handleShare('facebook');
+      case 'pinterest':
+        return handlePinterestPin();
+      case 'twitter':
+        return handleShare('twitter');
+      case 'whatsapp':
+        return handleShare('whatsapp');
+      case 'print':
+        return handlePrint();
+      case 'jumpToRecipe':
+        return jumpToRecipe();
+      default:
+        return handleShare();
+    }
+  }, [handleShare, handlePinterestPin, handlePrint, jumpToRecipe, socialSharingConfig.profileLinks]);
 
   return (
       <article className="min-h-screen">
@@ -313,10 +366,19 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
                       sizes="(max-width: 1024px) 100vw, 75vw"
                     />
                     <a
-                      className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
-                      href={chef.social.pinterest.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePinterestPin();
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handlePinterestPin();
+                        }
+                      }}
                       aria-label={`Pin ${recipe.metadata.name} recipe to Pinterest`}
                     >
                       <ExternalLink className="h-4 w-4" aria-hidden="true" />
@@ -353,59 +415,76 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
 
                     {/* Action Buttons */}
                     <div className="flex flex-wrap items-center justify-center gap-3">
-                      <Button
-                        onClick={() => handleShare()}
-                        variant="outline"
-                        size="sm"
-                        className="flex items-center gap-2"
-                        aria-label={`Share ${recipe.metadata.name} recipe`}
-                      >
-                        <Share2 className="h-4 w-4" aria-hidden="true" />
-                        Share
-                      </Button>
+                      {/* Always show main share button */}
+                      {socialSharingConfig.platforms
+                        .filter(platform => platform.enabled && !platform.mobileOnly)
+                        .map((platform) => {
+                          const IconComponent = getIconComponent(platform.icon);
+                          return (
+                            <Button
+                              key={platform.id}
+                              onClick={() => handleSocialShare(platform.id, platform.type)}
+                              variant="outline"
+                              size="sm"
+                              className="flex items-center gap-2"
+                              aria-label={`${platform.description}: ${recipe.metadata.name} recipe`}
+                            >
+                              <IconComponent className="h-4 w-4" aria-hidden="true" />
+                              {platform.name}
+                            </Button>
+                          );
+                        })}
 
+                      {/* Mobile-only social buttons */}
                       <div className="hidden sm:flex items-center gap-2">
-                        <Button
-                          onClick={() => handleShare("facebook")}
-                          variant="outline"
-                          size="sm"
-                          className="flex items-center gap-2"
-                          aria-label={`Share ${recipe.metadata.name} recipe on Facebook`}
-                        >
-                          <Facebook className="h-4 w-4" aria-hidden="true" />
-                          Facebook
-                        </Button>
-                        <Button
-                          onClick={() => handleShare("pinterest")}
-                          variant="outline"
-                          size="sm"
-                          className="flex items-center gap-2 text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
-                          aria-label={`Pin ${recipe.metadata.name} recipe to Pinterest`}
-                        >
-                          <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                          Pin it
-                        </Button>
+                        {socialSharingConfig.platforms
+                          .filter(platform => platform.enabled && platform.mobileOnly)
+                          .map((platform) => {
+                            const IconComponent = getIconComponent(platform.icon);
+                            const buttonClasses = [
+                              "flex items-center gap-2",
+                              platform.color || "",
+                              platform.borderColor || "",
+                              platform.hoverColor || ""
+                            ].filter(Boolean).join(" ");
+
+                            return (
+                              <Button
+                                key={platform.id}
+                                onClick={() => handleSocialShare(platform.id, platform.type)}
+                                variant="outline"
+                                size="sm"
+                                className={buttonClasses}
+                                aria-label={`${platform.description}: ${recipe.metadata.name} recipe`}
+                              >
+                                <IconComponent className="h-4 w-4" aria-hidden="true" />
+                                {platform.name}
+                              </Button>
+                            );
+                          })}
                       </div>
 
-                      <Button
-                        onClick={handlePrint}
-                        variant="outline"
-                        size="sm"
-                        className="flex items-center gap-2"
-                        aria-label={`Print ${recipe.metadata.name} recipe`}
-                      >
-                        <Printer className="h-4 w-4" aria-hidden="true" />
-                        Print
-                      </Button>
-                      <Button
-                        onClick={jumpToRecipe}
-                        className="bg-orange-700 hover:bg-orange-800 text-white"
-                        size="sm"
-                        aria-label="Jump to recipe instructions"
-                      >
-                        <ArrowDown className="h-4 w-4 mr-2" aria-hidden="true" />
-                        Jump to Recipe
-                      </Button>
+                      {/* Default buttons (Print, Jump to Recipe) */}
+                      {socialSharingConfig.defaultButtons
+                        .filter(button => button.enabled)
+                        .map((button) => {
+                          const IconComponent = getIconComponent(button.icon);
+                          const isPrimary = button.variant === 'primary';
+                          
+                          return (
+                            <Button
+                              key={button.id}
+                              onClick={() => handleSocialShare(button.id)}
+                              variant={isPrimary ? "default" : "outline"}
+                              size="sm"
+                              className={isPrimary ? button.color : "flex items-center gap-2"}
+                              aria-label={`${button.description}: ${recipe.metadata.name} recipe`}
+                            >
+                              <IconComponent className="h-4 w-4 mr-2" aria-hidden="true" />
+                              {button.name}
+                            </Button>
+                          );
+                        })}
                     </div>
                   </div>
                 </div>
@@ -584,10 +663,19 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
                         loading="lazy"
                       />
                       <a
-                        className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
-                        href={chef.social.pinterest.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePinterestPin();
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handlePinterestPin();
+                          }
+                        }}
                         aria-label={`Pin ${recipe.metadata.name} recipe to Pinterest`}
                       >
                         <ExternalLink className="h-4 w-4" aria-hidden="true" />
@@ -1099,7 +1187,7 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
                 {/* Related Recipes */}
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
                   <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    You Might Also Like
+                    Recommended
                   </h2>
                   <div className="space-y-4">
                     {displayedRelatedRecipes
@@ -1121,7 +1209,7 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
             <section className="lg:hidden order-4 col-span-full">
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">
-                  You Might Also Like
+                  Recommended
                 </h2>
                 <div className="grid grid-cols-2 gap-4">
                   {displayedRelatedRecipes.slice(0, 4).map((relatedRecipe) => {

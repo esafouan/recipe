@@ -1,43 +1,174 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
+/* Performance optimized CSS */
 :root {
   /* Updated color palette for Mini Recipe brand targeting USA women */
-  --background: #ffffff; /* Clean white background */
-  --foreground: #374151; /* Dark gray for readability */
-  --card: #fefce8; /* Light cream for recipe cards */
-  --card-foreground: #374151; /* Dark text on cards */
-  --popover: #ffffff; /* White for popovers */
-  --popover-foreground: #374151; /* Dark text for popovers */
-  --primary: #ea580c; /* Vibrant orange for CTAs */
-  --primary-foreground: #ffffff; /* White text on primary buttons */
-  --secondary: #0891b2; /* Cyan for accents and links */
-  --secondary-foreground: #ffffff; /* White text on secondary elements */
-  --muted: #f9fafb; /* Subtle light gray backgrounds */
-  --muted-foreground: #4b5563; /* Medium gray for subtle text */
-  --accent: #ea580c; /* Orange for highlights */
-  --accent-foreground: #ffffff; /* White text on accent elements */
-  --destructive: #ef4444; /* Red for errors */
-  --destructive-foreground: #ffffff; /* White text on error messages */
-  --border: #e5e7eb; /* Light gray borders */
-  --input: #f3f4f6; /* Light gray input backgrounds */
-  --ring: rgba(234, 88, 12, 0.3); /* Orange focus ring */
-  --chart-1: #fbbf24; /* Chart colors in warm palette */
-  --chart-2: #f97316;
-  --chart-3: #f43f5e;
-  --chart-4: #a855f7;
-  --chart-5: #3b82f6;
-  --radius: 0.75rem; /* Slightly more rounded for feminine appeal */
-  --sidebar: #ffffff;
-  --sidebar-foreground: #374151;
-  --sidebar-primary: #fefce8;
-  --sidebar-primary-foreground: #374151;
-  --sidebar-accent: #0891b2;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: rgba(8, 145, 178, 0.3);
+  --background: #ffffff;
+  --foreground: #374151;
+  --card: #fefce8;
+  --card-foreground: #374151;
+  --popover: #ffffff;
+  --popover-foreground: #374151;
+  --primary: #ea580c;
+  --primary-foreground: #ffffff;
+  --secondary: #0891b2;
+  --secondary-foreground: #ffffff;
+  --muted: #f9fafb;
+  --muted-foreground: #4b5563;
+  --accent: #ea580c;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #f3f4f6;
+  --ring: rgba(234, 88, 12, 0.3);
+  --radius: 0.75rem;
+}
+
+/* Performance-first animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* GPU-accelerated base classes */
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimized hover effects */
+.hover-lift {
+  transition: transform 200ms ease-out;
+  will-change: transform;
+}
+
+.hover-lift:hover {
+  transform: translate3d(0, -2px, 0);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Efficient container queries */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Performance optimized typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold;
+    font-display: swap;
+  }
+
+  /* Efficient shadows */
+  .feminine-shadow {
+    box-shadow: 0 4px 12px -2px rgba(234, 88, 12, 0.12);
+  }
+
+  /* Memory-efficient gradients */
+  .recipe-gradient {
+    background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+  }
+
+  /* Optimized container */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      max-width: 640px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      max-width: 768px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1024px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1280px;
+    }
+  }
+}
+
+/* Critical path optimizations */
+.above-fold {
+  content-visibility: auto;
+}
+
+.below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: 500px;
+}
+
+/* Image loading optimization */
+img {
+  content-visibility: auto;
+}
+
+/* Mobile performance optimizations */
+@media screen and (max-width: 768px) {
+  .heavy-animation {
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  /* Reduce backdrop blur on mobile */
+  .backdrop-blur-xl {
+    backdrop-filter: blur(8px);
+  }
+  
+  .backdrop-blur-md {
+    backdrop-filter: blur(4px);
+  }
 }
 
 .dark {

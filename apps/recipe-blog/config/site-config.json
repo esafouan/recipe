@@ -3,6 +3,19 @@
     "name": "Mini Recipe",
     "title": "Mini Recipe - Perfect Portions for Busy American Women | Zero Food Waste Cooking",
     "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste with our small-batch cooking guides. Quick, healthy, sustainable recipes for busy lifestyles.",
+    "footerDescription": "Perfect portions for busy women. Small batch recipes designed to eliminate food waste and save time in the kitchen.",
+    "footerSocialMedia": [
+      {
+        "name": "Facebook",
+        "url": "https://facebook.com/minirecipee",
+        "icon": "facebook"
+      },
+      {
+        "name": "Pinterest", 
+        "url": "https://www.pinterest.com/minirecipe_/#",
+        "icon": "pinterest"
+      }
+    ],
     "url": "https://minirecipe.net",
     "logo": "/logonobg.png",
     "logoAlt": "Mini Recipe Logo",
@@ -185,6 +198,86 @@
       {
         "label": "Contact",
         "href": "/contact"
+      }
+    ]
+  },
+  "socialSharing": {
+    "title": "Share this recipe",
+    "profileLinks": {
+      "facebook": "https://facebook.com/minirecipe",
+      "pinterest": "https://www.pinterest.com/minirecipe_/"
+    },
+    "platforms": [
+      {
+        "id": "share",
+        "name": "Share",
+        "icon": "share2",
+        "enabled": true,
+        "mobileOnly": false,
+        "description": "Share via device options"
+      },
+      {
+        "id": "facebook",
+        "name": "Facebook",
+        "icon": "facebook",
+        "enabled": true,
+        "mobileOnly": true,
+        "description": "Visit our Facebook page",
+        "type": "profile",
+        "color": "text-blue-600",
+        "hoverColor": "hover:bg-blue-600 hover:text-white"
+      },
+      {
+        "id": "pinterest",
+        "name": "Pinterest",
+        "icon": "external-link",
+        "enabled": true,
+        "mobileOnly": true,
+        "description": "Visit our Pinterest profile",
+        "type": "profile",
+        "color": "text-red-600",
+        "borderColor": "border-red-600",
+        "hoverColor": "hover:bg-red-600 hover:text-white"
+      },
+      {
+        "id": "twitter",
+        "name": "Twitter",
+        "icon": "twitter",
+        "enabled": false,
+        "mobileOnly": true,
+        "description": "Share on Twitter",
+        "type": "share",
+        "color": "text-blue-400",
+        "hoverColor": "hover:bg-blue-400 hover:text-white"
+      },
+      {
+        "id": "whatsapp",
+        "name": "WhatsApp",
+        "icon": "message-circle",
+        "enabled": false,
+        "mobileOnly": true,
+        "description": "Share on WhatsApp",
+        "type": "share",
+        "color": "text-green-600",
+        "hoverColor": "hover:bg-green-600 hover:text-white"
+      }
+    ],
+    "defaultButtons": [
+      {
+        "id": "print",
+        "name": "Print",
+        "icon": "printer",
+        "enabled": true,
+        "description": "Print recipe"
+      },
+      {
+        "id": "jumpToRecipe",
+        "name": "Jump to Recipe",
+        "icon": "arrow-down",
+        "enabled": true,
+        "description": "Jump to recipe instructions",
+        "variant": "primary",
+        "color": "bg-orange-700 hover:bg-orange-800 text-white"
       }
     ]
   },

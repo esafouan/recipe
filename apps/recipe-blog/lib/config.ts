@@ -5,6 +5,12 @@ export interface SiteConfig {
     name: string;
     title: string;
     description: string;
+    footerDescription: string;
+    footerSocialMedia: Array<{
+      name: string;
+      url: string;
+      icon: string;
+    }>;
     url: string;
     logo: string;
     logoAlt: string;
@@ -98,6 +104,34 @@ export interface SiteConfig {
     main: Array<{
       label: string;
       href: string;
+    }>;
+  };
+  socialSharing: {
+    title: string;
+    profileLinks: {
+      facebook: string;
+      pinterest: string;
+    };
+    platforms: Array<{
+      id: string;
+      name: string;
+      icon: string;
+      enabled: boolean;
+      mobileOnly: boolean;
+      description: string;
+      type?: string;
+      color?: string;
+      borderColor?: string;
+      hoverColor?: string;
+    }>;
+    defaultButtons: Array<{
+      id: string;
+      name: string;
+      icon: string;
+      enabled: boolean;
+      description: string;
+      variant?: string;
+      color?: string;
     }>;
   };
   hero: {
@@ -286,6 +320,7 @@ export const getSeoConfig = () => config.seo;
 export const getRobotsConfig = () => config.robots;
 export const getSitemapConfig = () => config.sitemap;
 export const getNavigationConfig = () => config.navigation;
+export const getSocialSharingConfig = () => config.socialSharing;
 export const getHeroConfig = () => config.hero;
 export const getCategoriesConfig = () => config.categories;
 export const getRecentRecipesConfig = () => config.recentRecipes;

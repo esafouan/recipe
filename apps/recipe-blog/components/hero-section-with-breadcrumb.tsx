@@ -39,15 +39,15 @@ export function HeroSection({
 }: HeroSectionProps) {
   
   const sizeClasses = {
-    small: "py-8 md:py-10",
+    small: "py-10 md:py-12 lg:py-14",
     medium: "py-10 md:py-12 lg:py-14", 
-    large: "py-12 md:py-16 lg:py-20"
+    large: "py-10 md:py-12 lg:py-14"
   }
 
   const titleSizeClasses = {
     small: "text-2xl md:text-3xl lg:text-4xl",
     medium: "text-2xl md:text-3xl lg:text-4xl",
-    large: "text-3xl md:text-4xl lg:text-5xl"
+    large: "text-2xl md:text-3xl lg:text-4xl"
   }
 
   const getCTAVariantClasses = (variant: string = "primary") => {

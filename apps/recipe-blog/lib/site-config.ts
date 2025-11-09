@@ -15,3 +15,7 @@ export function getChefData() {
 export function getContactPageData() {
   return siteConfig.pages.contact
 }
+
+export function getSocialSharingConfig() {
+  return siteConfig.socialSharing
+}

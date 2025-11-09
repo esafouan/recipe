@@ -7,7 +7,9 @@ export function HeroSection() {
   return (
     <section className="relative py-12 md:py-16 lg:py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-        <div className="text-center space-y-6 md:space-y-8">
+        {/* Add consistent top spacing to match breadcrumb margin */}
+        <div className="pt-6 md:pt-8">
+          <div className="text-center space-y-6 md:space-y-8">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight max-w-4xl mx-auto">
             {heroConfig.title}<br />
             <span className="text-primary">{heroConfig.subtitle}</span>
@@ -31,6 +33,7 @@ export function HeroSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </a>
+            </div>
             </div>
           </div>
         </div>
