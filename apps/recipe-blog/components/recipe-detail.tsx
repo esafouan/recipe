@@ -51,7 +51,7 @@ const RelatedRecipeItem = memo(({
   if (isPlaceholder) {
     return (
       <div className="flex gap-3">
-        <div className="w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
+        <div className="w-16 h-16 relative rounded-lg overflow-hidden shrink-0">
           <Image
             src={recipe.image}
             alt=""
@@ -77,7 +77,7 @@ const RelatedRecipeItem = memo(({
       className="flex gap-3 hover:bg-gray-50 p-2 rounded-lg transition-colors"
       aria-label={`View recipe: ${recipe.title}`}
     >
-      <div className="w-16 h-16 relative rounded-lg overflow-hidden flex-shrink-0">
+      <div className="w-16 h-16 relative rounded-lg overflow-hidden shrink-0">
         <Image
           src={recipe.image}
           alt=""
@@ -591,21 +591,57 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
                     </div>
                   )}
 
-                  {/* Ingredients Section */}
-                  <h2 className="text-3xl font-bold text-gray-900">
-                    Ingredients
-                  </h2>
+                  {/* Enhanced Ingredients Section */}                    <div className="bg-linear-to-br from-orange-50 to-amber-50 border border-orange-100 rounded-xl p-6 shadow-sm">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="flex items-center justify-center w-10 h-10 bg-orange-600 rounded-lg">
+                        <Utensils className="h-6 w-6 text-white" aria-hidden="true" />
+                      </div>
+                      <h2 className="text-3xl font-bold text-gray-900">
+                        Ingredients
+                      </h2>
+                      <div className="flex-1 h-px bg-linear-to-r from-orange-200 to-transparent"></div>
+                    </div>
 
-                  <ul className="space-y-3">
-                    {recipe.ingredients?.map((ingredient, index) => (
-                      <li key={index} className="text-gray-700 leading-relaxed">
-                        <strong>{ingredient?.item || ''}</strong>
-                        {ingredient?.description && (
-                          <span className="text-gray-600 ml-2">- {ingredient.description}</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
+                    <div className="grid gap-4">
+                      {recipe.ingredients?.map((ingredient, index) => (
+                        <div 
+                          key={index} 
+                          className="group bg-white/70 backdrop-blur-sm border border-orange-100 rounded-lg p-4 hover:bg-white hover:shadow-md hover:border-orange-200 transition-all duration-200"
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="flex items-center justify-center w-8 h-8 bg-orange-100 text-orange-700 rounded-full text-sm font-bold shrink-0 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-200">
+                              {index + 1}
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-semibold text-gray-900 mb-1 text-lg leading-tight">
+                                {ingredient?.item || ''}
+                              </div>
+                              {ingredient?.description && (
+                                <p className="text-gray-600 text-sm italic leading-relaxed">
+                                  {ingredient.description}
+                                </p>
+                              )}
+                            </div>
+                            <div className="w-3 h-3 rounded-full bg-orange-200 group-hover:bg-orange-400 transition-colors duration-200 shrink-0 mt-2"></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 p-4 bg-white/50 border border-orange-100 rounded-lg">
+                      <div className="flex items-start gap-3">
+                        <div className="flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full shrink-0 mt-1">
+                          <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-gray-900 mb-2">Shopping Tip</h3>
+                          <p className="text-sm text-gray-600">
+                            For best results, gather all ingredients before you start cooking. Fresh ingredients will give you the most flavorful results.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Instructions Section */}
                   <h2 className="text-3xl font-bold text-gray-900">
@@ -905,7 +941,7 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
                         <div key={index} className="flex items-start gap-3">
                           <button
                             onClick={() => toggleIngredient(index)}
-                            className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-colors flex-shrink-0 ${
+                            className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-colors shrink-0 ${
                               checkedIngredients.has(index)
                                 ? "bg-orange-600 text-white border-orange-600"
                                 : "border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white"

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Facebook } from "lucide-react"
-import { getSiteConfig } from "@/lib/config"
+import { getSiteConfig, getFooterConfig } from "@/lib/config"
 
 // Pinterest icon component
 const PinterestIcon = () => (
@@ -12,6 +12,7 @@ const PinterestIcon = () => (
 
 export function SiteFooter() {
   const siteConfig = getSiteConfig()
+  const footerConfig = getFooterConfig()
 
   // Icon mapping
   const getIcon = (iconName: string) => {
@@ -53,59 +54,23 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <h4 className="font-sans font-semibold">Explore</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  href="/recipes"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Recipes
-                </Link>
-              </li>
-              <li>
-                <Link href="/categories" className="text-muted-foreground hover:text-primary transition-colors">
-                  Categories
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="font-sans font-semibold">About</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
-                  Our Story
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="font-sans font-semibold">Legal</h4>
-            <ul className="space-y-2 text-sm">
-
-              <li>
-                <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              
-              <li>
-                <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
-
-            </ul>
-          </div>
+          {footerConfig.sections.map((section) => (
+            <div key={section.title} className="space-y-4">
+              <h4 className="font-sans font-semibold">{section.title}</h4>
+              <ul className="space-y-2 text-sm">
+                {section.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">

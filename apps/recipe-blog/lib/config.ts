@@ -243,14 +243,6 @@ export interface SiteConfig {
         email: string;
       };
     };
-    privacy: {
-      title: string;
-      lastUpdated: string;
-    };
-    terms: {
-      title: string;
-      lastUpdated: string;
-    };
     categories: {
       title: string;
       description: string;
@@ -275,6 +267,77 @@ export interface SiteConfig {
         };
       };
       sectionTitle: string;
+    };
+    privacy: {
+      title: string;
+      lastUpdated: string;
+      description: string;
+      keywords: string[];
+      openGraph: {
+        title: string;
+        description: string;
+        type: string;
+      };
+      sections: Array<{
+        title: string;
+        content: string;
+        subsections?: Array<{
+          title: string;
+          items: string[];
+        }>;
+        items?: string[];
+        contact?: {
+          email: string;
+          business: string;
+          note: string;
+          responseTime: string;
+        };
+      }>;
+    };
+    terms: {
+      title: string;
+      lastUpdated: string;
+      description: string;
+      keywords: string[];
+      openGraph: {
+        title: string;
+        description: string;
+        type: string;
+      };
+      sections: Array<{
+        title: string;
+        content: string;
+      }>;
+    };
+    disclaimer: {
+      title: string;
+      lastUpdated: string;
+      description: string;
+      keywords: string[];
+      openGraph: {
+        title: string;
+        description: string;
+        type: string;
+      };
+      sections: Array<{
+        title: string;
+        content: string;
+      }>;
+    };
+    "terms-of-use": {
+      title: string;
+      lastUpdated: string;
+      description: string;
+      keywords: string[];
+      openGraph: {
+        title: string;
+        description: string;
+        type: string;
+      };
+      sections: Array<{
+        title: string;
+        content: string;
+      }>;
     };
   };
   recipes: {

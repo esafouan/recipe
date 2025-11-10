@@ -366,19 +366,19 @@
           },
           {
             "label": "Appetizer",
-            "href": "/categories/appetizer"
+            "href": "/recipes/appetizer"
           },
           {
             "label": "Main Dishes",
-            "href": "/categories/main-dishes"
+            "href": "/recipes/main-dishes"
           },
           {
             "label": "Breakfast",
-            "href": "/categories/breakfast"
+            "href": "/recipes/breakfast"
           },
           {
             "label": "Desserts",
-            "href": "/categories/desserts"
+            "href": "/recipes/desserts"
           }
         ]
       },
@@ -392,7 +392,12 @@
           {
             "label": "Contact",
             "href": "/contact"
-          },
+          }
+        ]
+      },
+      {
+        "title": "Legal",
+        "links": [
           {
             "label": "Privacy Policy",
             "href": "/privacy"
@@ -400,6 +405,14 @@
           {
             "label": "Terms of Service",
             "href": "/terms"
+          },
+          {
+            "label": "Terms of Use",
+            "href": "/terms-of-use"
+          },
+          {
+            "label": "Disclaimer",
+            "href": "/disclaimer"
           }
         ]
       }
@@ -518,11 +531,196 @@
     },
     "privacy": {
       "title": "Privacy Policy",
-      "lastUpdated": "November 2024"
+      "lastUpdated": "November 10, 2024",
+      "description": "Learn how Mini Recipe collects, uses, and protects your personal information. Complete privacy policy covering cookies, analytics, advertising, and your data rights under GDPR and CCPA.",
+      "keywords": [
+        "privacy policy", 
+        "data protection", 
+        "cookies", 
+        "gdpr", 
+        "ccpa", 
+        "user rights", 
+        "data security", 
+        "mini recipe privacy",
+        "food blog privacy",
+        "personal information protection"
+      ],
+      "openGraph": {
+        "title": "Privacy Policy - Mini Recipe",
+        "description": "Our commitment to protecting your privacy and personal information when you visit Mini Recipe.",
+        "type": "article"
+      },
+      "sections": [
+        {
+          "title": "Introduction",
+          "content": "At Mini Recipe, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services to discover small-portion recipes and sustainable cooking practices."
+        },
+        {
+          "title": "Information We Collect",
+          "content": "We may collect the following personal information when you interact with our website:",
+          "subsections": [
+            {
+              "title": "Personal Information",
+              "items": [
+                "Email address (when you subscribe to our newsletter)",
+                "Name (if provided when leaving comments or contacting us)",
+                "Communication preferences and interests",
+                "Recipe feedback and ratings"
+              ]
+            },
+            {
+              "title": "Automatically Collected Information", 
+              "items": [
+                "IP address and general location",
+                "Browser type and version",
+                "Device information and screen resolution",
+                "Pages visited and time spent on our website",
+                "Referring website information",
+                "Search terms used to find our recipes"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "How We Use Your Information",
+          "content": "We use the information we collect to:",
+          "items": [
+            "Provide and maintain our website and mini recipe services",
+            "Send you our newsletter with new small-portion recipes (with your consent)",
+            "Respond to your comments, questions, and recipe requests",
+            "Improve our website and develop better portion-control recipes",
+            "Analyze website usage and cooking trends",
+            "Personalize your experience and show relevant content",
+            "Comply with legal obligations",
+            "Prevent fraud and ensure website security"
+          ]
+        },
+        {
+          "title": "Contact Us",
+          "content": "If you have any questions about this Privacy Policy, want to exercise your privacy rights, or have concerns about our privacy practices, please contact us:",
+          "contact": {
+            "email": "privacy@minirecipe.net",
+            "business": "Mini Recipe",
+            "note": "For privacy requests, please use email contact above",
+            "responseTime": "We will respond to your privacy requests within 30 days."
+          }
+        }
+      ]
     },
     "terms": {
-      "title": "Terms of Service",
-      "lastUpdated": "November 2024"
+      "title": "Terms of Service", 
+      "lastUpdated": "November 10, 2024",
+      "description": "Terms and conditions for using Mini Recipe website and services. Learn about acceptable use policies, content guidelines, and user responsibilities.",
+      "keywords": [
+        "terms of service",
+        "terms and conditions", 
+        "website terms",
+        "user agreement",
+        "mini recipe terms",
+        "acceptable use",
+        "service terms"
+      ],
+      "openGraph": {
+        "title": "Terms of Service - Mini Recipe",
+        "description": "Terms and conditions for using Mini Recipe website and services.",
+        "type": "article"
+      },
+      "sections": [
+        {
+          "title": "Acceptance of Terms",
+          "content": "By accessing and using the Mini Recipe website, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
+        },
+        {
+          "title": "Use of Service",
+          "content": "You may use our website for lawful purposes only. You agree not to use the site in any way that violates applicable laws or these terms of service."
+        },
+        {
+          "title": "Content and Intellectual Property",
+          "content": "The content on Mini Recipe, including recipes, images, text, graphics, and logos, is protected by intellectual property laws. Personal use is permitted, but commercial use requires written permission."
+        },
+        {
+          "title": "Contact Information",
+          "content": "If you have any questions about these Terms of Service, please contact us at hello@minirecipe.net."
+        }
+      ]
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "lastUpdated": "November 10, 2024", 
+      "description": "Important disclaimer information about Mini Recipe content, recipe accuracy, health considerations, and nutritional information. Please read before using our recipes.",
+      "keywords": [
+        "disclaimer",
+        "recipe disclaimer",
+        "health notice", 
+        "nutritional information",
+        "cooking safety",
+        "food safety",
+        "mini recipe disclaimer",
+        "recipe accuracy",
+        "dietary restrictions"
+      ],
+      "openGraph": {
+        "title": "Disclaimer - Mini Recipe",
+        "description": "Important information about using Mini Recipe content and recipes safely.",
+        "type": "article"
+      },
+      "sections": [
+        {
+          "title": "General Information",
+          "content": "The information provided on Mini Recipe is for general informational and educational purposes only. While we strive to provide accurate and up-to-date recipes and cooking information, we make no warranties or guarantees about the accuracy, completeness, or reliability of any content on this website."
+        },
+        {
+          "title": "Recipe Usage & Safety",
+          "content": "All recipes on Mini Recipe are provided 'as is' and are intended for informational purposes only. Always follow proper food safety guidelines, check ingredients for allergens, and use your best judgment regarding substitutions."
+        },
+        {
+          "title": "Health & Dietary Considerations",
+          "content": "Mini Recipe content is not intended to provide medical or dietary advice. If you have food allergies, medical conditions requiring dietary restrictions, or special nutritional needs, please consult with a qualified healthcare professional."
+        },
+        {
+          "title": "Contact Information",
+          "content": "If you have any questions about this disclaimer, please contact us at hello@minirecipe.net."
+        }
+      ]
+    },
+    "terms-of-use": {
+      "title": "Terms of Use",
+      "lastUpdated": "November 10, 2024",
+      "description": "Terms of use for Mini Recipe website. Learn about acceptable use policies, content guidelines, user responsibilities, and website usage rules.",
+      "keywords": [
+        "terms of use",
+        "website terms",
+        "usage guidelines", 
+        "acceptable use",
+        "user agreement",
+        "website rules",
+        "mini recipe terms",
+        "content usage",
+        "user responsibilities"
+      ],
+      "openGraph": {
+        "title": "Terms of Use - Mini Recipe",
+        "description": "Guidelines and rules for using the Mini Recipe website and content.",
+        "type": "article"
+      },
+      "sections": [
+        {
+          "title": "Acceptance of Terms",
+          "content": "By accessing and using the Mini Recipe website, you agree to be bound by these Terms of Use and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
+        },
+        {
+          "title": "Website Usage",
+          "content": "You may use our website for lawful purposes only. You agree not to use the site in any way that violates applicable laws, restricts others' use, or engages in harmful conduct."
+        },
+        {
+          "title": "Content Usage and Intellectual Property", 
+          "content": "The content on Mini Recipe is protected by intellectual property laws. You may use recipes for personal, non-commercial purposes and share recipe links with proper attribution, but may not copy or republish substantial portions without permission."
+        },
+        {
+          "title": "Contact Information",
+          "content": "If you have any questions about these Terms of Use, please contact us at hello@minirecipe.net."
+        }
+      ]
     },
     "categories": {
       "title": "Recipe Categories",
