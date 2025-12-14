@@ -22,6 +22,7 @@ import Link from "next/link";
 import { BasicHero } from "@/components/basic-hero";
 import { ChefProfileCard } from "@/components/chef-profile-card";
 import { getChefData, getSocialSharingConfig } from "@/lib/site-config";
+import { getCategoryLabel, getConfigKeyFromWpSlug } from "@/lib/api";
 import siteConfig from "@/config/site-config.json";
 import { RecipeData } from "@/lib/recipes-data";
 
@@ -33,6 +34,8 @@ interface RecipeDetailProps {
     image: string;
     slug: string;
   }>;
+  categorySlug?: string | null;
+  categoryName?: string | null;
 }
 
 // Memoized related recipe item
@@ -99,7 +102,7 @@ const RelatedRecipeItem = memo(({
 
 RelatedRecipeItem.displayName = 'RelatedRecipeItem';
 
-export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
+export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryName }: RecipeDetailProps) {
   if (!recipe) return null;
   
   const [showJumpButton, setShowJumpButton] = useState(false);
@@ -339,11 +342,23 @@ export function RecipeDetail({ recipe, relatedRecipes }: RecipeDetailProps) {
         <BasicHero
           title={recipe.metadata.name}
           description={recipe.metadata.description}
-          breadcrumbs={[
-            { label: "Home", href: "/" },
-            { label: "Recipes", href: "/recipes" },
-            { label: recipe.metadata.name },
-          ]}
+          breadcrumbs={
+            categorySlug && categoryName
+              ? [
+                  { label: "Home", href: "/" },
+                  { label: "Recipes", href: "/recipes" },
+                  { 
+                    label: getCategoryLabel(categorySlug), 
+                    href: `/recipes/${getConfigKeyFromWpSlug(categorySlug)}` 
+                  },
+                  { label: recipe.metadata.name },
+                ]
+              : [
+                  { label: "Home", href: "/" },
+                  { label: "Recipes", href: "/recipes" },
+                  { label: recipe.metadata.name },
+                ]
+          }
           size="medium"
         />
   

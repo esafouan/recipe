@@ -1,8 +1,4 @@
-// Recipe data helpers with API-based data fetching
-import { db } from './firebase/config';
-import { collection, getDocs, query, orderBy, limit, where } from 'firebase/firestore';
-
-
+// Recipe data helpers with static test data
 export interface RecipeMetadata {
   name: string;
   description: string;
@@ -73,118 +69,27 @@ export interface RecipeData {
   notes: string[];
 }
 
-
 type RecipeCategory = string;
 
-// Helper function to convert Firestore document to RecipeData
-
-function convertFirestoreToRecipe(doc: any): RecipeData {
-  const data = doc.data();
-  
-  return {
-    // Metadata
-    metadata: {
-      name: data.name || data.title || '',
-      description: data.description || '',
-      datePublished: data.datePublished?.toDate?.()?.toISOString() || data.datePublished || new Date().toISOString(),
-      dateModified: data.dateModified?.toDate?.()?.toISOString() || data.dateModified || new Date().toISOString(),
-      prepTime: data.prepTime?.toString() || '0',
-      cookTime: data.cookTime?.toString() || '0',
-      totalTime: data.totalTime?.toString() || '0',
-      recipeYield: data.recipeYield || `${data.servings || 1} servings`,
-      recipeCategory: data.recipeCategory || data.category || '',
-      recipeCuisine: data.recipeCuisine || data.cuisine || '',
-      difficulty: data.difficulty || 'Easy',
-      dietary: data.dietary || [],
-      keywords: Array.isArray(data.keywords) ? data.keywords.join(', ') : data.keywords || '',
-      images: data.images || [data.featuredImage || data.image || '/placeholder.svg']
-    },
-    
-    // Introduction & Story
-    introduction: data.introduction || '',
-    whyYouLlLove: data.whyYouLlLove || [],
-    authorStory: data.authorStory || '',
-    
-    // Ingredients
-    ingredients: data.ingredients || data.recipeIngredient?.map((ingredient: any) => ({
-      item: typeof ingredient === 'string' ? ingredient : ingredient.item || '',
-      description: typeof ingredient === 'object' ? ingredient.description : undefined
-    })) || [],
-    
-    // Instructions
-    instructions: data.instructions || data.recipeInstructions?.map((instruction: any, index: number) => ({
-      stepNumber: index + 1,
-      name: instruction.name || `Step ${index + 1}`,
-      text: typeof instruction === 'string' ? instruction : instruction.text || ''
-    })) || [],
-    
-    // Additional Content Sections
-    youMustKnow: data.youMustKnow || [],
-    personalNote: data.personalNote || '',
-    storage: data.storage || { title: 'Storage', content: '' },
-    substitutions: data.substitutions || { title: 'Substitutions', content: '' },
-    servingSuggestions: data.servingSuggestions || { title: 'Serving Suggestions', content: '' },
-    proTips: data.proTips || data.tips || [],
-    closingThought: data.closingThought || '',
-    
-    // FAQs
-    faqs: data.faqs || [],
-    
-    // Tools & Notes
-    tools: data.tools || data.equipment || [],
-    notes: data.notes || []
-  };
-}
-
-
-// Cache for recipes to avoid repeated Firebase calls
+// Cache for recipes data
 let recipesCache: RecipeData[] | null = null;
-let categoriesCache: string[] | null = null;
 let cacheTimestamp: number = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-function isCacheValid(): boolean {
-  return recipesCache !== null && (Date.now() - cacheTimestamp) < CACHE_DURATION;
-}
 
-function clearCache(): void {
-  recipesCache = null;
-  categoriesCache = null;
-  cacheTimestamp = 0;
-}
 
-// Main functions to get recipes from Firebase with fallback
+// Main functions to get recipes
 export async function getAllRecipes(): Promise<RecipeData[]> {
   // Return cached data if valid
-  if (isCacheValid() && recipesCache) {
-    return recipesCache;
-  }
-
   try {
-    console.log('Using test recipe data instead of Firebase...');
-    
-    // Firebase call commented out for testing
-    // const recipesRef = collection(db, 'recipes');
-    // const q = query(recipesRef, orderBy('datePublished', 'desc'));
-    // const querySnapshot = await getDocs(q);
-    // const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
-    
-    // Return test recipe for UI testing
     const recipes = [TestRecipe];
     
-    if (recipes.length > 0) {
-      // Update cache
-      recipesCache = recipes;
-      cacheTimestamp = Date.now();
-      console.log(`Successfully loaded ${recipes.length} test recipes`);
-      return recipes;
-    } else {
-      console.log('No test recipes available');
-      return [];
-    }
+    // Update cache
+    recipesCache = recipes;
+    cacheTimestamp = Date.now();
+    console.log(`Successfully loaded ${recipes.length} recipes`);
+    return recipes;
   } catch (error) {
-    console.error('Error loading test recipes:', error);
-    console.log('Returning empty array due to error');
+    console.error('Error loading recipes:', error);
     return [];
   }
 }
@@ -192,56 +97,35 @@ export async function getAllRecipes(): Promise<RecipeData[]> {
 
 export async function getRecipesByCategory(category: RecipeCategory): Promise<RecipeData[]> {
   try {
-    console.log(`Loading test recipe for category: ${category}`);
+    console.log(`Loading recipes for category: ${category}`);
     
-    // Firebase call commented out for testing
-    // const recipesRef = collection(db, 'recipes');
-    // const q = query(recipesRef, where('category', '==', category), orderBy('datePublished', 'desc'));
-    // const querySnapshot = await getDocs(q);
-    // const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
-    
-    // Return test recipe if category matches, otherwise empty
     const recipes = TestRecipe.metadata.recipeCategory.toLowerCase() === category.toLowerCase() 
       ? [TestRecipe] 
       : [];
     
-    if (recipes.length > 0) {
-      console.log(`Successfully loaded ${recipes.length} test recipes for category: ${category}`);
-      return recipes;
-    } else {
-      console.log(`No test recipes found for category ${category}`);
-      return [];
-    }
+    console.log(`Found ${recipes.length} recipes for category: ${category}`);
+    return recipes;
   } catch (error) {
-    console.error(`Error loading test recipes for category ${category}:`, error);
+    console.error(`Error loading recipes for category ${category}:`, error);
     return [];
   }
 }
 
 export async function getRecipeBySlug(slug: string): Promise<RecipeData | null> {
   try {
-    // Validate slug parameter
     if (!slug || slug.trim() === '') {
       return null;
     }
     
-    console.log(`Looking for test recipe by slug: ${slug}`);
+    console.log(`Looking for recipe by slug: ${slug}`);
     
-    // Firebase call commented out - using test recipe
-    // const allRecipes = await getAllRecipes();
-    // const recipe = allRecipes.find(r => {
-    //   const generatedSlug = r.metadata.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-    //   return generatedSlug === slug;
-    // });
-    
-    // Check if the test recipe slug matches
     const generatedSlug = TestRecipe.metadata.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     
     if (generatedSlug === slug) {
-      console.log(`Found test recipe: ${TestRecipe.metadata.name}`);
+      console.log(`Found recipe: ${TestRecipe.metadata.name}`);
       return TestRecipe;
     } else {
-      console.log(`No test recipe found for slug ${slug} (available: ${generatedSlug})`);
+      console.log(`No recipe found for slug ${slug} (available: ${generatedSlug})`);
       return null;
     }
   } catch (error) {
@@ -252,19 +136,13 @@ export async function getRecipeBySlug(slug: string): Promise<RecipeData | null> 
 
 export async function getRecipeById(id: string): Promise<RecipeData | null> {
   try {
-    console.log(`Looking for test recipe by ID: ${id}`);
+    console.log(`Looking for recipe by ID: ${id}`);
     
-    // Firebase call commented out for testing
-    // const recipesRef = collection(db, 'recipes');
-    // const q = query(recipesRef, where('__name__', '==', id));
-    // const querySnapshot = await getDocs(q);
-    
-    // For testing, use a simple ID check (could be slug or test-recipe)
     if (id === 'test-recipe' || id === 'hawaiian-mai-tai-drink') {
-      console.log(`Found test recipe: ${TestRecipe.metadata.name}`);
+      console.log(`Found recipe: ${TestRecipe.metadata.name}`);
       return TestRecipe;
     } else {
-      console.log(`No test recipe found for ID ${id}`);
+      console.log(`No recipe found for ID ${id}`);
       return null;
     }
   } catch (error) {
@@ -275,18 +153,8 @@ export async function getRecipeById(id: string): Promise<RecipeData | null> {
 
 export async function searchRecipes(searchTerm: string): Promise<RecipeData[]> {
   try {
-    console.log(`Searching test recipes for: ${searchTerm}`);
+    console.log(`Searching recipes for: ${searchTerm}`);
     
-    // Firebase call commented out for testing
-    // const allRecipes = await getAllRecipes();
-    // const searchTermLower = searchTerm.toLowerCase();
-    // const filteredRecipes = allRecipes.filter(recipe =>
-    //   recipe.metadata.name.toLowerCase().includes(searchTermLower) ||
-    //   recipe.metadata.description.toLowerCase().includes(searchTermLower) ||
-    //   recipe.metadata.keywords.toLowerCase().includes(searchTermLower)
-    // );
-    
-    // Search in test recipe
     const searchTermLower = searchTerm.toLowerCase();
     const testRecipeMatches = 
       TestRecipe.metadata.name.toLowerCase().includes(searchTermLower) ||
@@ -295,76 +163,42 @@ export async function searchRecipes(searchTerm: string): Promise<RecipeData[]> {
     
     const filteredRecipes = testRecipeMatches ? [TestRecipe] : [];
     
-    if (filteredRecipes.length > 0) {
-      console.log(`Found ${filteredRecipes.length} test recipes matching: ${searchTerm}`);
-      return filteredRecipes;
-    } else {
-      console.log(`No test search results found for: ${searchTerm}`);
-      return [];
-    }
+    console.log(`Found ${filteredRecipes.length} recipes matching: ${searchTerm}`);
+    return filteredRecipes;
   } catch (error) {
-    console.error(`Error searching test recipes for ${searchTerm}:`, error);
+    console.error(`Error searching recipes for ${searchTerm}:`, error);
     return [];    
   }
 }
 
 export async function getFeaturedRecipes(maxResults: number = 6): Promise<RecipeData[]> {
   try {
-    console.log(`Loading test featured recipe (max: ${maxResults})`);
+    console.log(`Loading featured recipes (max: ${maxResults})`);
     
-    // Firebase call commented out for testing
-    // const recipesRef = collection(db, 'recipes');
-    // const q = query(recipesRef, where('featured', '==', true), orderBy('datePublished', 'desc'), limit(maxResults));
-    // const querySnapshot = await getDocs(q);
-    // const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
-    
-    // Return test recipe as featured for testing
     const recipes = [TestRecipe];
     
-    if (recipes.length > 0) {
-      console.log(`Successfully loaded ${recipes.length} test featured recipes`);
-      return recipes;
-    } else {
-      console.log('No test featured recipes found');
-      return [];
-    }
+    console.log(`Successfully loaded ${recipes.length} featured recipes`);
+    return recipes;
   } catch (error) {
-    console.error('Error loading test featured recipes:', error);
+    console.error('Error loading featured recipes:', error);
     return [];
   }
 }
 
 export async function getRecentRecipes(maxResults: number = 10): Promise<RecipeData[]> {
   try {
-    console.log(`Loading test recipe for recent recipes (max: ${maxResults})`);
+    console.log(`Loading recent recipes (max: ${maxResults})`);
     
-    // Firebase call commented out for testing
-    // const recipesRef = collection(db, 'recipes');
-    // const q = query(recipesRef, orderBy('datePublished', 'desc'), limit(maxResults));
-    // const querySnapshot = await getDocs(q);
-    // const recipes = querySnapshot.docs.map(convertFirestoreToRecipe);
-    
-    // Return test recipe for testing
     const recipes = [TestRecipe];
     
-    if (recipes.length > 0) {
-      console.log(`Successfully loaded ${recipes.length} test recent recipes`);
-      return recipes;
-    } else {
-      console.log('No test recent recipes found');
-      return [];
-    }
+    console.log(`Successfully loaded ${recipes.length} recent recipes`);
+    return recipes;
   } catch (error) {
-    console.error('Error loading test recent recipes:', error);
+    console.error('Error loading recent recipes:', error);
     return [];
   }
 }
 
-// Utility function to manually refresh cache
-export function refreshRecipeCache(): void {
-  console.log('Manually clearing recipe cache');
-  clearCache();
-}
 
 
 export const TestRecipe: RecipeData = {

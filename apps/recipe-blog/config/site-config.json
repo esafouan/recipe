@@ -118,15 +118,9 @@
       "static": "monthly"
     },
     "categories": [
-      "Appetizer",
       "Soups & Stews",
-      "Salads",
       "Main Dishes",
-      "Breakfast",
-      "Breads",
-      "Desserts",
-      "Easy Sweet Meals",
-      "Vegetarian & Vegan"
+      "Breads"
     ],
     "priority": {
       "home": 1.0,
@@ -292,60 +286,28 @@
     "title": "RECIPE CATEGORIES",
     "subtitle": "Browse by meal type",
     "main": [
-      {
-        "id": "appetizer",
-        "title": "APPETIZER",
-        "image": "/Yay-Recipes-84-1.webp",
-        "bgColor": "bg-primary"
-      },
+
       {
         "id": "soups-stews",
         "title": "SOUPS & STEWS",
         "image": "/Yay-Recipes-84-1.webp",
         "bgColor": "bg-primary"
       },
-      {
-        "id": "salads",
-        "title": "SALADS",
-        "image": "/Yay-Recipes-84-1.webp",
-        "bgColor": "bg-primary"
-      },
+  
       {
         "id": "main-dishes",
         "title": "MAIN DISHES",
         "image": "/Yay-Recipes-84-1.webp",
         "bgColor": "bg-primary"
       },
-      {
-        "id": "breakfast",
-        "title": "BREAKFAST",
-        "image": "/Yay-Recipes-84-1.webp",
-        "bgColor": "bg-primary"
-      },
+ 
       {
         "id": "breads",
         "title": "BREADS",
         "image": "/Yay-Recipes-84-1.webp",
         "bgColor": "bg-primary"
-      },
-      {
-        "id": "desserts",
-        "title": "DESSERTS",
-        "image": "/Yay-Recipes-84-1.webp",
-        "bgColor": "bg-primary"
-      },
-      {
-        "id": "easy-sweet-meals",
-        "title": "EASY SWEET MEALS",
-        "image": "/Yay-Recipes-84-1.webp",
-        "bgColor": "bg-primary"
-      },
-      {
-        "id": "vegetarian-vegan",
-        "title": "VEGETARIAN & VEGAN",
-        "image": "/Yay-Recipes-84-1.webp",
-        "bgColor": "bg-primary"
       }
+
     ]
   },
   "recentRecipes": {
@@ -438,9 +400,115 @@
   },
   "search": {
     "placeholder": "Search recipes...",
+    "searchPlaceholderLong": "Search delicious recipes...",
     "noResultsTitle": "No recipes found",
     "noResultsMessage": "We couldn't find any recipes matching your search. Try searching for different ingredients or recipe names.",
-    "loadingMessage": "Searching recipes..."
+    "loadingMessage": "Searching recipes...",
+    "cancelButtonText": "Cancel"
+  },
+
+  "ui": {
+    "header": {
+      "tagline": "Delicious Recipes"
+    },
+    "buttons": {
+      "viewAllRecipes": "View all recipes",
+      "viewRecipe": "View Recipe →",
+      "learnMore": "LEARN MORE",
+      "sendMessage": "Send Message",
+      "cancel": "Cancel"
+    },
+    "messages": {
+      "loading": "Loading recipes...",
+      "error": "Failed to load recipes. Please try again later.",
+      "success": "Message sent successfully!",
+      "successDetail": "Thank you for your message. We'll get back to you soon.",
+      "recentDate": "Recent",
+      "comingSoon": "Coming Soon",
+      "stayTuned": "Stay Tuned",
+      "moreRecipes": "More Recipes"
+    },
+    "sections": {
+      "findPerfectRecipe": "Find your perfect recipe!",
+      "moreDeliciousRecipes": "More Delicious Recipes",
+      "ingredients": "Ingredients",
+      "instructions": "Instructions",
+      "storageInstructions": "Storage Instructions",
+      "ingredientSubstitutions": "Ingredient Substitutions",
+      "servingSuggestions": "Serving Suggestions"
+    },
+    "breadcrumbs": {
+      "categories": "Categories"
+    }
+  },
+
+  "forms": {
+    "contact": {
+      "subjectPlaceholder": "Select a subject",
+      "messagePlaceholder": "Tell us how we can help you...",
+      "subjects": [
+        {"value": "general", "label": "General Inquiry"},
+        {"value": "recipe", "label": "Recipe Question"},
+        {"value": "request", "label": "Recipe Request"},
+        {"value": "feedback", "label": "Feedback"},
+        {"value": "collaboration", "label": "Collaboration"},
+        {"value": "technical", "label": "Technical Issue"}
+      ]
+    }
+  },
+
+  "images": {
+    "fallback": "/Yay-Recipes-84-1.webp",
+    "placeholder": "/api/placeholder/800/450",
+    "placeholderSmall": "/api/placeholder/200/150"
+  },
+
+  "externalUrls": {
+    "socialSharing": {
+      "facebook": "https://www.facebook.com/sharer/sharer.php?u=",
+      "twitter": "https://twitter.com/intent/tweet?text=",
+      "pinterest": "https://pinterest.com/pin/create/button/?url=",
+      "whatsapp": "https://wa.me/?text="
+    }
+  },
+
+  "theme": {
+    "colors": {
+      "primary": {
+        "gradient": "bg-gradient-to-r from-orange-400 to-pink-400",
+        "gradientHover": "hover:from-orange-500 hover:to-pink-500"
+      },
+      "hero": {
+        "background": "bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50"
+      },
+      "sections": {
+        "storage": {
+          "background": "bg-yellow-50 border border-yellow-200",
+          "icon": "bg-yellow-600"
+        },
+        "substitutions": {
+          "background": "bg-green-50 border border-green-200",
+          "icon": "text-green-600"
+        },
+        "serving": {
+          "background": "bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-100",
+          "icon": "bg-orange-600"
+        }
+      },
+      "badges": {
+        "default": "bg-orange-100 text-orange-700",
+        "hover": "group-hover:bg-orange-600 group-hover:text-white"
+      },
+      "buttons": {
+        "chef": "bg-red-500 hover:bg-red-600"
+      },
+      "divider": "bg-gradient-to-r from-orange-200 to-transparent",
+      "success": {
+        "background": "bg-green-50 border border-green-200",
+        "text": "text-green-800",
+        "textLight": "text-green-700"
+      }
+    }
   },
 
   "pages": {

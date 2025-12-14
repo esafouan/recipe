@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react'
 import { RecipeCard } from '@/components/recipe-card'
 import { Pagination } from '@/components/pagination'
-import { getAllRecipes, getRecipesByCategory, RecipeData } from '@/lib/recipes-data'
-import { generateSlug } from '@/lib/schema-utils'
+import { getRecentRecipes, getRecipesByCategory } from '@/lib/api'
 
 type Recipe = {
   id: string
@@ -33,23 +32,39 @@ export function AllRecipes({ category }: AllRecipesProps = {}) {
       try {
         setLoading(true)
         
-        // Use direct function calls instead of API
-        const recipeData: RecipeData[] = category 
-          ? await getRecipesByCategory(category)
-          : await getAllRecipes()
-        
-        // Convert RecipeData to Recipe format for the component
-        const processedRecipes = recipeData.map((recipe) => ({
-          id: generateSlug(recipe.metadata.name), // Use generated slug as ID
-          slug: generateSlug(recipe.metadata.name),
-          title: recipe.metadata.name,
-          image: recipe.metadata.images[0] || '/Yay-Recipes-84-1.webp',
-          featuredImage: recipe.metadata.images[0],
-          category: recipe.metadata.recipeCategory,
-          datePublished: recipe.metadata.datePublished
-        }))
-        
-        setRecipes(processedRecipes)
+        if (category) {
+          // Fetch recipes by category from WordPress
+          const { recipes: wpRecipes } = await getRecipesByCategory(category)
+          
+          // Convert WordPress data to Recipe format
+          const processedRecipes = wpRecipes.map((recipe: any) => ({
+            id: recipe.slug,
+            slug: recipe.slug,
+            title: recipe.title,
+            image: recipe.images?.[0] || '/Yay-Recipes-84-1.webp',
+            featuredImage: recipe.images?.[0],
+            category: category,
+            datePublished: recipe.date
+          }))
+          
+          setRecipes(processedRecipes)
+        } else {
+          // Fetch all recent recipes from WordPress
+          const wpRecipes = await getRecentRecipes(100) // Fetch more for pagination
+          
+          // Convert WordPress data to Recipe format
+          const processedRecipes = wpRecipes.map((recipe: any) => ({
+            id: recipe.slug,
+            slug: recipe.slug,
+            title: recipe.title,
+            image: recipe.images?.[0] || '/Yay-Recipes-84-1.webp',
+            featuredImage: recipe.images?.[0],
+            category: recipe.meta?.dietary || 'Recipe',
+            datePublished: recipe.date
+          }))
+          
+          setRecipes(processedRecipes)
+        }
       } catch (err) {
         console.error('Error fetching recipes:', err)
         setError('Failed to load recipes. Please try again later.')

@@ -5,14 +5,13 @@ import { usePathname } from "next/navigation"
 import { Menu, Search, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getSiteConfig, getNavigationConfig } from "@/lib/config"
-import { useState, useEffect } from "react"
-import Image from "next/image"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { SearchBar } from "@/components/search-bar"
 
 export function SiteHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   
   const siteConfig = getSiteConfig()
@@ -24,10 +23,6 @@ export function SiteHeader() {
     return pathname.startsWith(href)
   }
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-white/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/70 shadow-sm will-change-transform">
       {/* Top accent bar */}
@@ -37,23 +32,15 @@ export function SiteHeader() {
         <div className="flex items-center gap-6 md:gap-8">
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="relative flex items-center transition-transform duration-200 group-hover:scale-105 will-change-transform">
-              {mounted ? (
-                <>
-                  <div className="absolute -inset-2 bg-gradient-to-r from-orange-400 to-pink-400 rounded-xl opacity-0 group-hover:opacity-15 transition-opacity duration-200 blur-sm pointer-events-none"></div>
-                  <Image
-                    src={siteConfig.logo}
-                    alt={siteConfig.logoAlt}
-                    width={90}
-                    height={60}
-                    priority
-                    unoptimized
-                    sizes="90px"
-                    className="relative z-10 transition-all duration-200 group-hover:drop-shadow-md"
-                  />
-                </>
-              ) : (
-                <div className="w-[90px] h-[70px] bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse rounded-lg shadow-sm" />
-              )}
+              <div className="absolute -inset-2 bg-gradient-to-r from-orange-400 to-pink-400 rounded-xl opacity-0 group-hover:opacity-15 transition-opacity duration-200 blur-sm pointer-events-none"></div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={siteConfig.logo}
+                alt={siteConfig.logoAlt}
+                width={90}
+                height={60}
+                className="relative z-10 transition-all duration-200 group-hover:drop-shadow-md"
+              />
             </div>
             <div className="hidden sm:flex flex-col">
               <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
@@ -97,55 +84,61 @@ export function SiteHeader() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-4">
-          {/* Search Button - Desktop & Mobile */}
-          {mounted && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "h-10 w-10 rounded-xl transition-all duration-200 group relative",
-                "hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50",
-                "hover:text-orange-600 hover:scale-105 hover:shadow-sm",
-                "focus:ring-2 focus:ring-orange-400/20 focus:bg-orange-50",
-                "will-change-transform",
-                isMobileSearchOpen && "bg-gradient-to-r from-orange-50 to-pink-50 text-orange-600 shadow-sm"
-              )}
-              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-            >
-              <Search className="h-5 w-5 relative z-10 transition-transform duration-200 group-hover:rotate-6" />
-            </Button>
-          )}
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Search Bar - Visible on md and up */}
+          <div className="hidden md:block w-48 lg:w-64 xl:w-80">
+            <SearchBar 
+              placeholder="Search recipes..."
+              className="w-full"
+            />
+          </div>
+
+          {/* Search Button - Mobile only (hidden on md+) */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "md:hidden h-10 w-10 rounded-xl transition-all duration-200 group relative",
+              "hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50",
+              "hover:text-orange-600 hover:scale-105 hover:shadow-sm",
+              "focus:ring-2 focus:ring-orange-400/20 focus:bg-orange-50",
+              "will-change-transform",
+              isMobileSearchOpen && "bg-gradient-to-r from-orange-50 to-pink-50 text-orange-600 shadow-sm"
+            )}
+            onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+            aria-label="Toggle search"
+          >
+            <Search className="h-5 w-5 relative z-10 transition-transform duration-200 group-hover:rotate-6" />
+          </Button>
 
           {/* Mobile Menu Button */}
-          {mounted && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "lg:hidden h-10 w-10 rounded-xl transition-all duration-200 group relative",
-                "hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50",
-                "hover:text-orange-600 hover:scale-105 hover:shadow-sm",
-                "focus:ring-2 focus:ring-orange-400/20 focus:bg-orange-50",
-                "will-change-transform",
-                isMobileMenuOpen && "bg-gradient-to-r from-orange-50 to-pink-50 text-orange-600 shadow-sm"
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "lg:hidden h-10 w-10 rounded-xl transition-all duration-200 group relative",
+              "hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50",
+              "hover:text-orange-600 hover:scale-105 hover:shadow-sm",
+              "focus:ring-2 focus:ring-orange-400/20 focus:bg-orange-50",
+              "will-change-transform",
+              isMobileMenuOpen && "bg-gradient-to-r from-orange-50 to-pink-50 text-orange-600 shadow-sm"
+            )}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <div className="relative z-10">
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5 transition-transform duration-200 rotate-90" />
+              ) : (
+                <Menu className="h-5 w-5 transition-transform duration-200 group-hover:rotate-6" />
               )}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              <div className="relative z-10">
-                {isMobileMenuOpen ? (
-                  <X className="h-5 w-5 transition-transform duration-200 rotate-90" />
-                ) : (
-                  <Menu className="h-5 w-5 transition-transform duration-200 group-hover:rotate-6" />
-                )}
-              </div>
-            </Button>
-          )}
+            </div>
+          </Button>
         </div>
       </div>
 
       {/* Mobile Navigation */}
-      {mounted && isMobileMenuOpen && (
+      {isMobileMenuOpen && (
         <nav className="lg:hidden border-t border-orange-200/30 bg-white/95 backdrop-blur-md shadow-lg animate-in slide-in-from-top-2 duration-200">
           <div className="flex flex-col p-6 space-y-2">
             {navigationConfig.main.map((item, index) => (
@@ -185,37 +178,13 @@ export function SiteHeader() {
         </nav>
       )}
 
-      {/* Mobile Search Bar */}
-      {mounted && isMobileSearchOpen && (
-        <div className="lg:hidden border-t border-orange-200/30 bg-white/95 backdrop-blur-md shadow-lg p-6 animate-in slide-in-from-top-2 duration-200">
-          <div className="flex items-center space-x-3">
-            <div className="flex-1 relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-orange-400 group-focus-within:text-orange-500 transition-colors duration-200" />
-              <input
-                type="search"
-                placeholder="Search delicious recipes..."
-                className={cn(
-                  "w-full pl-12 pr-4 py-3.5 text-base bg-white/80 backdrop-blur-sm",
-                  "border-2 border-orange-200/50 rounded-xl transition-all duration-200",
-                  "focus:outline-none focus:ring-2 focus:ring-orange-400/20 focus:border-orange-400",
-                  "focus:bg-white focus:shadow-sm placeholder:text-slate-400"
-                )}
-                autoFocus
-              />
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className={cn(
-                "px-6 py-2.5 rounded-xl border-2 border-orange-200 text-orange-600 font-semibold",
-                "hover:bg-orange-50 hover:border-orange-300 hover:shadow-sm",
-                "focus:ring-2 focus:ring-orange-400/20 transition-all duration-200"
-              )}
-              onClick={() => setIsMobileSearchOpen(false)}
-            >
-              Cancel
-            </Button>
-          </div>
+      {/* Mobile Search Bar - Only on small screens */}
+      {isMobileSearchOpen && (
+        <div className="md:hidden border-t border-orange-200/30 bg-white/95 backdrop-blur-md shadow-lg p-4 animate-in slide-in-from-top-2 duration-200">
+          <SearchBar 
+            placeholder="Search delicious recipes..."
+            onSearch={() => setIsMobileSearchOpen(false)}
+          />
         </div>
       )}
     </header>

@@ -637,3 +637,296 @@ img {
     -webkit-backdrop-filter: blur(12px);
   }
 }
+
+/* ========================================
+   PRINT STYLES - Optimized for Recipe Printing
+   ======================================== */
+@media print {
+  /* Hide non-essential elements */
+  nav,
+  footer,
+  .site-header,
+  .site-footer,
+  .hero-section,
+  .breadcrumb,
+  .related-recipes,
+  .chef-profile-card,
+  .social-sharing,
+  .share-buttons,
+  .jump-button,
+  .cta-button,
+  button:not(.print-keep),
+  .advertisement,
+  .newsletter,
+  .comments,
+  .rating-widget,
+  .video-player,
+  [class*="hide-print"],
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset page styles for printing */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.6;
+    color: #000;
+    background: #fff;
+  }
+
+  /* Recipe title */
+  h1 {
+    font-size: 20pt;
+    font-weight: bold;
+    margin-bottom: 10pt;
+    page-break-after: avoid;
+  }
+
+  h2 {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-top: 15pt;
+    margin-bottom: 8pt;
+    page-break-after: avoid;
+    border-bottom: 1pt solid #000;
+  }
+
+  h3 {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-top: 12pt;
+    margin-bottom: 6pt;
+    page-break-after: avoid;
+  }
+
+  /* Recipe metadata (prep time, cook time, etc.) */
+  .recipe-meta,
+  .recipe-info {
+    display: flex;
+    gap: 15pt;
+    margin: 10pt 0;
+    padding: 10pt;
+    border: 1pt solid #000;
+    page-break-inside: avoid;
+  }
+
+  .recipe-meta > div,
+  .recipe-info > div {
+    margin-right: 15pt;
+  }
+
+  /* Ingredients section */
+  .ingredients-list,
+  [class*="ingredient"] {
+    page-break-inside: avoid;
+  }
+
+  .ingredients-list li,
+  [class*="ingredient-item"] {
+    margin: 5pt 0;
+    padding-left: 5pt;
+  }
+
+  /* Instructions section */
+  .instructions-list,
+  [class*="instruction"] {
+    counter-reset: step-counter;
+  }
+
+  .instructions-list li,
+  [class*="instruction-step"] {
+    margin: 10pt 0;
+    padding: 8pt;
+    page-break-inside: avoid;
+    counter-increment: step-counter;
+  }
+
+  .instructions-list li::before,
+  [class*="instruction-step"]::before {
+    content: "Step " counter(step-counter) ": ";
+    font-weight: bold;
+  }
+
+  /* Notes and tips */
+  .recipe-notes,
+  .pro-tips,
+  .storage-instructions {
+    margin-top: 15pt;
+    padding: 10pt;
+    border: 1pt solid #000;
+    page-break-inside: avoid;
+  }
+
+  /* Images - only show main recipe image */
+  img {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+  }
+
+  /* Hide hero images and decorative images */
+  .hero-image,
+  .featured-image,
+  [class*="decorative"],
+  [class*="background-image"] {
+    display: none !important;
+  }
+
+  /* Show main recipe image in a sensible size */
+  .recipe-main-image,
+  [class*="recipe-image"]:first-of-type {
+    display: block !important;
+    max-width: 300pt;
+    max-height: 200pt;
+    margin: 10pt auto;
+  }
+
+  /* Links */
+  a {
+    text-decoration: none;
+    color: #000 !important;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+  }
+
+  /* Prevent page breaks */
+  .keep-together,
+  .page-break-avoid {
+    page-break-inside: avoid;
+  }
+
+  /* Page breaks */
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  /* Table formatting */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10pt 0;
+  }
+
+  th, td {
+    padding: 5pt;
+    border: 1pt solid #000;
+    text-align: left;
+  }
+
+  th {
+    font-weight: bold;
+    background: #f0f0f0 !important;
+  }
+
+  /* Ensure good spacing */
+  p {
+    margin: 5pt 0;
+    orphans: 3;
+    widows: 3;
+  }
+
+  ul, ol {
+    margin: 5pt 0;
+    padding-left: 20pt;
+  }
+
+  li {
+    margin: 3pt 0;
+  }
+
+  /* Print header with recipe name and source */
+  .print-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 15pt;
+    padding-bottom: 10pt;
+    border-bottom: 2pt solid #000;
+  }
+
+  /* Print footer with page numbers */
+  .print-footer {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 10pt;
+    padding-top: 5pt;
+    border-top: 1pt solid #000;
+  }
+
+  /* Nutrition information table */
+  .nutrition-facts {
+    page-break-inside: avoid;
+    border: 2pt solid #000;
+    padding: 10pt;
+    margin: 10pt 0;
+  }
+
+  /* Make checkboxes visible for ingredient tracking */
+  input[type="checkbox"] {
+    display: inline-block !important;
+    width: 12pt;
+    height: 12pt;
+    border: 1pt solid #000;
+    margin-right: 5pt;
+  }
+
+  /* Optimize for printer */
+  @page {
+    margin: 1.5cm;
+    size: letter;
+  }
+
+  /* First page specific styles */
+  @page :first {
+    margin-top: 2cm;
+  }
+
+  /* Avoid orphans and widows */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Print-friendly icons (replace with text) */
+  [class*="icon-"]::before,
+  svg {
+    display: none !important;
+  }
+
+  /* Show print timestamp */
+  .print-timestamp {
+    display: block !important;
+    font-size: 10pt;
+    text-align: right;
+    margin-bottom: 10pt;
+    font-style: italic;
+  }
+}
+
+/* Print preview mode (optional, for testing) */
+.print-preview {
+  max-width: 8.5in;
+  margin: 0 auto;
+  padding: 1in;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}

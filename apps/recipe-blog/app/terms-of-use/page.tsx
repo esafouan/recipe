@@ -5,7 +5,7 @@ import { getPageConfig } from "@/lib/config"
 const termsOfUseConfig = getPageConfig('terms-of-use') as any // Type assertion for now
 
 export const metadata: Metadata = {
-  title: `${termsOfUseConfig.title} - Mini Recipe | Website Usage Guidelines`,
+  title: `${termsOfUseConfig.title}`,
   description: termsOfUseConfig.description,
   keywords: termsOfUseConfig.keywords,
   openGraph: {

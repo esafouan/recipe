@@ -180,9 +180,106 @@ export interface SiteConfig {
   };
   search: {
     placeholder: string;
+    searchPlaceholderLong: string;
     noResultsTitle: string;
     noResultsMessage: string;
     loadingMessage: string;
+    cancelButtonText: string;
+  };
+  ui: {
+    header: {
+      tagline: string;
+    };
+    buttons: {
+      viewAllRecipes: string;
+      viewRecipe: string;
+      learnMore: string;
+      sendMessage: string;
+      cancel: string;
+    };
+    messages: {
+      loading: string;
+      error: string;
+      success: string;
+      successDetail: string;
+      recentDate: string;
+      comingSoon: string;
+      stayTuned: string;
+      moreRecipes: string;
+    };
+    sections: {
+      findPerfectRecipe: string;
+      moreDeliciousRecipes: string;
+      ingredients: string;
+      instructions: string;
+      storageInstructions: string;
+      ingredientSubstitutions: string;
+      servingSuggestions: string;
+    };
+    breadcrumbs: {
+      categories: string;
+    };
+  };
+  forms: {
+    contact: {
+      subjectPlaceholder: string;
+      messagePlaceholder: string;
+      subjects: Array<{
+        value: string;
+        label: string;
+      }>;
+    };
+  };
+  images: {
+    fallback: string;
+    placeholder: string;
+    placeholderSmall: string;
+  };
+  externalUrls: {
+    socialSharing: {
+      facebook: string;
+      twitter: string;
+      pinterest: string;
+      whatsapp: string;
+    };
+  };
+  theme: {
+    colors: {
+      primary: {
+        gradient: string;
+        gradientHover: string;
+      };
+      hero: {
+        background: string;
+      };
+      sections: {
+        storage: {
+          background: string;
+          icon: string;
+        };
+        substitutions: {
+          background: string;
+          icon: string;
+        };
+        serving: {
+          background: string;
+          icon: string;
+        };
+      };
+      badges: {
+        default: string;
+        hover: string;
+      };
+      buttons: {
+        chef: string;
+      };
+      divider: string;
+      success: {
+        background: string;
+        text: string;
+        textLight: string;
+      };
+    };
   };
   pages: {
     about: {
@@ -394,5 +491,19 @@ export const getRecipesConfig = () => config.recipes;
 export const getAllRecipesConfig = () => config.recipes.allRecipes;
 export const getCategoryRecipesConfig = (category: string) => config.recipes.categories[category];
 export const getCategoriesPageConfig = () => config.pages.categories;
+
+// NEW: Helper functions for UI, forms, images, and theme
+export const getUIConfig = () => config.ui;
+export const getUIButtons = () => config.ui.buttons;
+export const getUIMessages = () => config.ui.messages;
+export const getUISections = () => config.ui.sections;
+export const getUIBreadcrumbs = () => config.ui.breadcrumbs;
+export const getFormsConfig = () => config.forms;
+export const getContactFormConfig = () => config.forms.contact;
+export const getImagesConfig = () => config.images;
+export const getExternalUrlsConfig = () => config.externalUrls;
+export const getSocialSharingUrls = () => config.externalUrls.socialSharing;
+export const getThemeConfig = () => config.theme;
+export const getThemeColors = () => config.theme.colors;
 
 export default config;

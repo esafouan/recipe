@@ -5,7 +5,7 @@ import { getPageConfig } from "@/lib/config"
 const disclaimerConfig = getPageConfig('disclaimer') as any // Type assertion for now
 
 export const metadata: Metadata = {
-  title: `${disclaimerConfig.title} - Mini Recipe | Recipe Information & Health Notice`,
+  title: `${disclaimerConfig.title}`,
   description: disclaimerConfig.description,
   keywords: disclaimerConfig.keywords,
   openGraph: {

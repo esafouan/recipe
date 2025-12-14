@@ -5,7 +5,7 @@ import { getPageConfig } from "@/lib/config"
 const privacyConfig = getPageConfig('privacy') as any // Type assertion for now
 
 export const metadata: Metadata = {
-  title: `${privacyConfig.title} - Mini Recipe | Data Protection & Your Rights`,
+  title: `${privacyConfig.title}`,
   description: privacyConfig.description,
   keywords: privacyConfig.keywords,
   openGraph: {

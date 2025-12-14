@@ -1,9 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { db } from "@/lib/firebase/config";
-import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
-import { getRecentRecipes as getRecentRecipesData, RecipeData } from "@/lib/recipes-data";
-import { generateSlug } from "@/lib/schema-utils";
+import { getRecentRecipes as getRecentRecipesFromWP, getCategoryLabel } from "@/lib/api";
 import { getRecentRecipesConfig } from "@/lib/config";
 import { SectionHeader } from "./section-header";
 
@@ -88,30 +85,36 @@ const fallbackRecipes = [
 
 async function getRecentRecipes(): Promise<Recipe[]> {
   try {
-    console.log("🔥 Fetching recipes from recipes-data...");
+    console.log("🔥 Fetching recipes from WordPress database...");
 
-    // Use centralized function instead of direct Firebase
-    const recipeData: RecipeData[] = await getRecentRecipesData(8);
+    // Fetch recipes from WordPress GraphQL API (already parsed by parseRecipeData)
+    const wpRecipes = await getRecentRecipesFromWP(8);
 
-    const recipes = recipeData.map((recipe) => ({
-      id: generateSlug(recipe.metadata.name),
-      slug: generateSlug(recipe.metadata.name),
-      title: recipe.metadata.name,
-      image: recipe.metadata.images[0] || "/Yay-Recipes-84-1.webp",
-      category: recipe.metadata.recipeCategory,
-      datePublished: recipe.metadata.datePublished,
-    }));
+    const recipes = wpRecipes.map((recipe: any) => {
+      console.log("📸 Recipe images for", recipe.title, ":", recipe.images);
+      const image = recipe.images?.[0] || "/Yay-Recipes-84-1.webp";
+      console.log("🖼️  Selected image:", image);
+      
+      return {
+        id: recipe.slug || recipe.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        slug: recipe.slug || recipe.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        title: recipe.title || "Untitled Recipe",
+        image: image,
+        category: recipe.meta?.difficulty || "Recipe",
+        datePublished: recipe.date || new Date().toISOString(),
+      };
+    });
 
     console.log(
       "✅ Successfully fetched",
       recipes.length,
-      "recipes from recipes-data"
+      "recipes from WordPress"
     );
     console.log("📝 First recipe:", recipes[0]?.title);
 
     return recipes.slice(0, 8);
   } catch (error) {
-    console.error("❌ Error fetching recipes from recipes-data:", error);
+    console.error("❌ Error fetching recipes from WordPress:", error);
     console.log("🔄 Using fallback recipes");
     return fallbackRecipes;
   }
@@ -134,7 +137,11 @@ export async function RecentRecipes() {
 
         {/* Recipe Grid - 2x4 layout */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
-          {displayRecipes.map((recipe) => (
+          {displayRecipes.map((recipe) => {
+            // Get the display label for the category (maps WordPress slug to user-friendly label)
+            const categoryLabel = getCategoryLabel(recipe.category);
+            
+            return (
             <div key={recipe.id} className="group">
               <Link href={`/recipes/${recipe.slug}`} className="block">
                 <div className="relative overflow-hidden rounded-xl mb-4 shadow-sm group-hover:shadow-md transition-shadow duration-300">
@@ -146,13 +153,13 @@ export async function RecentRecipes() {
                     height={300}
                     loading="lazy"
                     sizes="(max-width: 768px) 50vw, 25vw"
-                    unoptimized={process.env.NODE_ENV === "development"}
+                    unoptimized={true}
                   />
 
                   {/* Category Badge - Overlay on image */}
                   <div className="absolute top-3 left-3">
                     <span className="bg-white/90 backdrop-blur-sm text-xs font-medium px-3 py-1 rounded-full text-gray-700 shadow-sm">
-                      {recipe.category}
+                      {categoryLabel}
                     </span>
                   </div>
                 </div>
@@ -187,7 +194,7 @@ export async function RecentRecipes() {
                 </div>
               </Link>
             </div>
-          ))}
+          )})}
         </div>
       </div>
     </section>

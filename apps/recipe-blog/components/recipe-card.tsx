@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { getCategoryLabel } from "@/lib/api"
 
 type Recipe = {
   id: string
@@ -16,6 +17,8 @@ interface RecipeCardProps {
 }
 
 export function RecipeCard({ recipe }: RecipeCardProps) {
+  // Get the display label for the category (maps WordPress slug to user-friendly label)
+  const categoryLabel = getCategoryLabel(recipe.category)
   return (
     <div className="group">
       <Link href={`/recipes/${recipe.slug}`} className="block">
@@ -34,7 +37,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           {/* Category Badge - Overlay on image */}
           <div className="absolute top-4 left-4">
             <span className="bg-white/90 backdrop-blur-sm text-sm font-medium px-4 py-2 rounded-full text-gray-700 shadow-sm">
-              {recipe.category}
+              {categoryLabel}
             </span>
           </div>
         </div>
