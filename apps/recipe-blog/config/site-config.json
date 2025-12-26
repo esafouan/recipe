@@ -1,92 +1,90 @@
 {
   "site": {
-    "name": "Mini Recipe",
-    "title": "Mini Recipe - Perfect Portions for Busy American Women | Zero Food Waste Cooking",
-    "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste with our small-batch cooking guides. Quick, healthy, sustainable recipes for busy lifestyles.",
-    "footerDescription": "Perfect portions for busy women. Small batch recipes designed to eliminate food waste and save time in the kitchen.",
+    "name": "Cozy Bites Kitchen",
+    "title": "Cozy Bites Kitchen - Easy & Comfort Recipes for Everyday Cooking",
+    "description": "Easy, cozy, and delicious homemade recipes for everyday cooking. Quick meals, comfort dishes, family dinners, and simple home-style favorites.",
+    "footerDescription": "Easy, cozy, and delicious homemade recipes for everyday cooking. Comfort food made simple for real life.",
     "footerSocialMedia": [
       {
-        "name": "Facebook",
-        "url": "https://facebook.com/minirecipee",
+        "name": "Facebook", 
+        "url": "https://facebook.com/cozybiteskitchen",
         "icon": "facebook"
       },
       {
         "name": "Pinterest", 
-        "url": "https://www.pinterest.com/minirecipe_/#",
+        "url": "https://www.pinterest.com/cozybiteskitchen_",
         "icon": "pinterest"
       }
     ],
-    "url": "https://minirecipe.net",
+    "url": "https://cozybiteskitchen.com",
     "logo": "/logonobg.png",
-    "logoAlt": "Mini Recipe Logo",
-    "author": "Mini Recipe Team",
-    "creator": "Mini Recipe",
-    "publisher": "Mini Recipe",
+    "logoAlt": "Cozy Bites Kitchen Logo",
+    "author": "Cozy Bites Kitchen",
+    "creator": "Cozy Bites Kitchen",
+    "publisher": "Cozy Bites Kitchen",
     "keywords": [
-      "mini recipes",
-      "small batch cooking",
-      "single serving recipes",
-      "food waste reduction",
-      "sustainable cooking",
-      "portion control recipes",
-      "quick healthy meals",
-      "eco-friendly cooking",
-      "American women cooking",
-      "busy mom recipes",
-      "zero waste kitchen",
-      "meal prep for one"
+      "cozy recipes",
+      "comfort food",
+      "easy recipes",
+      "homecooking",
+      "family dinner ideas",
+      "quick meals",
+      "simple meals",
+      "comfort dishes",
+      "everyday cooking",
+      "home-style recipes",
+      "easy comfort food",
+      "family recipes"
     ]
   },
   "seo": {
     "openGraph": {
-      "title": "Mini Recipe - Perfect Portions for Busy American Women",
-      "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste with small-batch cooling.",
+      "title": "Cozy Bites Kitchen - Easy & Comfort Recipes for Everyday Cooking",
+      "description": "Easy, cozy, and delicious homemade recipes for everyday cooking. Quick meals, comfort dishes, family dinners, and simple home-style favorites.",
       "images": [
         {
           "url": "/og-image.jpg",
           "width": 1200,
           "height": 630,
-          "alt": "Mini Recipe - Small batch cooking for busy women"
+          "alt": "Cozy Bites Kitchen - Easy comfort food recipes"
         }
       ],
       "type": "website"
     },
     "twitter": {
       "card": "summary_large_image",
-      "site": "@minirecipe",
-      "creator": "@minirecipe",
-      "title": "Mini Recipe - Perfect Portions for Busy American Women",
-      "description": "Discover 500+ mini recipes perfect for 1-2 servings. Join 50,000+ American women reducing food waste.",
+      "site": "@cozybiteskitchen",
+      "creator": "@cozybiteskitchen",
+      "title": "Cozy Bites Kitchen - Easy & Comfort Recipes",
+      "description": "Easy, cozy, and delicious homemade recipes for everyday cooking. Quick meals and comfort dishes made simple.",
       "image": "/og-image.jpg"
     },
     "verification": {
       "google": "",
       "bing": "",
-      "pinterest": "ab552ac2d12dbf81c53e0cf20c40d964",
+      "pinterest": "",
       "facebook": ""
     },
     "structuredData": {
       "organization": {
         "@type": "Organization",
-        "name": "Mini Recipe",
-        "url": "https://minirecipe.net",
-        "logo": "https://minirecipe.net/logonobg.png",
-        "description": "Your go-to source for delicious, easy-to-make mini recipes perfect for small portions.",
+        "name": "Cozy Bites Kitchen",
+        "url": "https://cozybiteskitchen.com",
+        "logo": "https://cozybiteskitchen.com/logonobg.png",
+        "description": "Easy, cozy, and delicious homemade recipes for everyday cooking. Comfort food made simple for real life.",
         "sameAs": [
-          "https://pinterest.com/minirecipe",
-          "https://instagram.com/minirecipe",
-          "https://facebook.com/minirecipe"
+          "https://www.pinterest.com/cozybiteskitchen_"
         ]
       },
       "website": {
         "@type": "WebSite",
-        "name": "Mini Recipe",
-        "url": "https://minirecipe.net",
-        "description": "Discover 500+ mini recipes perfect for 1-2 servings.",
+        "name": "Cozy Bites Kitchen",
+        "url": "https://cozybiteskitchen.com",
+        "description": "Easy, cozy, and delicious homemade recipes for everyday cooking.",
         "inLanguage": "en-US",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://minirecipe.net/search?q={search_term_string}",
+          "target": "https://cozybiteskitchen.com/search?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       }
@@ -106,11 +104,11 @@
         "disallow": ["/api/", "/admin/"]
       }
     ],
-    "sitemap": "https://minirecipe.net/sitemap.xml",
-    "host": "https://minirecipe.net"
+    "sitemap": "https://cozybiteskitchen.com/sitemap.xml",
+    "host": "https://cozybiteskitchen.com"
   },
   "sitemap": {
-    "baseUrl": "https://minirecipe.net",
+    "baseUrl": "https://cozybiteskitchen.com",
     "changeFrequency": {
       "home": "daily",
       "recipes": "weekly",
@@ -198,8 +196,8 @@
   "socialSharing": {
     "title": "Share this recipe",
     "profileLinks": {
-      "facebook": "https://facebook.com/minirecipe",
-      "pinterest": "https://www.pinterest.com/minirecipe_/"
+      "facebook": "https://www.facebook.com/cozybiteskitchen",
+      "pinterest": "https://www.pinterest.com/cozybiteskitchen_"
     },
     "platforms": [
       {
@@ -211,23 +209,12 @@
         "description": "Share via device options"
       },
       {
-        "id": "facebook",
-        "name": "Facebook",
-        "icon": "facebook",
-        "enabled": true,
-        "mobileOnly": true,
-        "description": "Visit our Facebook page",
-        "type": "profile",
-        "color": "text-blue-600",
-        "hoverColor": "hover:bg-blue-600 hover:text-white"
-      },
-      {
         "id": "pinterest",
         "name": "Pinterest",
         "icon": "external-link",
         "enabled": true,
         "mobileOnly": true,
-        "description": "Visit our Pinterest profile",
+        "description": "Follow us on Pinterest",
         "type": "profile",
         "color": "text-red-600",
         "borderColor": "border-red-600",
@@ -276,9 +263,9 @@
     ]
   },
   "hero": {
-    "title": "PERFECT PORTIONS",
-    "subtitle": "ZERO WASTE COOKING",
-    "description": "**500+ mini recipes for 1-2 servings.** Join 50K+ women eliminating food waste while creating **delicious meals** that fit your busy lifestyle.",
+    "title": "EASY & COZY",
+    "subtitle": "COMFORT RECIPES",
+    "description": "**Easy, cozy, and delicious homemade recipes** for everyday cooking. Quick meals, comfort dishes, family dinners, and **simple home-style favorites** made for real life.",
     "ctaText": "Explore Latest Recipes",
     "ctaTarget": "#recent-recipes"
   },
@@ -290,21 +277,21 @@
       {
         "id": "soups-stews",
         "title": "SOUPS & STEWS",
-        "image": "/Yay-Recipes-84-1.webp",
+        "image": "/soup.webp",
         "bgColor": "bg-primary"
       },
   
       {
         "id": "main-dishes",
         "title": "MAIN DISHES",
-        "image": "/Yay-Recipes-84-1.webp",
+        "image": "/beef.webp",
         "bgColor": "bg-primary"
       },
  
       {
         "id": "breads",
         "title": "BREADS",
-        "image": "/Yay-Recipes-84-1.webp",
+        "image": "/bread.webp",
         "bgColor": "bg-primary"
       }
 
@@ -317,7 +304,7 @@
     "ctaHref": "/recipes"
   },
   "footer": {
-    "description": "Your go-to source for delicious, easy-to-make recipes. From quick weeknight dinners to special occasion treats, we've got you covered.",
+    "description": "Easy, cozy, and delicious homemade recipes for everyday cooking. From quick weeknight dinners to comforting family meals, we've got you covered.",
     "sections": [
       {
         "title": "Recipes",
@@ -327,20 +314,16 @@
             "href": "/recipes"
           },
           {
-            "label": "Appetizer",
-            "href": "/recipes/appetizer"
+            "label": "Soups & Stews",
+            "href": "/recipes/soups-stews"
           },
           {
             "label": "Main Dishes",
             "href": "/recipes/main-dishes"
           },
           {
-            "label": "Breakfast",
-            "href": "/recipes/breakfast"
-          },
-          {
-            "label": "Desserts",
-            "href": "/recipes/desserts"
+            "label": "Breads",
+            "href": "/recipes/breads"
           }
         ]
       },
@@ -382,21 +365,11 @@
     "social": [
       {
         "platform": "Pinterest",
-        "url": "https://pinterest.com/minirecipe",
+        "url": "https://www.pinterest.com/cozybiteskitchen_",
         "icon": "pinterest"
-      },
-      {
-        "platform": "Instagram",
-        "url": "https://instagram.com/minirecipe",
-        "icon": "instagram"
-      },
-      {
-        "platform": "Facebook",
-        "url": "https://facebook.com/minirecipe",
-        "icon": "facebook"
       }
     ],
-    "copyright": "© 2024 Mini Recipe. All rights reserved."
+    "copyright": "© 2024 Cozy Bites Kitchen. All rights reserved."
   },
   "search": {
     "placeholder": "Search recipes...",
@@ -514,93 +487,89 @@
   "pages": {
     "about": {
       "title": "About Us",
-      "description": "Meet Chef Isabella Martinez, CIA graduate and creator of Mini Recipe. Learn her inspiring journey from single mom to celebrated chef, developing perfectly portioned recipes that eliminate food waste and bring joy to home cooking.",
+      "description": "Welcome to Cozy Bites Kitchen - your home for easy, cozy, and delicious homemade recipes for everyday cooking. Comfort food made simple for real life.",
       "keywords": [
-        "chef isabella martinez",
-        "mini recipe creator",
-        "culinary institute america graduate",
-        "single mom chef",
-        "austin chef",
-        "small portion recipes",
-        "professional chef",
-        "food waste reduction chef",
-        "sustainable cooking expert",
-        "chef biography",
-        "recipe developer",
-        "culinary journey"
+        "about cozy bites kitchen",
+        "comfort food blog",
+        "easy recipe blog",
+        "homecooking blog",
+        "family recipes",
+        "everyday cooking",
+        "simple meals blog",
+        "cozy recipes"
       ],
       "openGraph": {
-        "title": "Meet Chef Isabella Martinez - Creator of Mini Recipe",
-        "description": "From CIA graduate to single mom chef, discover Isabella's inspiring journey creating perfectly portioned recipes that eliminate waste and bring joy to home cooking.",
+        "title": "About Cozy Bites Kitchen - Easy Comfort Food Recipes",
+        "description": "Welcome to Cozy Bites Kitchen - your home for easy, cozy, and delicious homemade recipes for everyday cooking.",
         "type": "article",
         "images": [
           {
             "url": "/beautiful-food-photography-colorful-ingredients-co.jpg",
             "width": 1200,
             "height": 630,
-            "alt": "Mini Recipe - Small batch cooking for busy women"
+            "alt": "Cozy Bites Kitchen - Easy comfort food recipes"
           }
         ]
       },
       "hero": {
-        "title": "Meet Chef Isabella",
-        "subtitle": "Creator of Mini Recipe",
-        "description": "**CIA graduate turned busy mom** - creating **perfectly portioned recipes** that eliminate waste and bring joy to your kitchen.",
-        "ctaText": "Read My Story",
-        "ctaTarget": "#story"
+        "title": "Welcome to Cozy Bites Kitchen",
+        "subtitle": "Easy, Cozy & Delicious",
+        "description": "**Comfort food made simple** - creating **easy homemade recipes** for everyday cooking and real-life moments.",
+        "ctaText": "Explore Our Recipes",
+        "ctaTarget": "/recipes"
       },
       "chef": {
-        "name": "Isabella Martinez",
-        "greeting": "Hi I'm Isabella",
-        "image": "/chef.png",
-        "featuredImage": "/chef.png",
-        "description": "I'm an passionate chef with a culinary mind behind Mini Recipe. My passion for cooking was born in the heart of my mother's kitchen, where the aroma of fresh herbs, the warmth of family recipes, and the joy of sharing meals inspired my journey. Here, I bring you recipes crafted with love, flavor, and a touch of culinary tradition.",
+        "name": "Cozy Bites Kitchen",
+        "greeting": "Welcome to Cozy Bites Kitchen",
+        "image": "/logonobg.png",
+        "featuredImage": "/logonobg.png",
+        "description": "At Cozy Bites Kitchen, we believe that great food doesn't have to be complicated. Our passion is creating easy, cozy, and delicious homemade recipes for everyday cooking - quick meals, comfort dishes, family dinners, soups, pastas, and simple home-style favorites. Warm, friendly, and fuss-free cooking made for real life.",
         "story": [
-          "Hi there! I'm Isabella, the chef, passionate foodie, and flavor enthusiast behind Mini Recipe. My love affair with cooking began as a young mom, standing beside my mother in the kitchen, fascinated by the way she turned fresh, simple ingredients into unforgettable meals that brought our family together. Those moments planted the seed for what has grown into my greatest passion: creating food that's not just delicious but a celebration of life.",
-          "After graduating from the Culinary Institute of America in 2018, I worked in high-end restaurants where I learned precision and technique. But it wasn't until I became a mom that I truly understood the challenge of home cooking - especially cooking for smaller households without waste.",
-          "Every Mini Recipe reflects my belief that great food doesn't require waste. Whether you're cooking for yourself, your partner, or introducing your kids to new flavors, these perfectly portioned recipes ensure every ingredient has purpose and every meal brings joy."
+          "Welcome to Cozy Bites Kitchen! We're here to make everyday cooking easy, cozy, and delicious. Whether you're looking for quick weeknight meals, comforting soups, hearty pastas, or simple family dinners, we've got you covered with recipes that are fuss-free and made for real life.",
+          "Our recipes are designed to bring warmth and comfort to your table without complicated techniques or hard-to-find ingredients. We believe that home cooking should be approachable, enjoyable, and filled with the cozy, comforting flavors that make a house feel like home.",
+          "Join us as we explore easy comfort food, simple cooking techniques, and delicious recipes that fit into your busy lifestyle. From soups that warm the soul to quick pasta dishes and family favorites, every recipe is created with love and designed to make your everyday cooking a little bit easier and a lot more delicious."
         ],
         "social": {
           "pinterest": {
-            "url": "https://www.pinterest.com/minirecipe_/",
-            "label": "Follow Mini Recipe on Pinterest"
+            "url": "https://www.pinterest.com/cozybiteskitchen_",
+            "label": "Follow Cozy Bites Kitchen on Pinterest"
           }
         }
       }
     },
     "contact": {
       "title": "Contact Us ",
-      "description": "Get in touch with the Mini Recipe team. Share your small recipe ideas, ask questions about portion sizes, or tell us about your zero-waste cooking journey.",
+      "description": "Get in touch with Cozy Bites Kitchen. Share your cooking questions, recipe ideas, or tell us about your favorite comfort food memories.",
       "keywords": [
         "contact",
         "support",
         "questions",
         "feedback",
-        "mini recipe",
-        "small portions",
-        "zero waste"
+        "cozy bites kitchen",
+        "recipe questions",
+        "comfort food"
       ],
       "openGraph": {
-        "title": "Contact Us",
-        "description": "Get in touch with our team. We'd love to hear about your small recipe journey!",
+        "title": "Contact Us - Cozy Bites Kitchen",
+        "description": "Get in touch with Cozy Bites Kitchen. We'd love to hear about your cooking journey!",
         "type": "website"
       },
       "hero": {
         "title": "Let's Connect!",
-        "description": "**Questions? Recipe ideas? Kitchen triumphs?** Share your mini recipe journey with us - we'd love to hear from you!",
+        "description": "**Questions? Recipe ideas? Kitchen wins?** Share your cozy cooking journey with us - we'd love to hear from you!",
         "ctaText": "Send Message",
         "ctaTarget": "#contact-form"
       },
       "contactInfo": {
         "title": "Contact information",
-        "description": "Have a question, suggestion, or just want to say hello? Feel free to reach out to me via email at contact@minirecipe.com. I'm always excited to connect with fellow food lovers and hear about your kitchen triumphs!",
-        "email": "contact@minirecipe.com"
+        "description": "Have a question, suggestion, or just want to say hello? Feel free to reach out to us via email at hello@cozybiteskitchen.com. We're always excited to connect with fellow food lovers and hear about your cooking adventures!",
+        "email": "hello@cozybiteskitchen.com"
       }
     },
     "privacy": {
       "title": "Privacy Policy",
-      "lastUpdated": "November 10, 2024",
-      "description": "Learn how Mini Recipe collects, uses, and protects your personal information. Complete privacy policy covering cookies, analytics, advertising, and your data rights under GDPR and CCPA.",
+      "lastUpdated": "December 24, 2024",
+      "description": "Learn how Cozy Bites Kitchen collects, uses, and protects your personal information. Complete privacy policy covering cookies, analytics, advertising, and your data rights under GDPR and CCPA.",
       "keywords": [
         "privacy policy", 
         "data protection", 
@@ -609,19 +578,19 @@
         "ccpa", 
         "user rights", 
         "data security", 
-        "mini recipe privacy",
+        "cozy bites kitchen privacy",
         "food blog privacy",
         "personal information protection"
       ],
       "openGraph": {
-        "title": "Privacy Policy - Mini Recipe",
-        "description": "Our commitment to protecting your privacy and personal information when you visit Mini Recipe.",
+        "title": "Privacy Policy - Cozy Bites Kitchen",
+        "description": "Our commitment to protecting your privacy and personal information when you visit Cozy Bites Kitchen.",
         "type": "article"
       },
       "sections": [
         {
           "title": "Introduction",
-          "content": "At Mini Recipe, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services to discover small-portion recipes and sustainable cooking practices."
+          "content": "At Cozy Bites Kitchen, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services to discover easy comfort food recipes and everyday cooking tips."
         },
         {
           "title": "Information We Collect",
@@ -653,10 +622,10 @@
           "title": "How We Use Your Information",
           "content": "We use the information we collect to:",
           "items": [
-            "Provide and maintain our website and mini recipe services",
-            "Send you our newsletter with new small-portion recipes (with your consent)",
+            "Provide and maintain our website and recipe services",
+            "Send you our newsletter with new comfort food recipes (with your consent)",
             "Respond to your comments, questions, and recipe requests",
-            "Improve our website and develop better portion-control recipes",
+            "Improve our website and develop better recipes",
             "Analyze website usage and cooking trends",
             "Personalize your experience and show relevant content",
             "Comply with legal obligations",
@@ -667,8 +636,8 @@
           "title": "Contact Us",
           "content": "If you have any questions about this Privacy Policy, want to exercise your privacy rights, or have concerns about our privacy practices, please contact us:",
           "contact": {
-            "email": "privacy@minirecipe.net",
-            "business": "Mini Recipe",
+            "email": "privacy@cozybiteskitchen.com",
+            "business": "Cozy Bites Kitchen",
             "note": "For privacy requests, please use email contact above",
             "responseTime": "We will respond to your privacy requests within 30 days."
           }
@@ -677,26 +646,26 @@
     },
     "terms": {
       "title": "Terms of Service", 
-      "lastUpdated": "November 10, 2024",
-      "description": "Terms and conditions for using Mini Recipe website and services. Learn about acceptable use policies, content guidelines, and user responsibilities.",
+      "lastUpdated": "December 24, 2024",
+      "description": "Terms and conditions for using Cozy Bites Kitchen website and services. Learn about acceptable use policies, content guidelines, and user responsibilities.",
       "keywords": [
         "terms of service",
         "terms and conditions", 
         "website terms",
         "user agreement",
-        "mini recipe terms",
+        "cozy bites kitchen terms",
         "acceptable use",
         "service terms"
       ],
       "openGraph": {
-        "title": "Terms of Service - Mini Recipe",
-        "description": "Terms and conditions for using Mini Recipe website and services.",
+        "title": "Terms of Service - Cozy Bites Kitchen",
+        "description": "Terms and conditions for using Cozy Bites Kitchen website and services.",
         "type": "article"
       },
       "sections": [
         {
           "title": "Acceptance of Terms",
-          "content": "By accessing and using the Mini Recipe website, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
+          "content": "By accessing and using the Cozy Bites Kitchen website, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
         },
         {
           "title": "Use of Service",
@@ -704,18 +673,18 @@
         },
         {
           "title": "Content and Intellectual Property",
-          "content": "The content on Mini Recipe, including recipes, images, text, graphics, and logos, is protected by intellectual property laws. Personal use is permitted, but commercial use requires written permission."
+          "content": "The content on Cozy Bites Kitchen, including recipes, images, text, graphics, and logos, is protected by intellectual property laws. Personal use is permitted, but commercial use requires written permission."
         },
         {
           "title": "Contact Information",
-          "content": "If you have any questions about these Terms of Service, please contact us at hello@minirecipe.net."
+          "content": "If you have any questions about these Terms of Service, please contact us at hello@cozybiteskitchen.com."
         }
       ]
     },
     "disclaimer": {
       "title": "Disclaimer",
-      "lastUpdated": "November 10, 2024", 
-      "description": "Important disclaimer information about Mini Recipe content, recipe accuracy, health considerations, and nutritional information. Please read before using our recipes.",
+      "lastUpdated": "December 24, 2024", 
+      "description": "Important disclaimer information about Cozy Bites Kitchen content, recipe accuracy, health considerations, and nutritional information. Please read before using our recipes.",
       "keywords": [
         "disclaimer",
         "recipe disclaimer",
@@ -723,38 +692,38 @@
         "nutritional information",
         "cooking safety",
         "food safety",
-        "mini recipe disclaimer",
+        "cozy bites kitchen disclaimer",
         "recipe accuracy",
         "dietary restrictions"
       ],
       "openGraph": {
-        "title": "Disclaimer - Mini Recipe",
-        "description": "Important information about using Mini Recipe content and recipes safely.",
+        "title": "Disclaimer - Cozy Bites Kitchen",
+        "description": "Important information about using Cozy Bites Kitchen content and recipes safely.",
         "type": "article"
       },
       "sections": [
         {
           "title": "General Information",
-          "content": "The information provided on Mini Recipe is for general informational and educational purposes only. While we strive to provide accurate and up-to-date recipes and cooking information, we make no warranties or guarantees about the accuracy, completeness, or reliability of any content on this website."
+          "content": "The information provided on Cozy Bites Kitchen is for general informational and educational purposes only. While we strive to provide accurate and up-to-date recipes and cooking information, we make no warranties or guarantees about the accuracy, completeness, or reliability of any content on this website."
         },
         {
           "title": "Recipe Usage & Safety",
-          "content": "All recipes on Mini Recipe are provided 'as is' and are intended for informational purposes only. Always follow proper food safety guidelines, check ingredients for allergens, and use your best judgment regarding substitutions."
+          "content": "All recipes on Cozy Bites Kitchen are provided 'as is' and are intended for informational purposes only. Always follow proper food safety guidelines, check ingredients for allergens, and use your best judgment regarding substitutions."
         },
         {
           "title": "Health & Dietary Considerations",
-          "content": "Mini Recipe content is not intended to provide medical or dietary advice. If you have food allergies, medical conditions requiring dietary restrictions, or special nutritional needs, please consult with a qualified healthcare professional."
+          "content": "Cozy Bites Kitchen content is not intended to provide medical or dietary advice. If you have food allergies, medical conditions requiring dietary restrictions, or special nutritional needs, please consult with a qualified healthcare professional."
         },
         {
           "title": "Contact Information",
-          "content": "If you have any questions about this disclaimer, please contact us at hello@minirecipe.net."
+          "content": "If you have any questions about this disclaimer, please contact us at hello@cozybiteskitchen.com."
         }
       ]
     },
     "terms-of-use": {
       "title": "Terms of Use",
-      "lastUpdated": "November 10, 2024",
-      "description": "Terms of use for Mini Recipe website. Learn about acceptable use policies, content guidelines, user responsibilities, and website usage rules.",
+      "lastUpdated": "December 24, 2024",
+      "description": "Terms of use for Cozy Bites Kitchen website. Learn about acceptable use policies, content guidelines, user responsibilities, and website usage rules.",
       "keywords": [
         "terms of use",
         "website terms",
@@ -762,19 +731,19 @@
         "acceptable use",
         "user agreement",
         "website rules",
-        "mini recipe terms",
+        "cozy bites kitchen terms",
         "content usage",
         "user responsibilities"
       ],
       "openGraph": {
-        "title": "Terms of Use - Mini Recipe",
-        "description": "Guidelines and rules for using the Mini Recipe website and content.",
+        "title": "Terms of Use - Cozy Bites Kitchen",
+        "description": "Guidelines and rules for using the Cozy Bites Kitchen website and content.",
         "type": "article"
       },
       "sections": [
         {
           "title": "Acceptance of Terms",
-          "content": "By accessing and using the Mini Recipe website, you agree to be bound by these Terms of Use and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
+          "content": "By accessing and using the Cozy Bites Kitchen website, you agree to be bound by these Terms of Use and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site."
         },
         {
           "title": "Website Usage",
@@ -782,43 +751,43 @@
         },
         {
           "title": "Content Usage and Intellectual Property", 
-          "content": "The content on Mini Recipe is protected by intellectual property laws. You may use recipes for personal, non-commercial purposes and share recipe links with proper attribution, but may not copy or republish substantial portions without permission."
+          "content": "The content on Cozy Bites Kitchen is protected by intellectual property laws. You may use recipes for personal, non-commercial purposes and share recipe links with proper attribution, but may not copy or republish substantial portions without permission."
         },
         {
           "title": "Contact Information",
-          "content": "If you have any questions about these Terms of Use, please contact us at hello@minirecipe.net."
+          "content": "If you have any questions about these Terms of Use, please contact us at hello@cozybiteskitchen.com."
         }
       ]
     },
     "categories": {
       "title": "Recipe Categories",
-      "description": "Find your **perfect recipe** by meal type. **Zero waste, maximum flavor** - perfectly portioned for your lifestyle.",
-      "subtitle": "Zero waste, maximum flavor",
+      "description": "Find your **perfect comfort food** by meal type. **Easy, cozy recipes** for everyday cooking and real-life moments.",
+      "subtitle": "Easy, cozy & delicious",
       "resultsText": "{count} categories available",
       "hero": {
         "title": "Recipe Categories",
-        "subtitle": "Zero waste, maximum flavor",
-        "description": "Find your **perfect recipe** by meal type. **Zero waste, maximum flavor** - perfectly portioned for your lifestyle.",
+        "subtitle": "Easy, cozy & delicious",
+        "description": "Find your **perfect comfort food** by meal type. **Easy, cozy recipes** for everyday cooking and real-life moments.",
         "ctaText": "Explore Categories",
         "ctaTarget": "#categories-grid"
       },
       "metadata": {
-        "title": "Recipe Categories - Mini Recipe | Browse All Categories",
-        "description": "Explore all recipe categories on Mini Recipe. From breakfast to dessert, find perfectly portioned recipes organized by meal type for easy browsing.",
+        "title": "Recipe Categories - Cozy Bites Kitchen | Browse All Categories",
+        "description": "Explore all recipe categories on Cozy Bites Kitchen. From soups to main dishes, find easy comfort food recipes organized by meal type for easy browsing.",
         "keywords": [
           "recipe categories",
-          "mini recipe categories",
-          "small batch categories",
-          "breakfast recipes",
-          "lunch recipes",
-          "dinner recipes",
-          "dessert recipes",
-          "healthy recipes",
+          "comfort food categories",
+          "easy recipes",
+          "soup recipes",
+          "main dish recipes",
+          "bread recipes",
+          "family dinner recipes",
+          "everyday cooking",
           "recipe collection"
         ],
         "openGraph": {
-          "title": "Recipe Categories - Explore All Our Mini Recipes",
-          "description": "Explore all recipe categories on Mini Recipe. From breakfast to dessert, find perfectly portioned recipes organized by meal type.",
+          "title": "Recipe Categories - Explore All Our Comfort Food Recipes",
+          "description": "Explore all recipe categories on Cozy Bites Kitchen. From soups to main dishes, find easy comfort food recipes organized by meal type.",
           "type": "website",
           "image": "/beautiful-food-photography-colorful-ingredients-co.jpg"
         }
@@ -847,12 +816,12 @@
       "searchAction": "SearchAction"
     },
     "author": {
-      "name": "Mini Recipe Chef",
+      "name": "Cozy Bites Kitchen",
       "type": "Person",
-      "url": "/author/mini-recipe-chef"
+      "url": "/about"
     },
     "organization": {
-      "name": "Mini Recipe",
+      "name": "Cozy Bites Kitchen",
       "type": "Organization"
     },
     "defaults": {
@@ -895,250 +864,101 @@
 
   "recipes": {
     "allRecipes": {
-      "title": "All Mini Recipes",
-      "description": "**500+ perfectly portioned recipes** for 1-2 servings. **Zero waste, maximum flavor** - browse our complete collection.",
+      "title": "All Cozy Recipes",
+      "description": "**Easy, cozy, and delicious homemade recipes** for everyday cooking. Browse our complete collection of comfort food and family favorites.",
       "metadata": {
-        "title": "All Mini Recipes - Mini Recipe | Small Portion Recipes",
-        "description": "Browse our complete collection of small-batch recipes designed for 1-2 servings. Find perfectly portioned recipes that eliminate food waste and fit your busy lifestyle.",
+        "title": "All Recipes - Cozy Bites Kitchen | Easy Comfort Food Recipes",
+        "description": "Browse our complete collection of easy, cozy, and delicious homemade recipes for everyday cooking. Quick meals, comfort dishes, family dinners, soups, pastas, and simple home-style favorites.",
         "keywords": [
-          "mini recipes",
-          "small batch",
-          "small portions",
-          "1-2 servings",
-          "zero waste cooking",
-          "quick recipes",
-          "busy women recipes"
+          "cozy recipes",
+          "comfort food recipes",
+          "easy recipes",
+          "homecooking",
+          "family dinner ideas",
+          "quick meals",
+          "simple recipes",
+          "everyday cooking"
         ],
         "openGraph": {
-          "title": "All Mini Recipes - Small Portion Collection",
-          "description": "Browse our complete collection of small-batch recipes designed for 1-2 servings",
+          "title": "All Recipes - Cozy Bites Kitchen",
+          "description": "Browse our complete collection of easy, cozy, and delicious homemade recipes for everyday cooking",
           "type": "website"
         }
       }
     },
     "categories": {
-      "appetizer": {
-        "title": "Mini Appetizer Recipes",
-        "description": "**Perfect starter portions** for 1-2 servings. Begin your meal with **delicious appetizers** and zero waste.",
-        "metadata": {
-          "title": "Mini Appetizer Recipes - Small Batch Starters | Mini Recipe",
-          "description": "Start your meal right with perfectly portioned appetizer recipes for 1-2 servings. Small-batch starters that eliminate waste and impress your guests.",
-          "keywords": [
-            "mini appetizer recipes",
-            "small batch appetizers",
-            "single serving starters",
-            "appetizers for one",
-            "quick appetizer recipes",
-            "small portion appetizers",
-            "party appetizers",
-            "appetizers for busy women",
-            "bite-sized appetizers"
-          ],
-          "openGraph": {
-            "title": "Mini Appetizer Recipes - Small Batch Starters",
-            "description": "Start your meal right with perfectly portioned appetizer recipes for 1-2 servings. Small-batch starters with zero waste.",
-            "type": "website",
-            "image": "/appetizer-cheese-crackers-elegant.jpg"
-          }
-        }
-      },
       "soups-stews": {
-        "title": "Mini Soup & Stew Recipes",
-        "description": "**Warming bowls perfected** for 1-2 servings. Comfort food with **zero leftovers** and maximum flavor.",
+        "title": "Soup & Stew Recipes",
+        "description": "**Warming, comforting soups and stews** for everyday cooking. Easy recipes that bring coziness to your kitchen.",
         "metadata": {
-          "title": "Mini Soup & Stew Recipes - Small Batch Comfort Food | Mini Recipe",
-          "description": "Warm up with perfectly portioned soup and stew recipes for 1-2 servings. Comforting meals that reduce waste and satisfy your soul.",
+          "title": "Soup & Stew Recipes - Cozy Bites Kitchen | Easy Comfort Food",
+          "description": "Warm up with easy, cozy soup and stew recipes. Comforting bowls perfect for family dinners and quick weeknight meals.",
           "keywords": [
-            "mini soup recipes",
-            "small batch soups",
-            "single serving stews",
-            "soup for one",
+            "soup recipes",
+            "stew recipes",
+            "comfort food soups",
+            "easy soup recipes",
+            "family soup recipes",
             "quick soup recipes",
-            "small portion soups",
-            "comfort food",
-            "soups for busy women",
+            "homemade soups",
+            "cozy soups",
             "hearty stews"
           ],
           "openGraph": {
-            "title": "Mini Soup & Stew Recipes - Small Batch Comfort Food",
-            "description": "Warm up with perfectly portioned soup and stew recipes for 1-2 servings. Comforting meals with zero waste.",
+            "title": "Soup & Stew Recipes - Cozy Bites Kitchen",
+            "description": "Warm up with easy, cozy soup and stew recipes. Comforting bowls perfect for family dinners.",
             "type": "website",
             "image": "/soup-bowl-vegetables-herbs.jpg"
           }
         }
       },
-      "salads": {
-        "title": "Mini Salad Recipes",
-        "description": "**Fresh greens perfected** for 1-2 servings. Crisp, nutritious salads with **zero waste** and maximum nutrition.",
-        "metadata": {
-          "title": "Mini Salad Recipes - Small Batch Fresh Greens | Mini Recipe",
-          "description": "Enjoy fresh, perfectly portioned salad recipes for 1-2 servings. Crisp greens and vibrant flavors that reduce waste and boost nutrition.",
-          "keywords": [
-            "mini salad recipes",
-            "small batch salads",
-            "single serving salads",
-            "salads for one",
-            "quick salad recipes",
-            "small portion salads",
-            "fresh greens",
-            "salads for busy women",
-            "healthy salads"
-          ],
-          "openGraph": {
-            "title": "Mini Salad Recipes - Small Batch Fresh Greens",
-            "description": "Enjoy fresh, perfectly portioned salad recipes for 1-2 servings. Crisp greens with zero waste.",
-            "type": "website",
-            "image": "/salad-fresh-vegetables-colorful.jpg"
-          }
-        }
-      },
       "main-dishes": {
-        "title": "Mini Main Dish Recipes",
-        "description": "**Satisfying entrees perfected** for 1-2 servings. Complete meals with **zero waste** and maximum satisfaction.",
+        "title": "Main Dish Recipes",
+        "description": "**Satisfying, comforting main dishes** for everyday cooking. Easy dinner recipes the whole family will love.",
         "metadata": {
-          "title": "Mini Main Dish Recipes - Small Batch Entrees | Mini Recipe",
-          "description": "Discover perfectly portioned main dish recipes for 1-2 servings. Complete, satisfying meals that reduce waste and simplify cooking.",
+          "title": "Main Dish Recipes - Cozy Bites Kitchen | Easy Family Dinners",
+          "description": "Discover easy, comforting main dish recipes for everyday cooking. Quick family dinners, hearty meals, and simple home-style favorites.",
           "keywords": [
-            "mini main dish recipes",
-            "small batch entrees",
-            "single serving mains",
-            "main dishes for one",
-            "quick main dish recipes",
-            "small portion mains",
+            "main dish recipes",
+            "easy dinner recipes",
+            "family dinner ideas",
+            "comfort food mains",
+            "quick dinner recipes",
+            "simple main courses",
             "complete meals",
-            "main dishes for busy women",
+            "everyday dinners",
             "satisfying entrees"
           ],
           "openGraph": {
-            "title": "Mini Main Dish Recipes - Small Batch Entrees",
-            "description": "Discover perfectly portioned main dish recipes for 1-2 servings. Complete, satisfying meals with zero waste.",
+            "title": "Main Dish Recipes - Cozy Bites Kitchen",
+            "description": "Discover easy, comforting main dish recipes for everyday cooking. Quick family dinners and simple favorites.",
             "type": "website",
             "image": "/main-dish-protein-vegetables.jpg"
           }
         }
       },
-      "breakfast": {
-        "title": "Mini Breakfast Recipes",
-        "description": "**Perfect morning portions** for 1-2 servings. Start your day energized with **zero waste** breakfast recipes.",
-        "metadata": {
-          "title": "Mini Breakfast Recipes - Small Batch Morning Meals | Mini Recipe",
-          "description": "Start your day with perfectly portioned breakfast recipes for 1-2 servings. Quick morning meals that eliminate waste and fuel your busy day. Mini pancakes, eggs, and more.",
-          "keywords": [
-            "mini breakfast recipes",
-            "small batch breakfast",
-            "single serving breakfast",
-            "breakfast for one",
-            "quick breakfast recipes",
-            "small portion breakfast",
-            "mini pancakes",
-            "breakfast for busy women",
-            "efficient morning meals"
-          ],
-          "openGraph": {
-            "title": "Mini Breakfast Recipes - Small Batch Morning Meals",
-            "description": "Start your day with perfectly portioned breakfast recipes for 1-2 servings. Quick morning meals with zero waste.",
-            "type": "website",
-            "image": "/breakfast-pancakes-coffee-morning.jpg"
-          }
-        }
-      },
       "breads": {
-        "title": "Mini Bread Recipes",
-        "description": "**Freshly baked portions** for 1-2 servings. Homemade breads with **zero waste** and maximum freshness.",
+        "title": "Bread Recipes",
+        "description": "**Fresh, homemade breads** made easy. Warm, cozy baking for everyday cooking and family meals.",
         "metadata": {
-          "title": "Mini Bread Recipes - Small Batch Baking | Mini Recipe",
-          "description": "Bake perfectly portioned bread recipes for 1-2 servings. Fresh, homemade breads that reduce waste and bring warmth to your kitchen.",
+          "title": "Bread Recipes - Cozy Bites Kitchen | Easy Homemade Baking",
+          "description": "Bake easy, delicious homemade bread recipes. Fresh, warm breads that bring comfort and coziness to your kitchen.",
           "keywords": [
-            "mini bread recipes",
-            "small batch baking",
-            "single serving breads",
-            "bread for one",
-            "quick bread recipes",
-            "small portion breads",
+            "bread recipes",
+            "easy baking",
             "homemade bread",
-            "breads for busy women",
-            "fresh baking"
+            "simple bread recipes",
+            "fresh baked bread",
+            "quick bread recipes",
+            "family bread recipes",
+            "cozy baking",
+            "bread for beginners"
           ],
           "openGraph": {
-            "title": "Mini Bread Recipes - Small Batch Baking",
-            "description": "Bake perfectly portioned bread recipes for 1-2 servings. Fresh, homemade breads with zero waste.",
+            "title": "Bread Recipes - Cozy Bites Kitchen",
+            "description": "Bake easy, delicious homemade bread recipes. Fresh, warm breads that bring comfort to your kitchen.",
             "type": "website",
             "image": "/bread-fresh-baked-golden.jpg"
-          }
-        }
-      },
-      "desserts": {
-        "title": "Mini Dessert Recipes",
-        "description": "**Sweet treats perfected** for 1-2 servings. Indulge **guilt-free** with portion-controlled desserts.",
-        "metadata": {
-          "title": "Mini Dessert Recipes - Small Batch Sweet Treats | Mini Recipe",
-          "description": "Indulge in perfectly portioned dessert recipes for 1-2 servings. Sweet treats without the guilt of leftovers or food waste. Mini cakes, cookies, and more.",
-          "keywords": [
-            "mini dessert recipes",
-            "small batch dessert",
-            "single serving dessert",
-            "dessert for one",
-            "mini cakes",
-            "small portion dessert",
-            "individual desserts",
-            "sweet treats for busy women",
-            "portion control desserts"
-          ],
-          "openGraph": {
-            "title": "Mini Dessert Recipes - Small Batch Sweet Treats",
-            "description": "Indulge in perfectly portioned dessert recipes for 1-2 servings. Sweet treats with zero waste.",
-            "type": "website",
-            "image": "/dessert-mini-cake-berries.jpg"
-          }
-        }
-      },
-      "easy-sweet-meals": {
-        "title": "Easy Sweet Meal Recipes",
-        "description": "**Simple sweet dishes** for 1-2 servings. Quick, delightful meals with **zero waste** and maximum sweetness.",
-        "metadata": {
-          "title": "Easy Sweet Meal Recipes - Small Batch Sweet Dishes | Mini Recipe",
-          "description": "Enjoy simple, perfectly portioned sweet meal recipes for 1-2 servings. Quick sweet dishes that reduce waste and satisfy cravings.",
-          "keywords": [
-            "easy sweet meal recipes",
-            "small batch sweet meals",
-            "single serving sweet dishes",
-            "sweet meals for one",
-            "quick sweet recipes",
-            "small portion sweet meals",
-            "simple sweet dishes",
-            "sweet meals for busy women",
-            "effortless sweet cooking"
-          ],
-          "openGraph": {
-            "title": "Easy Sweet Meal Recipes - Small Batch Sweet Dishes",
-            "description": "Enjoy simple, perfectly portioned sweet meal recipes for 1-2 servings. Quick sweet dishes with zero waste.",
-            "type": "website",
-            "image": "/sweet-meal-pancakes-fruit.jpg"
-          }
-        }
-      },
-      "vegetarian-vegan": {
-        "title": "Mini Vegetarian & Vegan Recipes",
-        "description": "**Plant-based perfection** for 1-2 servings. Nutritious, delicious meals with **zero waste** and pure plant power.",
-        "metadata": {
-          "title": "Mini Vegetarian & Vegan Recipes - Small Batch Plant-Based | Mini Recipe",
-          "description": "Discover perfectly portioned vegetarian and vegan recipes for 1-2 servings. Plant-based meals that reduce waste and nourish your body.",
-          "keywords": [
-            "mini vegetarian recipes",
-            "small batch vegan",
-            "single serving plant-based",
-            "vegetarian for one",
-            "quick vegan recipes",
-            "small portion vegetarian",
-            "plant-based meals",
-            "vegetarian for busy women",
-            "healthy plant recipes"
-          ],
-          "openGraph": {
-            "title": "Mini Vegetarian & Vegan Recipes - Small Batch Plant-Based",
-            "description": "Discover perfectly portioned vegetarian and vegan recipes for 1-2 servings. Plant-based meals with zero waste.",
-            "type": "website",
-            "image": "/vegetarian-bowl-quinoa-vegetables.jpg"
           }
         }
       }

@@ -14,9 +14,9 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "Mini Recipe - Small Batch Recipes for 1-2 People",
-  description: "Discover perfectly portioned recipes designed for small households. No more food waste - just delicious meals sized right for you.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://minirecipe.net'),
+  title: "Cozy Bites Kitchen - Easy & Comfort Recipes for Everyday Cooking",
+  description: "Easy, cozy, and delicious homemade recipes for everyday cooking. Quick meals, comfort dishes, family dinners, and simple home-style favorites.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://cozybiteskitchen.com'),
   robots: {
     index: true,
     follow: true,
@@ -42,7 +42,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="preload" href="/Yay-Recipes-84-1.webp" as="image" type="image/webp" />
       </head>
       <body className="antialiased font-sans">
         <div className="min-h-screen flex flex-col">

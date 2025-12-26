@@ -111,7 +111,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
   );
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const [userRating, setUserRating] = useState(0);
-  const [showFullNutrition, setShowFullNutrition] = useState(false);
+  // const [showFullNutrition, setShowFullNutrition] = useState(false); // Commented out - nutrition section disabled
   const [servingSize, setServingSize] = useState(
     parseInt(recipe.metadata.recipeYield) || 4
   );
@@ -196,7 +196,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
 
   const handleShare = useCallback(async (platform?: string) => {
     const shareData = {
-      title: `${recipe.metadata.name} - Mini Recipe`,
+      title: `${recipe.metadata.name} - Cozy Bites Kitchen`,
       text: `Check out this delicious ${recipe.metadata.name} recipe! ${recipe.metadata.description}`,
       url: window.location.href,
     };
@@ -272,7 +272,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
     )}&media=${encodeURIComponent(
       recipe.metadata.images[0] || '/placeholder.svg'
     )}&description=${encodeURIComponent(
-      `${recipe.metadata.name} - ${recipe.metadata.description} | Get the full recipe at minirecipe.net`
+      `${recipe.metadata.name} - ${recipe.metadata.description} | Get the full recipe at cozybiteskitchen.com`
     )}`;
     window.open(shareUrl, "_blank", "width=600,height=400");
   }, [recipe.metadata.name, recipe.metadata.description, recipe.metadata.images]);
@@ -401,7 +401,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                     </a>
                   </div>
                   <figcaption className="text-gray-700 text-center">
-                    {recipe.metadata.name} - {recipe.metadata.description}
+                    {recipe.metadata.name}
                   </figcaption>
                 </figure>
                 {/* Author Info and Action Buttons */}
@@ -510,6 +510,38 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                     {recipe.metadata.description} {recipe.introduction}
                   </p>
 
+                  {/* Main Blog Content - SEO & AdSense optimized */}
+                  {recipe.contentHtml && (
+                    <article 
+                      className="blog-content text-gray-800 leading-relaxed 
+                        [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900 [&_h1]:mb-4 [&_h1]:mt-8 [&_h1]:leading-tight
+                        [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h2]:mb-3 [&_h2]:mt-6 [&_h2]:leading-snug
+                        [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mb-3 [&_h3]:mt-5
+                        [&_h4]:text-lg [&_h4]:font-semibold [&_h4]:text-gray-800 [&_h4]:mb-2 [&_h4]:mt-4
+                        [&_p]:text-base [&_p]:text-gray-700 [&_p]:mb-4 [&_p]:leading-relaxed
+                        [&_ul]:list-disc [&_ul]:list-inside [&_ul]:mb-4 [&_ul]:space-y-2 [&_ul]:text-gray-700
+                        [&_ol]:list-decimal [&_ol]:list-inside [&_ol]:mb-4 [&_ol]:space-y-2 [&_ol]:text-gray-700
+                        [&_li]:text-base [&_li]:leading-relaxed [&_li]:ml-4
+                        [&_ul_ul]:ml-6 [&_ul_ul]:mt-2 [&_ul_ul]:mb-2
+                        [&_ol_ol]:ml-6 [&_ol_ol]:mt-2 [&_ol_ol]:mb-2
+                        [&_a]:text-orange-600 [&_a]:hover:text-orange-700 [&_a]:underline [&_a]:font-medium [&_a]:transition-colors
+                        [&_blockquote]:border-l-4 [&_blockquote]:border-orange-500 [&_blockquote]:pl-4 [&_blockquote]:py-2 [&_blockquote]:my-4 [&_blockquote]:italic [&_blockquote]:text-gray-700 [&_blockquote]:bg-orange-50
+                        [&_strong]:font-bold [&_strong]:text-gray-900
+                        [&_b]:font-bold [&_b]:text-gray-900
+                        [&_em]:italic
+                        [&_i]:italic
+                        [&_code]:bg-gray-100 [&_code]:px-2 [&_code]:py-1 [&_code]:rounded [&_code]:text-sm [&_code]:font-mono [&_code]:text-gray-800
+                        [&_pre]:bg-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_pre]:my-4
+                        [&_pre_code]:bg-transparent [&_pre_code]:p-0
+                        [&_img]:rounded-lg [&_img]:my-4 [&_img]:max-w-full [&_img]:h-auto
+                        [&_table]:w-full [&_table]:border-collapse [&_table]:my-4
+                        [&_th]:bg-gray-100 [&_th]:border [&_th]:border-gray-300 [&_th]:px-4 [&_th]:py-2 [&_th]:text-left [&_th]:font-semibold
+                        [&_td]:border [&_td]:border-gray-300 [&_td]:px-4 [&_td]:py-2
+                        [&_hr]:border-gray-300 [&_hr]:my-6"
+                      dangerouslySetInnerHTML={{ __html: recipe.contentHtml }}
+                    />
+                  )}
+
                   {/* Why You'll Love This Recipe */}
                   <aside className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
                     <h2 className="flex items-center gap-3 text-xl font-bold text-gray-900 mb-4">
@@ -568,10 +600,6 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                       <cite className="text-sm font-medium text-orange-700">— {chef.name}</cite>
                     </blockquote>
                   )}
-
-                  <p className="text-lg text-gray-700 leading-relaxed">
-                    {recipe.authorStory || "I remember the first time I made this recipe for friends, and the room fell silent except for happy munching sounds. It's become one of our most requested dishes for game nights and gatherings."}
-                  </p>
 
                   {/* Storage Instructions */}
                   {recipe.storage && recipe.storage.content && (
@@ -658,6 +686,44 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                     </div>
                   </div>
 
+                  {/* Ingredients Image (Image 2) */}
+                  {recipe.metadata.images[1] && (
+                    <figure className="text-sm my-8">
+                      <div className="aspect-video relative mb-2">
+                        <Image
+                          src={recipe.metadata.images[1]}
+                          alt={`${recipe.metadata.name} - Ingredients`}
+                          fill
+                          className="object-cover rounded-lg"
+                          sizes="(max-width: 768px) 100vw, 800px"
+                          loading="lazy"
+                        />
+                        <a
+                          className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePinterestPin();
+                          }}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              handlePinterestPin();
+                            }
+                          }}
+                          aria-label={`Pin ${recipe.metadata.name} ingredients to Pinterest`}
+                        >
+                          <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                          <span>Pin it</span>
+                        </a>
+                      </div>
+                      <figcaption className="text-gray-700 text-center">
+                        All the ingredients you'll need for {recipe.metadata.name}
+                      </figcaption>
+                    </figure>
+                  )}
+
                   {/* Instructions Section */}
                   <h2 className="text-3xl font-bold text-gray-900">
                     Instructions
@@ -702,54 +768,56 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                     </div>
                   )}
 
-                  {/* Second Featured Image */}
-                  <figure className="text-sm">
-                    <div className="aspect-video relative mb-2">
-                      <Image
-                        src={recipe.metadata.images[0] || "/api/placeholder/800/450"}
-                        alt={`${recipe.metadata.name} prepared and ready to serve`}
-                        fill
-                        className="object-cover rounded-lg"
-                        sizes="(max-width: 768px) 100vw, 800px"
-                        loading="lazy"
-                      />
-                      <a
-                        className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handlePinterestPin();
-                        }}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
+                  {/* Process Image (Image 3) - Show cooking in progress */}
+                  {recipe.metadata.images[2] && (
+                    <figure className="text-sm my-8">
+                      <div className="aspect-video relative mb-2">
+                        <Image
+                          src={recipe.metadata.images[2]}
+                          alt={`${recipe.metadata.name} - Cooking Process`}
+                          fill
+                          className="object-cover rounded-lg"
+                          sizes="(max-width: 768px) 100vw, 800px"
+                          loading="lazy"
+                        />
+                        <a
+                          className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer"
+                          onClick={(e) => {
                             e.preventDefault();
                             handlePinterestPin();
-                          }
-                        }}
-                        aria-label={`Pin ${recipe.metadata.name} recipe to Pinterest`}
-                      >
-                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                        <span>Pin it</span>
-                      </a>
-                    </div>
-                    <figcaption className="text-gray-700 text-center">
-                      A delicious {recipe.metadata.name.toLowerCase()} dish |
-                      minirecipe.net
-                    </figcaption>
-                  </figure>
+                          }}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              handlePinterestPin();
+                            }
+                          }}
+                          aria-label={`Pin ${recipe.metadata.name} cooking process to Pinterest`}
+                        >
+                          <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                          <span>Pin it</span>
+                        </a>
+                      </div>
+                      <figcaption className="text-gray-700 text-center">
+                        {recipe.metadata.name} in progress - cooking step by step
+                      </figcaption>
+                    </figure>
+                  )}
 
-                  {/* Pro Tips Section */}
-                  {recipe.proTips && recipe.proTips.length > 0 && (
-                    <aside className="bg-green-50 border-l-4 border-green-500 p-6 rounded-r-lg">
+                  {/* Tools Section */}
+                  {recipe.tools && recipe.tools.length > 0 && (
+                    <aside className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
                       <h2 className="flex items-center gap-3 text-xl font-bold text-gray-900 mb-4">
-                        <ExternalLink className="h-6 w-6 text-green-600" aria-hidden="true" />
-                        <span>You Must Know</span>
+                        <Utensils className="h-6 w-6 text-blue-600" aria-hidden="true" />
+                        <span>Tools You'll Need</span>
                       </h2>
                       <ul className="space-y-2">
-                        {recipe.proTips.map((tip, index) => (
-                          <li key={index} className="text-gray-700">
-                            {tip}
+                        {recipe.tools.map((tool, index) => (
+                          <li key={index} className="text-gray-700 flex items-start gap-2">
+                            <span className="text-blue-600 mt-1">✓</span>
+                            <span>{tool}</span>
                           </li>
                         ))}
                       </ul>
@@ -1093,7 +1161,8 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                     </div>
                   )}
 
-                  {/* Nutrition */}
+                  {/* Nutrition - Commented out for now */}
+                  {/* 
                   <div className="mb-8">
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">
                       Nutrition Facts (Per Serving)
@@ -1166,6 +1235,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                       )}
                     </div>
                   </div>
+                  */}
 
                   {/* Recipe Keywords */}
                   {recipe.metadata.keywords && (

@@ -15,7 +15,7 @@ export async function SearchResults({ query }: SearchResultsProps) {
           <Search className="h-8 w-8 text-orange-600" />
         </div>
         <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-4">
-          Search Mini Recipes
+          Search Recipes
         </h2>
         <p className="text-gray-600 mb-8">
           Search for ingredients, recipe names, or cooking techniques
@@ -98,7 +98,7 @@ export async function SearchResults({ query }: SearchResultsProps) {
     id: recipe.slug || recipe.databaseId?.toString() || Math.random().toString(),
     slug: recipe.slug,
     title: recipe.title,
-    image: recipe.images?.[0] || recipe.featuredImage?.sourceUrl || "/Yay-Recipes-84-1.webp",
+    image: recipe.images?.[0] || recipe.featuredImage?.sourceUrl,
     featuredImage: recipe.images?.[0] || recipe.featuredImage?.sourceUrl,
     category: recipe.categories?.[0]?.slug || recipe.meta?.difficulty || "Recipe",
     datePublished: recipe.date || new Date().toISOString(),

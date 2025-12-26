@@ -1,76 +1,124 @@
-import { getAllRecipes } from "@/lib/recipes-data"
-import { getSitemapConfig } from "@/lib/config"
-import { generateSlug } from "@/lib/schema-utils"
+import { MetadataRoute } from 'next'
 
-export default async function sitemap() {
-  const sitemapConfig = getSitemapConfig()
-  const baseUrl = sitemapConfig.baseUrl
-  const categories = sitemapConfig.categories
-  // Static pages from config
-  const staticPages = sitemapConfig.staticPages.map(page => ({
-    url: `${baseUrl}${page.url}`,
-    lastModified: page.lastModified === 'auto' ? new Date() : new Date(page.lastModified),
-    changeFrequency: page.changeFrequency as 'daily' | 'weekly' | 'monthly' | 'yearly',
-    priority: page.priority,
+const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL as string
+const FRONTEND_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://modernkitchen.net'
+
+async function getAllRecipesFromWordPress() {
+  const query = `
+    query GetSitemapData {
+      recipes(first: 1000) {
+        nodes {
+          slug
+          modified
+          date
+        }
+      }
+    }
+  `
+  
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query }),
+      next: { revalidate: 3600 }, // Revalidate sitemap every hour
+    })
+    
+    if (!res.ok) {
+      console.error('Failed to fetch recipes for sitemap')
+      return []
+    }
+    
+    const json = await res.json()
+    return json.data?.recipes?.nodes || []
+  } catch (error) {
+    console.error('Error fetching recipes for sitemap:', error)
+    return []
+  }
+}
+
+async function getAllCategoriesFromWordPress() {
+  const query = `
+    query GetCategories {
+      recipeCategories(first: 100) {
+        nodes {
+          slug
+          name
+        }
+      }
+    }
+  `
+  
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query }),
+      next: { revalidate: 3600 },
+    })
+    
+    if (!res.ok) {
+      console.error('Failed to fetch categories for sitemap')
+      return []
+    }
+    
+    const json = await res.json()
+    return json.data?.recipeCategories?.nodes || []
+  } catch (error) {
+    console.error('Error fetching categories for sitemap:', error)
+    return []
+  }
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // 1. Static Pages
+  const staticRoutes = [
+    '',
+    '/about',
+    '/contact',
+    '/recipes',
+    '/categories',
+    '/disclaimer',
+    '/privacy',
+    '/terms',
+    '/terms-of-use',
+  ].map((route) => ({
+    url: `${FRONTEND_URL}${route}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: 'monthly' as const,
+    priority: route === '' ? 1.0 : 0.8,
   }))
 
   try {
-    // Fetch dynamic data
-    const [recipes] = await Promise.all([
-      getAllRecipes(),
+    // 2. Fetch dynamic data from WordPress
+    const [recipes, categories] = await Promise.all([
+      getAllRecipesFromWordPress(),
+      getAllCategoriesFromWordPress(),
     ])
 
-    // Category pages - use actual categories from database
-    const categoryPages = categories.map(category => ({
-      url: `${baseUrl}/recipes/${category.toLowerCase()}`,
-      lastModified: new Date(),
-      changeFrequency: sitemapConfig.changeFrequency.categories as 'weekly',
-      priority: sitemapConfig.priority.categories,
+    console.log(`📄 Generating sitemap with ${recipes.length} recipes and ${categories.length} categories`)
+
+    // 3. Category Pages
+    const categoryRoutes = categories.map((category: any) => ({
+      url: `${FRONTEND_URL}/recipes/${category.slug}`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
     }))
 
-    // Individual recipe pages
-    const recipePages = recipes.map(recipe => {
-      // Generate slug from recipe name
-      const slug = generateSlug(recipe.metadata.name)
-      
-      // Ensure we have a valid date
-      let lastModified = new Date()
-      try {
-        const publishedDate = new Date(recipe.metadata.datePublished)
-        if (!isNaN(publishedDate.getTime())) {
-          lastModified = publishedDate
-        }
-      } catch (error) {
-        console.warn(`Invalid date for recipe ${recipe.metadata.name}:`, recipe.metadata.datePublished)
-      }
+    // 4. Individual Recipe Pages
+    const recipeRoutes = recipes.map((recipe: any) => ({
+      url: `${FRONTEND_URL}/recipes/${recipe.slug}`,
+      lastModified: recipe.modified || recipe.date || new Date().toISOString(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }))
 
-      return {
-        url: `${baseUrl}/recipes/${slug}`,
-        lastModified,
-        changeFrequency: 'monthly' as const,
-        priority: sitemapConfig.priority.recipeDetail,
-      }
-    })
-
-    return [
-      ...staticPages,
-      ...categoryPages,
-      ...recipePages,
-    ]
+    return [...staticRoutes, ...categoryRoutes, ...recipeRoutes]
   } catch (error) {
     console.error('Error generating sitemap:', error)
     
     // Fallback to static pages only if data fetching fails
-    const fallbackCategoryPages = ['breakfast', 'lunch', 'dinner', 'dessert', 'healthy'].map(category => ({
-      url: `${baseUrl}/recipes/${category}`,
-      lastModified: new Date(),
-      changeFrequency: sitemapConfig.changeFrequency.categories as 'weekly',
-      priority: sitemapConfig.priority.categories,
-    }))
-
-    return [
-      ...staticPages,
-      ...fallbackCategoryPages,
-    ]
+    return staticRoutes
   }
 }

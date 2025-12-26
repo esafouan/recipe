@@ -13,11 +13,11 @@ export async function generateMetadata({ searchParams }: SearchPageProps) {
   
   return {
     title: query 
-      ? `Search Results for "${query}" - Mini Recipe`
-      : "Search Recipes - Mini Recipe",
+      ? `Search Results for "${query}" - Recipe`
+      : "Search Recipes - Recipe",
     description: query
-      ? `Find recipes matching "${query}". Browse our collection of mini recipes perfect for 1-2 servings.`
-      : "Search our collection of perfectly portioned recipes. Find exactly what you're looking for with zero waste.",
+      ? `Find recipes matching "${query}". Browse our collection of recipes .`
+      : "Search our collection of perfectly portioned recipes. Find exactly what you're looking for.",
   }
 }
 
@@ -37,7 +37,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         {/* Hero Section with Breadcrumbs */}
         <BasicHero
           title={query ? `Search Results for "${query}"` : "Search Recipes"}
-          description={query ? `Found recipes matching your search` : "Search our collection of mini recipes"}
+          description={query ? `Found recipes matching your search` : "Search our collection of cozy recipes"}
           breadcrumbs={breadcrumbs}
           size="medium"
         />

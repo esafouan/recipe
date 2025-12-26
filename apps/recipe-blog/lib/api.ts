@@ -152,6 +152,15 @@ export async function getRecipe(slug: string) {
         date
         modified
         content
+        seo {
+          title
+          description
+          focusKeywords
+          openGraph {
+            title
+            description
+          }
+        }
         featuredImage {
           node {
             sourceUrl
@@ -179,6 +188,12 @@ export async function getRecipe(slug: string) {
           tools
           recipeImages {
             img1 {
+              node {
+                sourceUrl
+                altText
+              }
+            }
+            img2 {
               node {
                 sourceUrl
                 altText
@@ -257,17 +272,15 @@ function parseRecipeData(wpNode: any) {
     console.log("⚠️  No images found for recipe:", wpNode.title);
   }
 
-  // Generate excerpt from content if not available
-  const excerpt = wpNode.excerpt || (wpNode.content ? wpNode.content.substring(0, 200).replace(/<[^>]*>/g, '') + '...' : '');
-
   return {
     databaseId: wpNode.databaseId,
     title: wpNode.title,
     slug: wpNode.slug,
     date: wpNode.date,
     modified: wpNode.modified,
-    excerpt: excerpt,
     content: wpNode.content,
+    authorStory: acf?.authorStory || wpNode.content || '', // Main blog content for SEO
+    seo: wpNode.seo || null, // Include Rank Math SEO data
     meta: {
       prepTime: acf?.prepTime,
       cookTime: acf?.cookTime,
@@ -468,6 +481,101 @@ export async function searchRecipes(searchTerm: string, limit: number = 20) {
     return recipes.map((recipe: any) => parseRecipeData(recipe));
   } catch (error) {
     console.error('Error searching recipes:', error);
+    throw error;
+  }
+}
+
+export async function getAllRecipes(limit: number = 1000) {
+  const query = `
+    query GetAllRecipes($limit: Int!) {
+      recipes(first: $limit, where: { orderby: { field: DATE, order: DESC } }) {
+        nodes {
+          databaseId
+          title
+          content
+          slug
+          date
+          modified
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          recipeCategories {
+            nodes {
+              name
+              slug
+            }
+          }
+          recipeSchema {
+            prepTime
+            cookTime
+            difficulty
+            dietary
+            rawIngredients
+            rawInstructions
+            recipeImages {
+              img1 {
+                node {
+                  sourceUrl
+                  altText
+                }
+              }
+              img2 {
+                node {
+                  sourceUrl
+                  altText
+                }
+              }
+              img3 {
+                node {
+                  sourceUrl
+                  altText
+                }
+              }
+            }
+            storageSection {
+              title
+              content
+            }
+            subsSection {
+              title
+              content
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, variables: { limit } }),
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const json = await res.json();
+    
+    if (json.errors) {
+      console.error('GraphQL errors:', json.errors);
+      throw new Error('Failed to fetch all recipes');
+    }
+
+    const recipes = json.data?.recipes?.nodes || [];
+    
+    console.log(`🔥 Fetched ${recipes.length} recipes from WordPress`);
+    
+    // Parse each recipe using the parseRecipeData function
+    return recipes.map((recipe: any) => parseRecipeData(recipe));
+  } catch (error) {
+    console.error('Error fetching all recipes:', error);
     throw error;
   }
 }

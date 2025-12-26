@@ -24,7 +24,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
       <Link href={`/recipes/${recipe.slug}`} className="block">
         <div className="relative overflow-hidden rounded-xl mb-6 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
           <Image
-            src={recipe.featuredImage || recipe.image || "/Yay-Recipes-84-1.webp"}
+            src={recipe.featuredImage || recipe.image }
             alt={recipe.title}
             className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
             width={400}

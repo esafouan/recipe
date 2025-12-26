@@ -33,7 +33,7 @@ export function SiteFooter() {
           <div className="space-y-4">
             <Image 
               src="/logonobg.png" 
-              alt="Mini Recipe Logo" 
+              alt="Cozy Bites Kitchen Logo" 
               width={120} 
               height={80} 
             />

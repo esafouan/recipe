@@ -15,74 +15,6 @@ type Recipe = {
   datePublished: string;
 };
 
-// Fallback recipes to prevent hydration issues if API fails
-const fallbackRecipes = [
-  {
-    id: "1",
-    slug: "single-serve-creamy-pasta",
-    title: "Single-Serve Creamy Pasta",
-    image: "/Yay-Recipes-84-1.webp",
-    category: "Dinner",
-    datePublished: "2024-11-05",
-  },
-  {
-    id: "2",
-    slug: "mini-chocolate-chip-cookies",
-    title: "Mini Chocolate Chip Cookies",
-    image: "/Yay-Recipes-84-1.webp",
-    category: "Dessert",
-    datePublished: "2024-11-04",
-  },
-  {
-    id: "3",
-    slug: "personal-quinoa-power-bowl",
-    title: "Personal Quinoa Power Bowl",
-    image: "/Yay-Recipes-84-1.webp",
-    category: "Healthy",
-    datePublished: "2024-11-03",
-  },
-  {
-    id: "4",
-    slug: "quick-avocado-toast",
-    title: "Quick Avocado Toast",
-    image: "/Yay-Recipes-84-1.webp",
-    category: "Breakfast",
-    datePublished: "2024-11-02",
-  },
-  {
-    id: "5",
-    slug: "mini-berry-muffin",
-    title: "Mini Berry Muffin",
-    image: "/Yay-Recipes-84-1.webp",
-    category: "Breakfast",
-    datePublished: "2024-11-01",
-  },
-  {
-    id: "6",
-    slug: "personal-caesar-salad",
-    title: "Personal Caesar Salad",
-    image: "/Yay-Recipes-84-1.webp",
-    category: "Salad",
-    datePublished: "2024-10-31",
-  },
-  {
-    id: "7",
-    slug: "single-serve-smoothie-bowl",
-    title: "Single-Serve Smoothie Bowl",
-    image: "/Yay-Recipes-84-1.webp",
-    category: "Breakfast",
-    datePublished: "2024-10-30",
-  },
-  {
-    id: "8",
-    slug: "mini-chicken-wrap",
-    title: "Mini Chicken Wrap",
-    image: "/Yay-Recipes-84-1.webp",
-    category: "Lunch",
-    datePublished: "2024-10-29",
-  },
-];
-
 async function getRecentRecipes(): Promise<Recipe[]> {
   try {
     console.log("🔥 Fetching recipes from WordPress database...");
@@ -92,7 +24,7 @@ async function getRecentRecipes(): Promise<Recipe[]> {
 
     const recipes = wpRecipes.map((recipe: any) => {
       console.log("📸 Recipe images for", recipe.title, ":", recipe.images);
-      const image = recipe.images?.[0] || "/Yay-Recipes-84-1.webp";
+      const image = recipe.images?.[0] ;
       console.log("🖼️  Selected image:", image);
       
       return {
@@ -116,7 +48,7 @@ async function getRecentRecipes(): Promise<Recipe[]> {
   } catch (error) {
     console.error("❌ Error fetching recipes from WordPress:", error);
     console.log("🔄 Using fallback recipes");
-    return fallbackRecipes;
+    return [];
   }
 }
 
@@ -146,7 +78,7 @@ export async function RecentRecipes() {
               <Link href={`/recipes/${recipe.slug}`} className="block">
                 <div className="relative overflow-hidden rounded-xl mb-4 shadow-sm group-hover:shadow-md transition-shadow duration-300">
                   <Image
-                    src={recipe.image || "/Yay-Recipes-84-1.webp"}
+                    src={recipe.image}
                     alt={recipe.title}
                     className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                     width={300}

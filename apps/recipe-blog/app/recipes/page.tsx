@@ -6,6 +6,9 @@ import { SectionHeader } from "@/components/section-header"
 
 const recipesConfig = getAllRecipesConfig()
 
+// Enable ISR for the recipes page
+export const revalidate = 60 // Revalidate every 60 seconds
+
 // Generate breadcrumbs
 const breadcrumbs = [
   { label: "Home", href: "/" },

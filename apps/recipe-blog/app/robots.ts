@@ -1,17 +1,22 @@
 import { MetadataRoute } from 'next'
-import { getRobotsConfig } from '@/lib/config'
+
+const FRONTEND_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://modernkitchen.net'
  
 export default function robots(): MetadataRoute.Robots {
-  const robotsConfig = getRobotsConfig()
-  
   return {
-    rules: robotsConfig.rules.map(rule => ({
-      userAgent: rule.userAgent,
-      allow: rule.allow,
-      disallow: rule.disallow,
-      crawlDelay: rule.crawlDelay,
-    })),
-    sitemap: robotsConfig.sitemap,
-    host: robotsConfig.host,
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/', '/admin/', '/_next/'],
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: ['/api/', '/admin/'],
+      }
+    ],
+    sitemap: `${FRONTEND_URL}/sitemap.xml`,
+    host: FRONTEND_URL,
   }
 }

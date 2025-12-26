@@ -24,21 +24,20 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-white/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/70 shadow-sm will-change-transform">
+    <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-white/90 backdrop-blur-md shadow-sm will-change-transform">
       {/* Top accent bar */}
-      <div className="h-1 bg-gradient-to-r from-orange-400 to-pink-400"></div>
+      <div className="h-1  from-orange-400 to-pink-400"></div>
       
       <div className="container mx-auto flex h-16 md:h-20 items-center justify-between px-4 md:px-6 max-w-7xl">
         <div className="flex items-center gap-6 md:gap-8">
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative flex items-center transition-transform duration-200 group-hover:scale-105 will-change-transform">
-              <div className="absolute -inset-2 bg-gradient-to-r from-orange-400 to-pink-400 rounded-xl opacity-0 group-hover:opacity-15 transition-opacity duration-200 blur-sm pointer-events-none"></div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+          <Link href="/" className="flex items-center space-x-3 ">
+            <div className="relative flex items-center ">
+              <div className="absolute -inset-2  from-orange-400 to-pink-400 rounded-xl opacity-0 group-hover:opacity-15 transition-opacity duration-200 blur-sm pointer-events-none"></div>
               <img
                 src={siteConfig.logo}
                 alt={siteConfig.logoAlt}
-                width={90}
-                height={60}
+                width={70}
+                height={50}
                 className="relative z-10 transition-all duration-200 group-hover:drop-shadow-md"
               />
             </div>
@@ -59,13 +58,13 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href} 
                 className={cn(
-                  "relative px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 group",
-                  "hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50",
+                  "relative px-4 py-2.5 text-sm font-semibold rounded-xl",
+                  " hover:from-orange-50 hover:to-pink-50",
                   "hover:text-orange-600 hover:scale-[1.02] hover:shadow-sm",
                   "focus:outline-none focus:ring-2 focus:ring-orange-400/20 focus:bg-orange-50",
                   "will-change-transform",
                   isActive(item.href) 
-                    ? "text-orange-600 bg-gradient-to-r from-orange-50 to-pink-50 shadow-sm border border-orange-200/50" 
+                    ? "text-orange-600  from-orange-50 to-pink-50 shadow-sm border border-orange-200/50" 
                     : "text-slate-700 hover:text-orange-600"
                 )}
                 style={{
@@ -75,7 +74,7 @@ export function SiteHeader() {
                 <span className="relative z-10">{item.label}</span>
                 {/* Active indicator */}
                 {isActive(item.href) && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-gradient-to-r from-orange-400 to-pink-400 rounded-full" />
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 from-orange-400 to-pink-400 rounded-full" />
                 )}
                 {/* Simplified hover effect */}
                 <span className="absolute inset-0 rounded-xl bg-orange-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -99,11 +98,11 @@ export function SiteHeader() {
             size="icon"
             className={cn(
               "md:hidden h-10 w-10 rounded-xl transition-all duration-200 group relative",
-              "hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50",
+              " hover:from-orange-50 hover:to-pink-50",
               "hover:text-orange-600 hover:scale-105 hover:shadow-sm",
               "focus:ring-2 focus:ring-orange-400/20 focus:bg-orange-50",
               "will-change-transform",
-              isMobileSearchOpen && "bg-gradient-to-r from-orange-50 to-pink-50 text-orange-600 shadow-sm"
+              isMobileSearchOpen && " from-orange-50 to-pink-50 text-orange-600 shadow-sm"
             )}
             onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
             aria-label="Toggle search"
@@ -117,11 +116,11 @@ export function SiteHeader() {
             size="icon"
             className={cn(
               "lg:hidden h-10 w-10 rounded-xl transition-all duration-200 group relative",
-              "hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50",
+              " hover:from-orange-50 hover:to-pink-50",
               "hover:text-orange-600 hover:scale-105 hover:shadow-sm",
               "focus:ring-2 focus:ring-orange-400/20 focus:bg-orange-50",
               "will-change-transform",
-              isMobileMenuOpen && "bg-gradient-to-r from-orange-50 to-pink-50 text-orange-600 shadow-sm"
+              isMobileMenuOpen && " from-orange-50 to-pink-50 text-orange-600 shadow-sm"
             )}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
@@ -147,12 +146,12 @@ export function SiteHeader() {
                 href={item.href} 
                 className={cn(
                   "relative px-4 py-4 text-base font-semibold rounded-xl transition-all duration-200 group",
-                  "hover:bg-gradient-to-r hover:from-orange-50 hover:to-pink-50",
+                  " hover:from-orange-50 hover:to-pink-50",
                   "hover:text-orange-600 hover:scale-[1.01] hover:shadow-sm",
                   "focus:outline-none focus:ring-2 focus:ring-orange-400/20 focus:bg-orange-50",
                   "will-change-transform",
                   isActive(item.href) 
-                    ? "text-orange-600 bg-gradient-to-r from-orange-50 to-pink-50 shadow-sm border border-orange-200/50" 
+                    ? "text-orange-600 from-orange-50 to-pink-50 shadow-sm border border-orange-200/50" 
                     : "text-slate-700 hover:text-orange-600"
                 )}
                 style={{
@@ -163,12 +162,12 @@ export function SiteHeader() {
                 <span className="relative z-10 flex items-center gap-2">
                   {item.label}
                   {isActive(item.href) && (
-                    <span className="w-2 h-2 bg-gradient-to-r from-orange-400 to-pink-400 rounded-full" />
+                    <span className="w-2 h-2  from-orange-400 to-pink-400 rounded-full" />
                   )}
                 </span>
                 {/* Active indicator for mobile */}
                 {isActive(item.href) && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-orange-400 to-pink-400 rounded-full" />
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8  from-orange-400 to-pink-400 rounded-full" />
                 )}
                 {/* Simplified hover effect */}
                 <span className="absolute inset-0 rounded-xl bg-orange-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />

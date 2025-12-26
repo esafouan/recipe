@@ -10,8 +10,43 @@ export function RecipeSchema({ recipe }: RecipeSchemaProps) {
   
   const config = getSchemaConfig();
   const baseUrl = getBaseUrl();
-  const imageUrl = getImageUrl(recipe.metadata.images[0], baseUrl);
   const slug = generateSlug(recipe.metadata.name);
+
+  // Build image array for Schema.org (supports multiple images)
+  // Image 1: Main recipe image
+  // Image 2: Ingredients image  
+  // Image 3: Recipe in progress image
+  const imageObjects = recipe.metadata.images
+    .filter(Boolean)
+    .slice(0, 3) // Use up to 3 images
+    .map((img, index) => {
+      const imageUrl = getImageUrl(img, baseUrl);
+      const captions = [
+        `${recipe.metadata.name}`,
+        `${recipe.metadata.name} - Ingredients`,
+        `${recipe.metadata.name} - Cooking Process`
+      ];
+      
+      return {
+        "@type": config.types.imageObject,
+        url: imageUrl,
+        width: 1000, // Pinterest-optimized vertical
+        height: 1500,
+        caption: captions[index] || recipe.metadata.name
+      };
+    });
+
+  // Fallback if no images
+  if (imageObjects.length === 0) {
+    const fallbackUrl = getImageUrl(recipe.metadata.images[0], baseUrl);
+    imageObjects.push({
+      "@type": config.types.imageObject,
+      url: fallbackUrl,
+      width: 1000,
+      height: 1500,
+      caption: recipe.metadata.name
+    });
+  }
 
   // Enhanced Recipe Schema with all SEO-critical fields
   const recipeSchema = {
@@ -21,15 +56,7 @@ export function RecipeSchema({ recipe }: RecipeSchemaProps) {
     name: recipe.metadata.name,
     headline: recipe.metadata.name,
     description: recipe.metadata.description,
-    image: [
-      {
-        "@type": config.types.imageObject,
-        url: imageUrl,
-        width: config.defaults.image.width,
-        height: config.defaults.image.height,
-        caption: `${recipe.metadata.name} - ${recipe.metadata.description}`
-      }
-    ],
+    image: imageObjects, // Multiple images for rich results
     author: {
       "@type": config.types.person,
       name: config.author.name,
@@ -66,7 +93,7 @@ export function RecipeSchema({ recipe }: RecipeSchemaProps) {
       name: instruction.name,
       text: instruction.text,
       position: instruction.stepNumber,
-      image: index === 0 ? imageUrl : undefined // Add step images later if available
+      image: index === 0 && imageObjects[0] ? imageObjects[0].url : undefined // Use main image for first step
     })),
     nutrition: {
       "@type": config.types.nutritionInformation,
