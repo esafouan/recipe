@@ -42,6 +42,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <meta name="p:domain_verify" content="89f31719aad6db043644d92d55d205f2" />
       </head>
       <body className="antialiased font-sans">
         <div className="min-h-screen flex flex-col">
