@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getCategoriesPageConfig, getCategoriesConfig } from "@/lib/config";
 import { HeroSection } from "@/components/hero-section-with-breadcrumb";
 import { SectionHeader } from "@/components/section-header";
@@ -78,15 +79,19 @@ export default function CategoriesPage() {
                   <div className="relative bg-white rounded-2xl overflow-hidden">
                     {/* Image Container */}
                     <div className="aspect-[4/3] overflow-hidden relative">
-                      <div
-                        className="w-full h-full bg-cover bg-center bg-no-repeat transform group-hover:scale-105 transition-transform duration-500 ease-out will-change-transform"
-                        style={{
-                          backgroundImage: `url(${category.image})`,
-                        }}
-                      >
-                        {/* Simplified overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent group-hover:from-orange-600/60 transition-all duration-300"></div>
-                      </div>
+                      {/* Optimized Next.js Image */}
+                      <Image
+                        src={category.image}
+                        alt={`${category.title} recipes category`}
+                        fill
+                        className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out will-change-transform"
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 33vw"
+                        loading={index < 3 ? "eager" : "lazy"}
+                        priority={index < 3}
+                      />
+
+                      {/* Simplified overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent group-hover:from-orange-600/60 transition-all duration-300"></div>
 
                       {/* Simple corner accent - CSS only */}
                       <div className="absolute top-0 right-0 w-0 h-0 border-l-[15px] border-l-transparent border-t-[15px] border-t-orange-400/70 group-hover:border-t-pink-400/70 transition-colors duration-300"></div>

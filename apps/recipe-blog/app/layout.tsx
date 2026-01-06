@@ -1,6 +1,5 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import Script from "next/script"
 import "./globals.css"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -36,8 +35,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const GA_ID = process.env.NEXT_PUBLIC_GA_ID
-  
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -48,24 +45,6 @@ export default function RootLayout({
         <meta name="p:domain_verify" content="89f31719aad6db043644d92d55d205f2" />
       </head>
       <body className="antialiased font-sans">
-        {/* Google Analytics */}
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}');
-              `}
-            </Script>
-          </>
-        )}
-        
         <div className="min-h-screen flex flex-col">
           <SiteHeader />
           <main className="flex-1">

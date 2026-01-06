@@ -18,6 +18,16 @@ export const CATEGORY_MAP = {
     label: 'Breads',
     configKey: 'breads',
     description: 'Freshly baked breads and pastries'
+  },
+  'salads': {
+    label: 'Salads',
+    configKey: 'salads',
+    description: 'Fresh and vibrant salad recipes'
+  },
+  'desserts': {
+    label: 'Desserts & Cakes',
+    configKey: 'desserts',
+    description: 'Sweet treats and delicious cakes'
   }
 } as const;
 
@@ -55,7 +65,7 @@ export async function getRecipesByCategory(categorySlug: string) {
         name
         description
         slug
-        recipes {
+        recipes(first: 100) {
           nodes {
             title
             slug

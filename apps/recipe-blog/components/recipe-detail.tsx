@@ -341,7 +341,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
         {/* Hero Section */}
         <BasicHero
           title={recipe.metadata.name}
-          description={recipe.metadata.description}
+          description={""}
           breadcrumbs={
             categorySlug && categoryName
               ? [
@@ -505,10 +505,10 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                 </div>
                 {/* ArticleWrapper */}
                 <div className="article__wrapper space-y-8">
-                  {/* Introduction */}
+                  {/* Introduction
                   <p className="text-lg text-gray-700 leading-relaxed">
                     {recipe.metadata.description} {recipe.introduction}
-                  </p>
+                  </p> */}
 
                   {/* Main Blog Content - SEO & AdSense optimized */}
                   {recipe.contentHtml && (
@@ -902,7 +902,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                         <strong>Prep Time</strong>
                       </div>
                       <span className="text-orange-700 font-semibold">
-                        {recipe.metadata.prepTime} min
+                        {recipe.metadata.prepTime}
                       </span>
                     </div>
                     <div className="text-center">
@@ -911,7 +911,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                         <strong>Cook Time</strong>
                       </div>
                       <span className="text-orange-700 font-semibold">
-                        {recipe.metadata.cookTime} min
+                        {recipe.metadata.cookTime}
                       </span>
                     </div>
                     <div className="text-center">
@@ -920,7 +920,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                         <strong>Total Time</strong>
                       </div>
                       <span className="text-orange-700 font-semibold">
-                        {recipe.metadata.totalTime} min
+                        {recipe.metadata.totalTime}
                       </span>
                     </div>
                   </div>

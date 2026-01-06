@@ -9,8 +9,21 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'cozybiteskitchen.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.cozybiteskitchen.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'floralwhite-dog-967069.hostingersite.com',
+      },
+      // Add any other trusted image CDNs here (e.g., Cloudinary, imgix)
+      // {
+      //   protocol: 'https',
+      //   hostname: 'images.unsplash.com',
+      // },
     ],
   },
 

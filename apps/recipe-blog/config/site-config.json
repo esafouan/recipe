@@ -293,6 +293,20 @@
         "title": "BREADS",
         "image": "/bread.webp",
         "bgColor": "bg-primary"
+      },
+
+      {
+        "id": "salads",
+        "title": "SALADS",
+        "image": "/salad.jpg",
+        "bgColor": "bg-primary"
+      },
+
+      {
+        "id": "desserts",
+        "title": "DESSERTS & CAKES",
+        "image": "/cake.jpg",
+        "bgColor": "bg-primary"
       }
 
     ]
@@ -324,6 +338,14 @@
           {
             "label": "Breads",
             "href": "/recipes/breads"
+          },
+          {
+            "label": "Salads",
+            "href": "/recipes/salads"
+          },
+          {
+            "label": "Desserts & Cakes",
+            "href": "/recipes/desserts"
           }
         ]
       },
@@ -908,7 +930,7 @@
             "title": "Soup & Stew Recipes - Cozy Bites Kitchen",
             "description": "Warm up with easy, cozy soup and stew recipes. Comforting bowls perfect for family dinners.",
             "type": "website",
-            "image": "/soup-bowl-vegetables-herbs.jpg"
+            "image": "/soup.webp"
           }
         }
       },
@@ -933,7 +955,7 @@
             "title": "Main Dish Recipes - Cozy Bites Kitchen",
             "description": "Discover easy, comforting main dish recipes for everyday cooking. Quick family dinners and simple favorites.",
             "type": "website",
-            "image": "/main-dish-protein-vegetables.jpg"
+            "image": "/beef.webp"
           }
         }
       },
@@ -958,7 +980,57 @@
             "title": "Bread Recipes - Cozy Bites Kitchen",
             "description": "Bake easy, delicious homemade bread recipes. Fresh, warm breads that bring comfort to your kitchen.",
             "type": "website",
-            "image": "/bread-fresh-baked-golden.jpg"
+            "image": "/bread.webp"
+          }
+        }
+      },
+      "salads": {
+        "title": "Salad Recipes",
+        "description": "**Fresh, vibrant salads** for everyday cooking. Easy recipes packed with flavor and nutrition.",
+        "metadata": {
+          "title": "Salad Recipes - Cozy Bites Kitchen | Fresh & Easy",
+          "description": "Discover fresh, flavorful salad recipes. Easy salads perfect for healthy meals, quick lunches, and family dinners.",
+          "keywords": [
+            "salad recipes",
+            "fresh salads",
+            "easy salad recipes",
+            "healthy salads",
+            "quick salad recipes",
+            "family salad recipes",
+            "simple salads",
+            "everyday salads",
+            "nutritious salads"
+          ],
+          "openGraph": {
+            "title": "Salad Recipes - Cozy Bites Kitchen",
+            "description": "Discover fresh, flavorful salad recipes perfect for healthy meals and family dinners.",
+            "type": "website",
+            "image": "/salad.jpg"
+          }
+        }
+      },
+      "desserts": {
+        "title": "Desserts & Cakes",
+        "description": "**Sweet, delicious desserts and cakes** for every occasion. Easy recipes that bring joy to your kitchen.",
+        "metadata": {
+          "title": "Desserts & Cakes - Cozy Bites Kitchen | Easy Sweet Treats",
+          "description": "Indulge in easy, delicious desserts and cakes. Simple sweet recipes perfect for family celebrations and everyday treats.",
+          "keywords": [
+            "dessert recipes",
+            "cake recipes",
+            "easy desserts",
+            "homemade cakes",
+            "simple desserts",
+            "family desserts",
+            "quick desserts",
+            "sweet treats",
+            "baking recipes"
+          ],
+          "openGraph": {
+            "title": "Desserts & Cakes - Cozy Bites Kitchen",
+            "description": "Indulge in easy, delicious desserts and cakes perfect for family celebrations.",
+            "type": "website",
+            "image": "/cake.jpg"
           }
         }
       }

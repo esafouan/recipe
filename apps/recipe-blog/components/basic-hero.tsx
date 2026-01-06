@@ -10,13 +10,15 @@ interface BasicHeroProps {
   description?: string
   breadcrumbs: BreadcrumbItem[]
   size?: "small" | "medium" | "large"
+  backgroundImage?: string
 }
 
 export function BasicHero({ 
   title, 
   description, 
   breadcrumbs, 
-  size = "small" 
+  size = "small",
+  backgroundImage
 }: BasicHeroProps) {
   return (
     <HeroSection
@@ -24,6 +26,7 @@ export function BasicHero({
       description={description}
       breadcrumbs={breadcrumbs}
       size={size}
+      backgroundImage={backgroundImage}
     />
   )
 }

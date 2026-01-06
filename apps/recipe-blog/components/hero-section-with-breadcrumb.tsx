@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Breadcrumb } from "@/components/breadcrumb"
 
 interface BreadcrumbItem {
@@ -20,6 +21,7 @@ interface HeroSectionProps {
   subtitle?: string
   breadcrumbs: BreadcrumbItem[]
   backgroundClass?: string
+  backgroundImage?: string
   children?: ReactNode
   cta?: CTAButton
   textAlign?: "left" | "center"
@@ -32,6 +34,7 @@ export function HeroSection({
   subtitle, 
   breadcrumbs, 
   backgroundClass = "bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50",
+  backgroundImage,
   children,
   cta,
   textAlign = "center",
@@ -146,8 +149,27 @@ export function HeroSection({
   }
 
   return (
-    <section className={`relative ${sizeClasses[size]} ${backgroundClass}`}>
-      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+    <section className={`relative ${sizeClasses[size]} ${backgroundImage ? '' : backgroundClass}`}>
+      {/* Background Image */}
+      {backgroundImage && (
+        <>
+          <div className="absolute inset-0 z-0">
+            <Image
+              src={backgroundImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+              quality={85}
+            />
+          </div>
+          {/* Overlay for better text readability */}
+          <div className="absolute inset-0 bg-linear-to-br from-white/90 via-orange-50/80 to-amber-50/90 z-0" />
+        </>
+      )}
+
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
         {/* Breadcrumb */}
         <div className="mb-6 md:mb-8">
           <Breadcrumb items={breadcrumbs} />

@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { AllRecipes } from "@/components/all-recipes"
 import { BasicHero } from "@/components/basic-hero"
 import { getAllRecipesConfig } from "@/lib/config"
 import { SectionHeader } from "@/components/section-header"
+import { Loader2 } from "lucide-react"
 
 const recipesConfig = getAllRecipesConfig()
 
@@ -43,7 +45,16 @@ export default function RecipesPage() {
               <SectionHeader title={recipesConfig.title} />
             </div>
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-            <AllRecipes />
+            <Suspense 
+              fallback={
+                <div className="flex justify-center items-center py-20">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  <span className="ml-3 text-gray-600">Loading recipes...</span>
+                </div>
+              }
+            >
+              <AllRecipes />
+            </Suspense>
           </div>
         </section>
       </main>
