@@ -1,0 +1,36 @@
+# Ezoic Ads.txt - Managed by Ezoic
+# This file is automatically synced with Ezoic's ad partners
+# Last updated: 2026-01-16
+
+# To ensure this stays current, use the redirect method or automated updates
+# Visit https://srv.adstxtmanager.com/19390/cozybiteskitchen.com for the latest version
+
+# Ezoic Ad Partners
+ezoic.com, 19390, DIRECT
+google.com, pub-9840567162044042, RESELLER, f08c47fec0942fa0
+appnexus.com, 10239, RESELLER, f5ab79cb980f11d1
+openx.com, 537120563, RESELLER, 6a698e2ec38604c6
+rubiconproject.com, 17960, RESELLER, 0bfd66d529a55807
+pubmatic.com, 156423, RESELLER, 5d62403b186f2ace
+contextweb.com, 560288, RESELLER, 89ff185a4c4e857c
+districtm.io, 100962, RESELLER, 3fd707be9c4527c3
+sovrn.com, 257611, RESELLER, fafdf38b16bf6b2b
+openx.com, 537143344, RESELLER, 6a698e2ec38604c6
+rhythmone.com, 3169196021, RESELLER, a670c89d4a324e47
+advertising.com, 19398, RESELLER
+emxdgt.com, 326, RESELLER, 1e1d41537f7cad7f
+indexexchange.com, 183965, RESELLER, 50b1c356f2c5c8fc
+adtech.com, 11095, RESELLER
+triplelift.com, 6030, RESELLER, 6c33edb13117fd86
+conversantmedia.com, 40915, RESELLER, 03113cd04947736d
+improvedigital.com, 1114, RESELLER
+google.com, pub-2500372977609723, RESELLER, f08c47fec0942fa0
+smartadserver.com, 3056, RESELLER
+appnexus.com, 3703, RESELLER, f5ab79cb980f11d1
+yahoo.com, 55771, RESELLER, e1a5b5b6e3255540
+33across.com, 0010b00002CpYhEAAV, RESELLER, bbea06d9c4d2853c
+freewheel.tv, 741650, RESELLER
+freewheel.tv, 741954, RESELLER
+
+# Note: For automatic updates, set up a redirect in your hosting configuration
+# Redirect /ads.txt to https://srv.adstxtmanager.com/19390/cozybiteskitchen.com

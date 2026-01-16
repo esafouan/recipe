@@ -42,6 +42,39 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Ezoic Privacy Scripts - Must load FIRST for compliance */}
+        {EZOIC_ENABLED && (
+          <>
+            <Script
+              data-cfasync="false"
+              src="https://cmp.gatekeeperconsent.com/min.js"
+              strategy="beforeInteractive"
+            />
+            <Script
+              data-cfasync="false"
+              src="https://the.gatekeeperconsent.com/cmp.min.js"
+              strategy="beforeInteractive"
+            />
+          </>
+        )}
+        
+        {/* Ezoic Header Script - Initializes ad system */}
+        {EZOIC_ENABLED && (
+          <>
+            <Script
+              async
+              src="//www.ezojs.com/ezoic/sa.min.js"
+              strategy="beforeInteractive"
+            />
+            <Script id="ezoic-standalone" strategy="beforeInteractive">
+              {`
+                window.ezstandalone = window.ezstandalone || {};
+                ezstandalone.cmd = ezstandalone.cmd || [];
+              `}
+            </Script>
+          </>
+        )}
+        
         {/* Google Tag Manager */}
         {GTM_ID && (
           <Script id="gtm-script" strategy="afterInteractive">
@@ -53,14 +86,6 @@ export default function RootLayout({
               })(window,document,'script','dataLayer','${GTM_ID}');
             `}
           </Script>
-        )}
-        
-        {/* Ezoic Privacy Policy Script */}
-        {EZOIC_ENABLED && (
-          <Script
-            src="//g.ezoic.net/ezoic/privacy_ajax.js"
-            strategy="lazyOnload"
-          />
         )}
         
         <link rel="preconnect" href="https://fonts.googleapis.com" />
