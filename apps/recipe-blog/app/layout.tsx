@@ -4,7 +4,6 @@ import Script from "next/script"
 import "./globals.css"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const viewport: Viewport = {
@@ -38,6 +37,7 @@ export default function RootLayout({
 }>) {
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
   const GA_ID = process.env.NEXT_PUBLIC_GA_ID
+  const EZOIC_ENABLED = process.env.NEXT_PUBLIC_EZOIC_ENABLED === 'true'
   
   return (
     <html lang="en" suppressHydrationWarning>
@@ -53,6 +53,14 @@ export default function RootLayout({
               })(window,document,'script','dataLayer','${GTM_ID}');
             `}
           </Script>
+        )}
+        
+        {/* Ezoic Privacy Policy Script */}
+        {EZOIC_ENABLED && (
+          <Script
+            src="//g.ezoic.net/ezoic/privacy_ajax.js"
+            strategy="lazyOnload"
+          />
         )}
         
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -98,7 +106,6 @@ export default function RootLayout({
           </main>
           <SiteFooter />
         </div>
-        <Analytics />
         <SpeedInsights />
       </body>
     </html>

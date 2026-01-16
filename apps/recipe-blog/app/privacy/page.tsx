@@ -78,6 +78,28 @@ export default function PrivacyPage() {
                       )}
                     </section>
                   ))}
+                  
+                  {/* Ezoic Privacy Policy Embed */}
+                  <section className="space-y-4 pt-8 border-t">
+                    <h2 className="text-2xl font-serif font-bold">Third-Party Services & Cookies</h2>
+                    <p className="text-muted-foreground leading-relaxed">
+                      We use Ezoic to provide personalization and analytics services. For detailed information about cookies and data usage:
+                    </p>
+                    <div className="bg-muted/30 p-6 rounded-lg">
+                      <span id="ezoic-privacy-policy-embed"></span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      For more information about Ezoic's privacy practices, visit:{" "}
+                      <a 
+                        href="http://g.ezoic.net/privacy/cozybiteskitchen.com" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        Ezoic Privacy Disclosures
+                      </a>
+                    </p>
+                  </section>
                 </CardContent>
               </Card>
             </div>
