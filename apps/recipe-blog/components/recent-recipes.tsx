@@ -17,15 +17,12 @@ type Recipe = {
 
 async function getRecentRecipes(): Promise<Recipe[]> {
   try {
-    console.log("🔥 Fetching recipes from WordPress database...");
 
     // Fetch recipes from WordPress GraphQL API (already parsed by parseRecipeData)
     const wpRecipes = await getRecentRecipesFromWP(8);
 
     const recipes = wpRecipes.map((recipe: any) => {
-      console.log("📸 Recipe images for", recipe.title, ":", recipe.images);
       const image = recipe.images?.[0] ;
-      console.log("🖼️  Selected image:", image);
       
       return {
         id: recipe.slug || recipe.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -37,17 +34,11 @@ async function getRecentRecipes(): Promise<Recipe[]> {
       };
     });
 
-    console.log(
-      "✅ Successfully fetched",
-      recipes.length,
-      "recipes from WordPress"
-    );
-    console.log("📝 First recipe:", recipes[0]?.title);
+
 
     return recipes.slice(0, 8);
   } catch (error) {
     console.error("❌ Error fetching recipes from WordPress:", error);
-    console.log("🔄 Using fallback recipes");
     return [];
   }
 }

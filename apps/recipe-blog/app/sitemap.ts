@@ -96,7 +96,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       getAllCategoriesFromWordPress(),
     ])
 
-    console.log(`📄 Generating sitemap with ${recipes.length} recipes and ${categories.length} categories`)
 
     // 3. Category Pages
     const categoryRoutes = categories.map((category: any) => ({

@@ -139,7 +139,6 @@ export async function getRecipesByCategory(categorySlug: string) {
     const category = json.data?.recipeCategory;
     const recipes = category?.recipes?.nodes || [];
 
-    console.log(`📂 Fetched ${recipes.length} recipes from category: ${category?.name || categorySlug}`);
 
     return {
       categoryName: category?.name || categorySlug,
@@ -275,11 +274,8 @@ function parseRecipeData(wpNode: any) {
   // If no ACF images, use featured image
   if (images.length === 0 && wpNode.featuredImage?.node?.sourceUrl) {
     images.push(wpNode.featuredImage.node.sourceUrl);
-    console.log("✅ Using featured image:", wpNode.featuredImage.node.sourceUrl);
   } else if (images.length > 0) {
-    console.log("✅ Using ACF images:", images.length, "images found");
   } else {
-    console.log("⚠️  No images found for recipe:", wpNode.title);
   }
 
   return {
@@ -485,7 +481,6 @@ export async function searchRecipes(searchTerm: string, limit: number = 20) {
 
     const recipes = json.data?.recipes?.nodes || [];
     
-    console.log(`🔍 Found ${recipes.length} recipes matching "${searchTerm}"`);
     
     // Parse each recipe using the parseRecipeData function
     return recipes.map((recipe: any) => parseRecipeData(recipe));
@@ -580,7 +575,6 @@ export async function getAllRecipes(limit: number = 1000) {
 
     const recipes = json.data?.recipes?.nodes || [];
     
-    console.log(`🔥 Fetched ${recipes.length} recipes from WordPress`);
     
     // Parse each recipe using the parseRecipeData function
     return recipes.map((recipe: any) => parseRecipeData(recipe));
