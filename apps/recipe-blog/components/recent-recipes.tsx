@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getRecentRecipes as getRecentRecipesFromWP, getCategoryLabel } from "@/lib/api";
+import { getCategoryLabel } from "@/lib/api";
 import { getRecentRecipesConfig } from "@/lib/config";
 import { SectionHeader } from "./section-header";
 
@@ -15,36 +15,11 @@ type Recipe = {
   datePublished: string;
 };
 
-async function getRecentRecipes(): Promise<Recipe[]> {
-  try {
-
-    // Fetch recipes from WordPress GraphQL API (already parsed by parseRecipeData)
-    const wpRecipes = await getRecentRecipesFromWP(8);
-
-    const recipes = wpRecipes.map((recipe: any) => {
-      const image = recipe.images?.[0] ;
-      
-      return {
-        id: recipe.slug || recipe.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        slug: recipe.slug || recipe.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-        title: recipe.title || "Untitled Recipe",
-        image: image,
-        category: recipe.meta?.difficulty || "Recipe",
-        datePublished: recipe.date || new Date().toISOString(),
-      };
-    });
-
-
-
-    return recipes.slice(0, 8);
-  } catch (error) {
-    console.error("❌ Error fetching recipes from WordPress:", error);
-    return [];
-  }
+interface RecentRecipesProps {
+  recipes: Recipe[];
 }
 
-export async function RecentRecipes() {
-  const recipes = await getRecentRecipes();
+export function RecentRecipes({ recipes }: RecentRecipesProps) {
   const recentRecipesConfig = getRecentRecipesConfig();
 
   // Always render exactly 8 recipes
@@ -76,7 +51,6 @@ export async function RecentRecipes() {
                     height={300}
                     loading="lazy"
                     sizes="(max-width: 768px) 50vw, 25vw"
-                    unoptimized={true}
                   />
 
                   {/* Category Badge - Overlay on image */}

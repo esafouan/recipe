@@ -266,8 +266,8 @@
     "title": "EASY & COZY",
     "subtitle": "COMFORT RECIPES",
     "description": "**Easy, cozy, and delicious homemade recipes** for everyday cooking. Quick meals, comfort dishes, family dinners, and **simple home-style favorites** made for real life.",
-    "ctaText": "Explore Latest Recipes",
-    "ctaTarget": "#recent-recipes"
+    "ctaText": "Explore Recipes",
+    "ctaTarget": "/recipes"
   },
   "categories": {
     "title": "RECIPE CATEGORIES",
@@ -541,15 +541,15 @@
         "ctaTarget": "/recipes"
       },
       "chef": {
-        "name": "Cozy Bites Kitchen",
-        "greeting": "Welcome to Cozy Bites Kitchen",
-        "image": "/logonobg.png",
-        "featuredImage": "/logonobg.png",
-        "description": "At Cozy Bites Kitchen, we believe that great food doesn't have to be complicated. Our passion is creating easy, cozy, and delicious homemade recipes for everyday cooking - quick meals, comfort dishes, family dinners, soups, pastas, and simple home-style favorites. Warm, friendly, and fuss-free cooking made for real life.",
+        "name": "Sarah Mitchell",
+        "greeting": "Hi, I'm Sarah!",
+        "image": "/author.png",
+        "featuredImage": "/kitchen.jpg",
+        "description": "I'm Sarah Mitchell, the home cook and mom behind Cozy Bites Kitchen. After years of trying complicated recipes that never quite worked for my busy family life, I started creating my own simple, comforting dishes that actually fit real life. Now I share those recipes here with you.",
         "story": [
-          "Welcome to Cozy Bites Kitchen! We're here to make everyday cooking easy, cozy, and delicious. Whether you're looking for quick weeknight meals, comforting soups, hearty pastas, or simple family dinners, we've got you covered with recipes that are fuss-free and made for real life.",
-          "Our recipes are designed to bring warmth and comfort to your table without complicated techniques or hard-to-find ingredients. We believe that home cooking should be approachable, enjoyable, and filled with the cozy, comforting flavors that make a house feel like home.",
-          "Join us as we explore easy comfort food, simple cooking techniques, and delicious recipes that fit into your busy lifestyle. From soups that warm the soul to quick pasta dishes and family favorites, every recipe is created with love and designed to make your everyday cooking a little bit easier and a lot more delicious."
+          "Welcome to Cozy Bites Kitchen! I'm Sarah, a mom of two and passionate home cook from the Midwest. I started this blog in 2019 after realizing that most recipe sites weren't made for people like me - busy parents who need dinner on the table fast but still want it to taste amazing.",
+          "My cooking philosophy is simple: good food doesn't have to be complicated. I focus on recipes that use everyday ingredients, minimal prep time, and techniques that anyone can master. Whether you're a complete beginner or a seasoned home cook looking for weeknight inspiration, you'll find something here.",
+          "When I'm not in the kitchen, you'll find me chasing after my kids, tending to my small herb garden, or curled up with a good cookbook. I believe that sharing a home-cooked meal is one of the best ways to show love, and I hope my recipes help you create those cozy moments with your own family."
         ],
         "social": {
           "pinterest": {

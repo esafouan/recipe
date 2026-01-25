@@ -16,12 +16,12 @@ import { getCategoriesConfig } from "@/lib/config";
 import { SectionHeader } from "./section-header";
 
 const categoryIcons = [
-  {
-    id: "appetizer",
-    title: "Appetizer",
-    icon: UtensilsCrossed,
-    href: "/recipes/appetizer",
-  },
+  // {
+  //   id: "appetizer",
+  //   title: "Appetizer",
+  //   icon: UtensilsCrossed,
+  //   href: "/recipes/appetizer",
+  // },
   {
     id: "soups-stews",
     title: "Soups & Stews",
@@ -40,12 +40,12 @@ const categoryIcons = [
     icon: ChefHat,
     href: "/recipes/main-dishes",
   },
-  {
-    id: "breakfast",
-    title: "Breakfast",
-    icon: Coffee,
-    href: "/recipes/breakfast",
-  },
+  // {
+  //   id: "breakfast",
+  //   title: "Breakfast",
+  //   icon: Coffee,
+  //   href: "/recipes/breakfast",
+  // },
   {
     id: "breads",
     title: "Breads",
@@ -54,22 +54,22 @@ const categoryIcons = [
   },
   {
     id: "desserts",
-    title: "Desserts",
+    title: "Desserts & Cakes",
     icon: IceCream,
     href: "/recipes/desserts",
   },
-  {
-    id: "easy-sweet-meals",
-    title: "Easy Sweet Meals",
-    icon: Candy,
-    href: "/recipes/easy-sweet-meals",
-  },
-  {
-    id: "vegetarian-vegan",
-    title: "Vegetarian & Vegan",
-    icon: Leaf,
-    href: "/recipes/vegetarian-vegan",
-  },
+  // {
+  //   id: "easy-sweet-meals",
+  //   title: "Easy Sweet Meals",
+  //   icon: Candy,
+  //   href: "/recipes/easy-sweet-meals",
+  // },
+  // {
+  //   id: "vegetarian-vegan",
+  //   title: "Vegetarian & Vegan",
+  //   icon: Leaf,
+  //   href: "/recipes/vegetarian-vegan",
+  // },
 ];
 
 export function CategoriesSection() {
@@ -95,7 +95,6 @@ export function CategoriesSection() {
                     height={150}
                     className="w-full h-auto aspect-[4/3] object-cover hover:opacity-90 transition-opacity duration-300 rounded-t-lg"
                     loading="lazy"
-                    unoptimized={process.env.NODE_ENV === 'development'}
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                   />
                 </Link>

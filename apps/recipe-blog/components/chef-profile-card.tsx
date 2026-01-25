@@ -31,7 +31,6 @@ export function ChefProfileCard({
                   width={96}
                   height={96}
                   className="w-full h-full object-cover"
-                  unoptimized={process.env.NODE_ENV === "development"}
                 />
               </div>
             </div>

@@ -235,8 +235,6 @@ export const TestRecipe: RecipeData = {
 
   authorStory: "After discovering the magic of orgeat one summer, I started bringing this Mai Tai to every gathering and it always disappears first. This recipe became my signature drink for outdoor parties.",
 
-  contentHtml: "<p>After discovering the magic of orgeat one summer, I started bringing this Mai Tai to every gathering and it always disappears first.</p><h2>The Perfect Summer Drink</h2><p>This recipe became my signature drink for outdoor parties, impressing guests with its tropical flavors and beautiful presentation.</p>",
-
   // Ingredients with descriptions
   ingredients: [
     {

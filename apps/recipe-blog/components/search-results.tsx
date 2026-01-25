@@ -1,13 +1,74 @@
-import { searchRecipes } from "@/lib/api"
-import { RecipeCard } from "@/components/recipe-card"
-import { SearchBar } from "@/components/search-bar"
-import { Search } from "lucide-react"
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { RecipeCard } from '@/components/recipe-card'
+import { SearchBar } from '@/components/search-bar'
+import { Pagination } from '@/components/pagination'
+import { Search, Loader2 } from 'lucide-react'
 
 interface SearchResultsProps {
   query: string
 }
 
-export async function SearchResults({ query }: SearchResultsProps) {
+const RECIPES_PER_PAGE = 12
+
+export function SearchResults({ query }: SearchResultsProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const currentPage = Number(searchParams.get('page')) || 1
+  
+  const [recipes, setRecipes] = useState<any[]>([])
+  const [totalRecipes, setTotalRecipes] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch recipes for current page when query or page changes
+  useEffect(() => {
+    async function fetchSearchResults() {
+      if (!query) {
+        setRecipes([])
+        setTotalRecipes(0)
+        setTotalPages(0)
+        return
+      }
+
+      setLoading(true)
+      setError(null)
+
+      try {
+        // Fetch only the current page of results
+        const response = await fetch(
+          `/api/search?q=${encodeURIComponent(query)}&page=${currentPage}&limit=${RECIPES_PER_PAGE}`
+        )
+        if (!response.ok) {
+          throw new Error('Search failed')
+        }
+        const data = await response.json()
+        
+        setRecipes(data.recipes || [])
+        setTotalRecipes(data.total || 0)
+        setTotalPages(data.totalPages || 0)
+      } catch (err) {
+        console.error('Search error:', err)
+        setError('We couldn\'t complete your search. Please try again.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSearchResults()
+  }, [query, currentPage])
+
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', page.toString())
+    router.push(`?${params.toString()}`, { scroll: true })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Empty query state
   if (!query) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
@@ -33,16 +94,17 @@ export async function SearchResults({ query }: SearchResultsProps) {
     )
   }
 
-  let recipes: any[] = []
-  let error = null
-
-  try {
-    recipes = await searchRecipes(query, 20)
-  } catch (e) {
-    error = e
-    console.error("Search error:", e)
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <span className="ml-3 text-gray-600">Searching recipes...</span>
+      </div>
+    )
   }
 
+  // Error state
   if (error) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
@@ -52,9 +114,7 @@ export async function SearchResults({ query }: SearchResultsProps) {
         <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-4">
           Search Error
         </h2>
-        <p className="text-gray-600 mb-8">
-          We couldn't complete your search. Please try again.
-        </p>
+        <p className="text-gray-600 mb-8">{error}</p>
         <div className="max-w-xl mx-auto">
           <SearchBar />
         </div>
@@ -62,7 +122,8 @@ export async function SearchResults({ query }: SearchResultsProps) {
     )
   }
 
-  if (recipes.length === 0) {
+  // No results state
+  if (recipes.length === 0 && totalRecipes === 0) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-6">
@@ -114,7 +175,11 @@ export async function SearchResults({ query }: SearchResultsProps) {
       {/* Results Count */}
       <div className="mb-8">
         <p className="text-gray-600">
-          Found <strong>{recipes.length}</strong> recipe{recipes.length !== 1 ? 's' : ''} matching{" "}
+          Showing{' '}
+          <strong>
+            {((currentPage - 1) * RECIPES_PER_PAGE) + 1}-{Math.min(currentPage * RECIPES_PER_PAGE, totalRecipes)}
+          </strong>{' '}
+          of <strong>{totalRecipes}</strong> recipe{totalRecipes !== 1 ? 's' : ''} matching{' '}
           <strong>"{query}"</strong>
         </p>
       </div>
@@ -125,6 +190,17 @@ export async function SearchResults({ query }: SearchResultsProps) {
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-12">
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
     </div>
   )
 }

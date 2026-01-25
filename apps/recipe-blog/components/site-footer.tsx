@@ -74,7 +74,7 @@ export function SiteFooter() {
         </div>
 
         <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Mahdi Dev. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Cozy Bites Kitchen. All rights reserved.</p>
         </div>
       </div>
     </footer>

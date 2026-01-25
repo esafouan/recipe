@@ -222,16 +222,44 @@ function convertWpToRecipeData(wpData: any): RecipeData | null {
     || strippedContent.substring(0, 300)
     || '';
 
+  // Calculate times properly
+  const prepTime = wpData.meta?.prepTime || 'PT15M';
+  const cookTime = wpData.meta?.cookTime || 'PT30M';
+  
+  // Helper function to parse ISO 8601 duration to minutes
+  const parseISODuration = (duration: string): number => {
+    const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
+    if (!match) return 0;
+    const hours = parseInt(match[1] || '0', 10);
+    const minutes = parseInt(match[2] || '0', 10);
+    return hours * 60 + minutes;
+  };
+  
+  // Helper function to convert minutes to ISO 8601 duration
+  const toISODuration = (minutes: number): string => {
+    if (minutes >= 60) {
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      return mins > 0 ? `PT${hours}H${mins}M` : `PT${hours}H`;
+    }
+    return `PT${minutes}M`;
+  };
+  
+  // ALWAYS calculate total time from prep + cook to ensure consistency
+  // WordPress data may have incorrect totalTime values
+  const calculatedTotalMinutes = parseISODuration(prepTime) + parseISODuration(cookTime);
+  const totalTime = toISODuration(calculatedTotalMinutes);
+
   return {
     metadata: {
       name: wpData.title || '',
       description: stripHtml(wpData.content).substring(0, 160) || '',
       datePublished: wpData.date || new Date().toISOString(),
       dateModified: wpData.modified || new Date().toISOString(),
-      prepTime: wpData.meta?.prepTime || 'PT15M',
-      cookTime: wpData.meta?.cookTime || 'PT30M',
-      totalTime: 'PT45M',
-      recipeYield: '4',
+      prepTime: prepTime,
+      cookTime: cookTime,
+      totalTime: totalTime,
+      recipeYield: wpData.meta?.recipeYield || '4 servings',
       recipeCategory: dietaryValue || 'Main Dish',
       recipeCuisine: 'International',
       difficulty: difficulty,

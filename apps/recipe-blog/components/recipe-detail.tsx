@@ -26,6 +26,65 @@ import { getCategoryLabel, getConfigKeyFromWpSlug } from "@/lib/api";
 import siteConfig from "@/config/site-config.json";
 import { RecipeData } from "@/lib/recipes-data";
 
+// Helper function to format date consistently (avoids hydration mismatch)
+function formatDateConsistent(dateString: string): string {
+  const date = new Date(dateString);
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return `${months[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+}
+
+// Helper function to parse time string to minutes
+function parseTimeToMinutes(timeStr: string | undefined): number {
+  if (!timeStr) return 0;
+  
+  const str = timeStr.toLowerCase().trim();
+  let totalMinutes = 0;
+  
+  // Match hours (e.g., "1 hours", "2 hrs", "1h")
+  const hourMatch = str.match(/(\d+)\s*(hours?|hrs?|h)/);
+  if (hourMatch) {
+    totalMinutes += parseInt(hourMatch[1]) * 60;
+  }
+  
+  // Match minutes (e.g., "30 mins", "15 minutes", "30m")
+  const minMatch = str.match(/(\d+)\s*(mins?|minutes?|m)/);
+  if (minMatch) {
+    totalMinutes += parseInt(minMatch[1]);
+  }
+  
+  // If just a plain number, assume minutes
+  if (totalMinutes === 0 && /^\d+$/.test(str)) {
+    totalMinutes = parseInt(str);
+  }
+  
+  return totalMinutes;
+}
+
+// Helper function to format total time for display
+function formatTotalTime(prepTime: string | undefined, cookTime: string | undefined): string {
+  const prepMinutes = parseTimeToMinutes(prepTime);
+  const cookMinutes = parseTimeToMinutes(cookTime);
+  const totalMinutes = prepMinutes + cookMinutes;
+  
+  if (totalMinutes === 0) return "";
+  
+  if (totalMinutes < 60) {
+    return `${totalMinutes} mins`;
+  }
+  
+  const hours = Math.floor(totalMinutes / 60);
+  const mins = totalMinutes % 60;
+  
+  if (mins === 0) {
+    return hours === 1 ? "1 hr" : `${hours} hrs`;
+  }
+  
+  return hours === 1 ? `1 hr ${mins} mins` : `${hours} hrs ${mins} mins`;
+}
+
 interface RecipeDetailProps {
   recipe: RecipeData | null;
   relatedRecipes?: Array<{
@@ -417,14 +476,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                       </span>
                       <span>•</span>
                       <time dateTime={recipe.metadata.datePublished}>
-                        {new Date(recipe.metadata.datePublished).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )}
+                        {formatDateConsistent(recipe.metadata.datePublished)}
                       </time>
                     </div>
 
@@ -920,7 +972,7 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                         <strong>Total Time</strong>
                       </div>
                       <span className="text-orange-700 font-semibold">
-                        {recipe.metadata.totalTime}
+                        {formatTotalTime(recipe.metadata.prepTime, recipe.metadata.cookTime)}
                       </span>
                     </div>
                   </div>
