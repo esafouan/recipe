@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 /**
  * Dynamic ads.txt route that redirects to Ezoic's managed ads.txt
@@ -9,12 +10,11 @@ import { NextResponse } from 'next/server';
  * - No caching issues
  * - Follows Ezoic's best practices
  */
-export async function GET() {
-  const domain = process.env.NEXT_PUBLIC_BASE_URL?.replace(/https?:\/\//, '') || 'cozybiteskitchen.com';
-  const ezoicAdsUrl = `https://srv.adstxtmanager.com/19390/${domain}`;
-  
-  // Redirect to Ezoic's managed ads.txt
-  return NextResponse.redirect(ezoicAdsUrl, 301);
+export async function GET(request: NextRequest) {
+  return NextResponse.redirect(
+    'https://srv.adstxtmanager.com/82922/cozybiteskitchen.com',
+    307
+  );
 }
 
 // Set caching headers for better performance
