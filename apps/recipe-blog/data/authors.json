@@ -1,0 +1,107 @@
+{
+  "authors": [
+    {
+      "id": "sarah-mitchell",
+      "name": "Sarah Mitchell",
+      "role": "Founder & Family Recipe Expert",
+      "bio": "Mom of two and the heart behind Cozy Bites Kitchen. I believe the best recipes are the ones that bring families together at the dinner table.",
+      "longBio": "After years of juggling full-time work and feeding a busy family, Sarah founded Cozy Bites Kitchen to share recipes that work for real life. Her specialty is transforming complicated dishes into family-friendly favorites that even picky eaters love. When she's not in the kitchen testing new recipes, you'll find her teaching her kids the joy of cooking.",
+      "image": "/authors/sarah-mitchell.jpg",
+      "specialties": ["Family Meals", "Main Dishes", "Kid-Friendly"],
+      "tone": "warm",
+      "writingStyle": "conversational",
+      "signature": "As a busy mom, I know you need recipes that actually work. That's why every recipe here is tested by my toughest critics—my kids!",
+      "social": {
+        "pinterest": "https://www.pinterest.com/cozybiteskitchen_/sarah-mitchell",
+        "instagram": "@sarahmitchell_cooks"
+      },
+      "favoriteQuote": "Good food is all about making memories around the table.",
+      "recipeApproach": "Family-tested, kid-approved, always includes tips for picky eaters"
+    },
+    {
+      "id": "emily-chen",
+      "name": "Emily Chen",
+      "role": "Quick Meal Specialist",
+      "bio": "Busy professional who believes you shouldn't sacrifice flavor for convenience. I specialize in 30-minute meals and smart meal prep.",
+      "longBio": "Emily brings a modern, efficient approach to home cooking. With a background in meal planning and nutrition, she creates recipes perfect for busy professionals and young couples who want delicious food without spending hours in the kitchen. Her meal prep strategies have helped thousands simplify their cooking routine.",
+      "image": "/authors/emily-chen.jpg",
+      "specialties": ["Quick Meals", "Meal Prep", "One-Pot Dinners"],
+      "tone": "energetic",
+      "writingStyle": "practical",
+      "signature": "No one has hours to cook anymore. My recipes get you in and out of the kitchen fast—without cutting corners on taste.",
+      "social": {
+        "pinterest": "https://www.pinterest.com/cozybiteskitchen_/emily-chen",
+        "instagram": "@emilychen_quickmeals"
+      },
+      "favoriteQuote": "Time-saving doesn't mean taste-sacrificing!",
+      "recipeApproach": "Fast, efficient, always includes time-saving tips and shortcuts"
+    },
+    {
+      "id": "marco-rodriguez",
+      "name": "Marco Rodriguez",
+      "role": "International Flavor Expert",
+      "bio": "Culinary explorer bringing bold, authentic flavors from around the world to your home kitchen.",
+      "longBio": "Growing up in a Mexican-American household, Marco learned early that food is about passion and tradition. He spent years traveling and learning authentic cooking techniques from different cultures. Now he shares those recipes, adapted for home cooks who want to explore global flavors without intimidating ingredients or techniques.",
+      "image": "/authors/marco-rodriguez.jpg",
+      "specialties": ["International Cuisine", "Bold Flavors", "Authentic Techniques"],
+      "tone": "passionate",
+      "writingStyle": "storytelling",
+      "signature": "Every recipe tells a story. Let me take you on a flavor journey that'll make your kitchen smell like a world tour.",
+      "social": {
+        "pinterest": "https://www.pinterest.com/cozybiteskitchen_/marco-rodriguez",
+        "instagram": "@marco_flavors"
+      },
+      "favoriteQuote": "Cooking is love made edible.",
+      "recipeApproach": "Story-driven, cultural context, ingredient substitutions for accessibility"
+    },
+    {
+      "id": "olivia-greene",
+      "name": "Olivia Greene",
+      "role": "Healthy Living Specialist",
+      "bio": "Plant-forward cooking enthusiast who proves healthy eating can be absolutely delicious and satisfying.",
+      "longBio": "Olivia's journey to healthy eating began after feeling sluggish from years of processed foods. She's passionate about fresh, seasonal ingredients and creating recipes that nourish both body and soul. Her approach isn't about restriction—it's about celebrating whole foods in creative, delicious ways that leave you energized.",
+      "image": "/authors/olivia-greene.jpg",
+      "specialties": ["Healthy Recipes", "Salads", "Plant-Based", "Fresh Ingredients"],
+      "tone": "encouraging",
+      "writingStyle": "educational",
+      "signature": "Healthy eating should make you feel amazing, not deprived. I'm here to show you it can be both nourishing AND crave-worthy.",
+      "social": {
+        "pinterest": "https://www.pinterest.com/cozybiteskitchen_/olivia-greene",
+        "instagram": "@olivia_wholesome"
+      },
+      "favoriteQuote": "Eat food that loves you back.",
+      "recipeApproach": "Nutrition-focused, ingredient benefits explained, seasonal recommendations"
+    },
+    {
+      "id": "david-thompson",
+      "name": "David Thompson",
+      "role": "Comfort Food Master",
+      "bio": "Third-generation home cook preserving traditional recipes while adding modern twists. Soups and breads are my love language.",
+      "longBio": "David learned to cook from his grandmother's handwritten recipe cards. He's dedicated to preserving classic comfort food traditions while making them accessible to modern cooks. His specialty is transforming intimidating techniques (like bread baking) into approachable, foolproof processes. Known for his detailed instructions and encouraging teaching style.",
+      "image": "/authors/david-thompson.jpg",
+      "specialties": ["Comfort Food", "Soups & Stews", "Breads & Baking", "Traditional Recipes"],
+      "tone": "warm-traditional",
+      "writingStyle": "detailed-instructive",
+      "signature": "Comfort food is about more than taste—it's about the memories we create. Let me teach you the techniques my grandma taught me.",
+      "social": {
+        "pinterest": "https://www.pinterest.com/cozybiteskitchen_/david-thompson",
+        "instagram": "@david_comfortcooks"
+      },
+      "favoriteQuote": "Good bread and soup can fix almost anything.",
+      "recipeApproach": "Technique-focused, includes troubleshooting, heritage recipe stories"
+    }
+  ],
+  "authorAssignments": {
+    "beef": "sarah-mitchell",
+    "soup": "david-thompson",
+    "bread": "david-thompson",
+    "salads": "olivia-greene",
+    "desserts": "sarah-mitchell",
+    "main-dishes": "sarah-mitchell",
+    "soups-stews": "david-thompson",
+    "breads": "david-thompson",
+    "quick-easy": "emily-chen",
+    "international": "marco-rodriguez",
+    "healthy": "olivia-greene"
+  }
+}

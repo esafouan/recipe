@@ -184,6 +184,10 @@
         "href": "/recipes"
       },
       {
+        "label": "Authors",
+        "href": "/authors"
+      },
+      {
         "label": "About",
         "href": "/about"
       },
@@ -543,13 +547,13 @@
       "chef": {
         "name": "Sarah Mitchell",
         "greeting": "Hi, I'm Sarah!",
-        "image": "/author.png",
-        "featuredImage": "/kitchen.jpg",
-        "description": "I'm Sarah Mitchell, the home cook and mom behind Cozy Bites Kitchen. After years of trying complicated recipes that never quite worked for my busy family life, I started creating my own simple, comforting dishes that actually fit real life. Now I share those recipes here with you.",
+        "image": "/authors/sarah-mitchell.jpg",
+        "featuredImage": "/authors/sarah-mitchell-kitchen.jpg",
+        "description": "I'm Sarah Mitchell, founder of Cozy Bites Kitchen and mom of two. What started as my personal mission to create simple family recipes has grown into a team of five passionate recipe creators. Together, we bring you diverse perspectives, expertise, and flavors for every occasion.",
         "story": [
-          "Welcome to Cozy Bites Kitchen! I'm Sarah, a mom of two and passionate home cook from the Midwest. I started this blog in 2019 after realizing that most recipe sites weren't made for people like me - busy parents who need dinner on the table fast but still want it to taste amazing.",
-          "My cooking philosophy is simple: good food doesn't have to be complicated. I focus on recipes that use everyday ingredients, minimal prep time, and techniques that anyone can master. Whether you're a complete beginner or a seasoned home cook looking for weeknight inspiration, you'll find something here.",
-          "When I'm not in the kitchen, you'll find me chasing after my kids, tending to my small herb garden, or curled up with a good cookbook. I believe that sharing a home-cooked meal is one of the best ways to show love, and I hope my recipes help you create those cozy moments with your own family."
+          "Welcome to Cozy Bites Kitchen! I'm Sarah, founder and the home cook who started this journey in 2019 after one too many complicated recipes that didn't fit real family life. But here's the exciting part—what began as my solo project has evolved into something much bigger.",
+          "Today, Cozy Bites Kitchen is powered by a diverse team of five recipe creators: me (Sarah Mitchell, family meals expert), Emily Chen (quick meal specialist), Marco Rodriguez (international flavors), Olivia Greene (healthy living advocate), and David Thompson (comfort food master). Each brings unique expertise, cultural perspectives, and cooking styles.",
+          "Our philosophy remains simple: good food doesn't have to be complicated. Whether you need a 20-minute weeknight dinner, authentic international flavors, healthy plant-based options, or soul-warming comfort food, our team has you covered. Every recipe is tested in real home kitchens by real people—because that's who we are."
         ],
         "social": {
           "pinterest": {

@@ -21,10 +21,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { BasicHero } from "@/components/basic-hero";
 import { ChefProfileCard } from "@/components/chef-profile-card";
+import { AuthorBioCard } from "@/components/author-bio-card";
 import { getChefData, getSocialSharingConfig } from "@/lib/site-config";
 import { getCategoryLabel, getConfigKeyFromWpSlug } from "@/lib/api";
 import siteConfig from "@/config/site-config.json";
 import { RecipeData } from "@/lib/recipes-data";
+import type { Author } from "@/lib/authors";
 
 // Helper function to format date consistently (avoids hydration mismatch)
 function formatDateConsistent(dateString: string): string {
@@ -95,6 +97,7 @@ interface RecipeDetailProps {
   }>;
   categorySlug?: string | null;
   categoryName?: string | null;
+  author?: Author;
 }
 
 // Memoized related recipe item
@@ -161,7 +164,7 @@ const RelatedRecipeItem = memo(({
 
 RelatedRecipeItem.displayName = 'RelatedRecipeItem';
 
-export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryName }: RecipeDetailProps) {
+export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryName, author }: RecipeDetailProps) {
   if (!recipe) return null;
   
   const [showJumpButton, setShowJumpButton] = useState(false);
@@ -467,15 +470,44 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                 <div className="bg-white border-b border-gray-100 py-6">
                   <div className="max-w-3xl mx-auto px-6">
                     {/* Author and Date */}
-                    <div className="flex items-center justify-center gap-4 text-sm text-gray-700 mb-4">
-                      <span>
-                        By{" "}
-                        <span className="font-medium text-gray-900">
-                          {chef.name}
-                        </span>
-                      </span>
-                      <span>•</span>
-                      <time dateTime={recipe.metadata.datePublished}>
+                    <div className="flex items-center justify-center gap-4 mb-4">
+                      {author && (
+                        <>
+                          <div className="flex items-center gap-3">
+                            <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                              <Image
+                                src={author.image}
+                                alt={author.name}
+                                width={40}
+                                height={40}
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="text-left">
+                              <Link 
+                                href={`/authors/${author.id}`}
+                                className="font-medium text-gray-900 hover:text-primary transition-colors"
+                              >
+                                {author.name}
+                              </Link>
+                              <p className="text-xs text-gray-600">{author.role}</p>
+                            </div>
+                          </div>
+                          <span className="text-gray-400">•</span>
+                        </>
+                      )}
+                      {!author && (
+                        <>
+                          <span className="text-sm text-gray-700">
+                            By{" "}
+                            <span className="font-medium text-gray-900">
+                              {chef.name}
+                            </span>
+                          </span>
+                          <span>•</span>
+                        </>
+                      )}
+                      <time dateTime={recipe.metadata.datePublished} className="text-sm text-gray-700">
                         {formatDateConsistent(recipe.metadata.datePublished)}
                       </time>
                     </div>
@@ -1343,6 +1375,14 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                 </div>
               </section>
               {/* end Recipe */}
+
+              {/* Author Bio Card - NEW! */}
+              {author && (
+                <section className="mt-12 mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">About the Author</h2>
+                  <AuthorBioCard author={author} variant="full" />
+                </section>
+              )}
 
               {/* Mobile Chef Card - Only visible on mobile */}
               <section className="lg:hidden mt-8">

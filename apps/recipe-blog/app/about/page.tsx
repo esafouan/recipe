@@ -42,13 +42,13 @@ export default function AboutPage() {
           }}
         />
 
-        {/* About Me Section */}
+        {/* About Us Section */}
         <section id="story" className="py-16 md:py-20 lg:py-24 bg-white">
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
             <div className="text-center mb-12 md:mb-16">
-              <SectionHeader title="My Story" />
+              <SectionHeader title="Our Story" />
               <p className="text-xl text-muted-foreground mt-4 max-w-2xl mx-auto">
-                From a cramped apartment kitchen to sharing recipes with thousands - 
+                From one mom's kitchen experiment to a team of passionate food lovers - 
                 this is how Cozy Bites Kitchen came to life
               </p>
             </div>
@@ -69,16 +69,16 @@ export default function AboutPage() {
                 {/* Large featured image */}
                 <div className="relative rounded-2xl overflow-hidden shadow-lg w-full max-w-2xl mx-auto">
                   <Image
-                    src="/kitchen.jpg"
-                    alt={`${chefData.name} cooking in her kitchen`}
-                    width={800}
-                    height={450}
-                    className="aspect-video w-full h-auto object-cover"
+                    src={chefData.featuredImage || "/kitchen.jpg"}
+                    alt="Sarah Mitchell cooking in her kitchen"
+                    width={1940}
+                    height={1636}
+                    className="w-full h-auto object-cover max-h-[500px]"
                     priority
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <p className="text-sm font-medium">My kitchen where all the recipe testing happens</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 right-6 text-white">
+                    <p className="text-base font-semibold drop-shadow-lg">Sarah's kitchen where all the recipe testing happens</p>
                   </div>
                 </div>
 
@@ -90,20 +90,20 @@ export default function AboutPage() {
                   
                   <div className="prose prose-lg max-w-none space-y-4">
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      I&apos;ll never forget that Tuesday evening. I was juggling a full-time job, an energetic 3-year-old, 
-                      and what was supposed to be a &quot;simple&quot; lasagna recipe. Spoiler alert: nothing about parenting and 
-                      cooking is simple!
+                      I&apos;ll never forget that Tuesday evening. Sarah, our founder, was juggling a full-time job, 
+                      an energetic 3-year-old, and what was supposed to be a &quot;simple&quot; lasagna recipe. 
+                      Spoiler alert: nothing about parenting and cooking is simple!
                     </p>
                     
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      As smoke filled my tiny apartment kitchen and my daughter wailed for dinner, I had an epiphany. 
+                      As smoke filled her tiny apartment kitchen and her daughter wailed for dinner, she had an epiphany. 
                       Every recipe online seemed designed for families of six, professional chefs, or people with 
                       unlimited time. <strong>Where were the recipes for the rest of us?</strong>
                     </p>
 
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      That night, covered in tomato sauce and humbled by kitchen chaos, I made a promise to myself: 
-                      I would create a space for <em>real</em> home cooks—the exhausted moms, the busy professionals, 
+                      That night, covered in tomato sauce and humbled by kitchen chaos, Sarah made a promise: 
+                      she would create a space for <em>real</em> home cooks—the exhausted parents, the busy professionals, 
                       the cooking beginners who just want something delicious without the drama.
                     </p>
                   </div>
@@ -160,25 +160,46 @@ export default function AboutPage() {
                 {/* Today */}
                 <div className="space-y-6">
                   <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900">
-                    Today & Beyond
+                    Today: A Team of Passionate Cooks
                   </h2>
                   
                   <div className="prose prose-lg max-w-none space-y-4">
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      What started as my personal survival guide has grown into a community of over <strong>50,000 home cooks</strong> 
-                      who share one common goal: making delicious, comforting food without the stress.
+                      What started as Sarah's personal survival guide has grown into something much bigger. 
+                      Today, Cozy Bites Kitchen is powered by a <strong>diverse team of five passionate recipe creators</strong>, 
+                      each bringing their unique expertise, cultural background, and cooking style.
                     </p>
                     
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      Every week, I'm in my kitchen (still the same small one!) testing new recipes, reading your comments, 
-                      and answering your questions. Because at the end of the day, we're all just trying to feed ourselves 
-                      and our loved ones well.
+                      From Emily's lightning-fast 20-minute meals to Marco's authentic international flavors, 
+                      from Olivia's vibrant healthy bowls to David's soul-warming comfort food classics—our team 
+                      ensures you'll find recipes for every occasion, dietary preference, and skill level.
                     </p>
 
                     <p className="text-lg text-gray-700 leading-relaxed">
-                      My daughter is now 8, and guess what? She&apos;s my official taste-tester and harshest critic. 
-                      And that burnt lasagna from years ago? We&apos;ve perfected it together—and I&apos;ll teach you how to make it too.
+                      We&apos;re not celebrity chefs or culinary school graduates. We&apos;re home cooks, parents, 
+                      busy professionals, and food lovers who test every single recipe in real kitchens with real families. 
+                      Because at the end of the day, we're all just trying to feed ourselves and our loved ones well.
                     </p>
+
+                    <div className="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                      <p className="text-lg font-semibold text-gray-900 mb-3">
+                        Meet Our Recipe Creators:
+                      </p>
+                      <ul className="space-y-2 text-gray-700">
+                        <li><strong>Sarah Mitchell</strong> - Founder & Family Recipe Expert</li>
+                        <li><strong>Emily Chen</strong> - Quick Meal Specialist</li>
+                        <li><strong>Marco Rodriguez</strong> - International Flavor Expert</li>
+                        <li><strong>Olivia Greene</strong> - Healthy Living Advocate</li>
+                        <li><strong>David Thompson</strong> - Comfort Food Master</li>
+                      </ul>
+                      <Link 
+                        href="/authors" 
+                        className="inline-block mt-4 text-primary hover:text-primary/80 font-semibold"
+                      >
+                        Learn more about our team →
+                      </Link>
+                    </div>
                   </div>
                 </div>
 
@@ -187,27 +208,35 @@ export default function AboutPage() {
                   <CardContent className="p-8 text-center">
                     <h3 className="text-2xl font-serif font-bold mb-3">Let's Cook Together</h3>
                     <p className="text-lg mb-6 text-gray-300">
-                      Join our community and never stress about "what's for dinner" again. 
-                      Every recipe comes with my personal tips, substitution ideas, and honest reviews from real home cooks.
+                      Join our community of home cooks and explore recipes from our diverse team. 
+                      Every recipe comes with personal tips, substitution ideas, and honest reviews from real people.
                     </p>
-                    <Link 
-                      href="/recipes" 
-                      className="inline-block bg-primary text-white font-semibold px-8 py-3 rounded-full hover:bg-primary/90 transition-colors"
-                    >
-                      Browse All Recipes →
-                    </Link>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                      <Link 
+                        href="/recipes" 
+                        className="inline-block bg-primary text-white font-semibold px-8 py-3 rounded-full hover:bg-primary/90 transition-colors"
+                      >
+                        Browse All Recipes →
+                      </Link>
+                      <Link 
+                        href="/authors" 
+                        className="inline-block bg-white text-gray-900 font-semibold px-8 py-3 rounded-full hover:bg-gray-100 transition-colors"
+                      >
+                        Meet Our Authors →
+                      </Link>
+                    </div>
                   </CardContent>
                 </Card>
 
                 {/* Personal Note */}
                 <div className="bg-gray-100 border-l-4 border-gray-400 p-6 rounded-r-lg">
                   <p className="text-gray-700">
-                    <strong>P.S.</strong> Got a recipe request or a cooking disaster story? I'd love to hear it! 
-                    Drop me a line at{" "}
+                    <strong>P.S.</strong> Got a recipe request or a cooking question? Our team would love to hear from you! 
+                    Drop us a line at{" "}
                     <a href="mailto:hello@cozybiteskitchen.com" className="text-primary hover:underline font-medium">
                       hello@cozybiteskitchen.com
                     </a>
-                    {" "}— I read every single message.
+                    {" "}— we read every single message.
                   </p>
                 </div>
               </div>

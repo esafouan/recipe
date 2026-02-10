@@ -4,6 +4,7 @@ import { RecipeDetail } from "@/components/recipe-detail"
 import { RecipeSchema } from "@/components/recipe-schema"
 import { getRecipe, getRecentRecipes } from "@/lib/api"
 import { RecipeData } from "@/lib/recipes-data"
+import { getAuthorForRecipe, getAuthorById } from "@/lib/authors"
 
 // Helper function to strip HTML tags and clean text
 function stripHtml(text: string | null | undefined): string {
@@ -115,6 +116,10 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
       || wpRecipeData.categories?.map((cat: any) => cat.name).join(', ') 
       || '';
 
+    // Get author for this recipe
+    const categoryIds = wpRecipeData.categories?.map((cat: any) => cat.slug) || [];
+    const author = getAuthorForRecipe(categoryIds);
+
     // Build Open Graph images array with all available images
     const ogImages = [
       // Primary image - optimized for Pinterest (vertical 2:3 ratio preferred)
@@ -156,7 +161,7 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
       title: `${title} - Cozy Bites Kitchen`,
       description,
       keywords,
-      authors: [{ name: 'Cozy Bites Kitchen' }],
+      authors: [{ name: author.name, url: `https://cozybiteskitchen.com/authors/${author.id}` }],
       openGraph: {
         title: ogTitle,
         description: ogDescription,
@@ -181,7 +186,7 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
         'pinterest:media': mainImage,
         // Rich Pins for Recipes
         'og:type': 'article',
-        'article:author': 'Cozy Bites Kitchen',
+        'article:author': author.name,
       },
     };
   } catch (error) {
@@ -314,6 +319,40 @@ export default async function RecipePage({ params }: RecipePageProps) {
   const categorySlug = wpRecipeData.categories?.[0]?.slug || null
   const categoryName = wpRecipeData.categories?.[0]?.name || null
 
+  // Get author for this recipe
+  // Priority: 1) assignedAuthor from ACF, 2) extract from content, 3) category-based
+  let author;
+  const assignedAuthorId = (wpRecipeData as any).assignedAuthor;
+  
+  if (assignedAuthorId) {
+    // Use the assigned author from WordPress ACF
+    author = getAuthorById(assignedAuthorId);
+  } else if (wpRecipeData.content) {
+    // Try to extract author from content (e.g., "From Sarah Mitchell:")
+    const authorMatch = wpRecipeData.content.match(/From\s+(Sarah Mitchell|Marco Rodriguez|Olivia Greene|Emily Chen|David Thompson):/i);
+    if (authorMatch) {
+      const authorName = authorMatch[1];
+      // Map name to ID
+      const authorNameToId: Record<string, string> = {
+        'sarah mitchell': 'sarah-mitchell',
+        'marco rodriguez': 'marco-rodriguez',
+        'olivia greene': 'olivia-greene',
+        'emily chen': 'emily-chen',
+        'david thompson': 'david-thompson'
+      };
+      const authorId = authorNameToId[authorName.toLowerCase()];
+      if (authorId) {
+        author = getAuthorById(authorId);
+      }
+    }
+  }
+  
+  if (!author) {
+    // Final fallback to category-based assignment
+    const categoryIds = wpRecipeData.categories?.map((cat: any) => cat.slug) || [];
+    author = getAuthorForRecipe(categoryIds);
+  }
+
   // Fetch related recipes from WordPress
   let relatedRecipes: Array<{
     id: string
@@ -343,13 +382,14 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <RecipeSchema recipe={recipe} />
+      <RecipeSchema recipe={recipe} author={author} />
       <main className="flex-1">
         <RecipeDetail 
           recipe={recipe} 
           relatedRecipes={relatedRecipes}
           categorySlug={categorySlug}
           categoryName={categoryName}
+          author={author}
         />
       </main>
     </div>

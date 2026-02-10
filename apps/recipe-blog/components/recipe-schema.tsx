@@ -1,11 +1,13 @@
 import { RecipeData } from "@/lib/recipes-data"
 import { getSchemaConfig, getBaseUrl, generateSlug, getImageUrl } from "@/lib/schema-utils"
+import type { Author } from "@/lib/authors"
 
 interface RecipeSchemaProps {
   recipe: RecipeData | null
+  author?: Author
 }
 
-export function RecipeSchema({ recipe }: RecipeSchemaProps) {
+export function RecipeSchema({ recipe, author }: RecipeSchemaProps) {
   if (!recipe) return null;
   
   const config = getSchemaConfig();
@@ -48,6 +50,20 @@ export function RecipeSchema({ recipe }: RecipeSchemaProps) {
     });
   }
 
+  // Author object - use real author if provided, fallback to config
+  const authorObject = author ? {
+    "@type": config.types.person,
+    name: author.name,
+    url: `${baseUrl}/authors/${author.id}`,
+    jobTitle: author.role,
+    image: `${baseUrl}${author.image}`,
+    description: author.bio
+  } : {
+    "@type": config.types.person,
+    name: config.author.name,
+    url: `${baseUrl}${config.author.url}`
+  };
+
   // Enhanced Recipe Schema with all SEO-critical fields
   const recipeSchema = {
     "@context": config.context,
@@ -57,11 +73,7 @@ export function RecipeSchema({ recipe }: RecipeSchemaProps) {
     headline: recipe.metadata.name,
     description: recipe.metadata.description,
     image: imageObjects, // Multiple images for rich results
-    author: {
-      "@type": config.types.person,
-      name: config.author.name,
-      url: `${baseUrl}${config.author.url}`
-    },
+    author: authorObject,
     publisher: {
       "@type": config.types.organization,
       name: config.organization.name,

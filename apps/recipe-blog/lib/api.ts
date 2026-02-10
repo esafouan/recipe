@@ -90,6 +90,13 @@ export async function getRecipesByCategory(categorySlug: string) {
               dietary
               rawIngredients
               rawInstructions
+              
+              # 🆕 Author Fields (lowercase as per ACF/GraphQL convention)
+              authorintro
+              cookingstory
+              cheftips
+              assignedauthor
+              
               recipeImages {
                 img1 {
                   node {
@@ -195,6 +202,13 @@ export async function getRecipe(slug: string) {
           rawInstructions
           whyLove
           tools
+          
+          # 🆕 Author Fields (lowercase as per ACF/GraphQL convention)
+          authorintro
+          cookingstory
+          cheftips
+          assignedauthor
+          
           recipeImages {
             img1 {
               node {
@@ -264,6 +278,11 @@ function parseRecipeData(wpNode: any) {
     }) : [];
   };
 
+  // 🆕 Helper for chef tips (line-by-line)
+  const parseTips = (raw: string) => {
+    return raw ? raw.split('\n').filter(line => line.trim()).map(line => line.trim()) : [];
+  };
+
   // Build images array: prioritize ACF images, fallback to featured image
   const images = [
     acf?.recipeImages?.img1?.node?.sourceUrl,
@@ -287,6 +306,13 @@ function parseRecipeData(wpNode: any) {
     content: wpNode.content,
     authorStory: acf?.authorStory || wpNode.content || '', // Main blog content for SEO
     seo: wpNode.seo || null, // Include Rank Math SEO data
+    
+    // 🆕 NEW AUTHOR FIELDS (lowercase from ACF)
+    authorIntro: acf?.authorintro || '',
+    cookingStory: acf?.cookingstory || '',
+    chefTips: parseTips(acf?.cheftips || ''),
+    assignedAuthor: acf?.assignedauthor || null,
+    
     meta: {
       prepTime: acf?.prepTime,
       cookTime: acf?.cookTime,
@@ -327,6 +353,13 @@ export async function getRecentRecipes(limit: number = 8) {
             dietary
             rawIngredients
             rawInstructions
+            
+            # 🆕 Author Fields
+            authorintro
+            cookingstory
+            cheftips
+            assignedauthor
+            
             recipeImages {
               img1 {
                 node {
@@ -422,7 +455,13 @@ export async function searchRecipes(searchTerm: string, limit: number = 20) {
             difficulty
             dietary
             rawIngredients
-            rawInstructions
+            
+            # 🆕 Author Fields
+            authorintro
+            cookingstory
+            cheftips
+            assignedauthor
+            
             recipeImages {
               img1 {
                 node {
@@ -520,6 +559,13 @@ export async function getAllRecipes(limit: number = 1000) {
             dietary
             rawIngredients
             rawInstructions
+            
+            # 🆕 Author Fields
+            authorintro
+            cookingstory
+            cheftips
+            assignedauthor
+            
             recipeImages {
               img1 {
                 node {
