@@ -35,42 +35,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
   const EZOIC_ENABLED = process.env.NEXT_PUBLIC_EZOIC_ENABLED === "true";
 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Google AdSense - must be first in <head> */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6971476027163147"
-          crossOrigin="anonymous"
-        ></script>
-        {/* Google Analytics 4 */}
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}', {
-                  page_path: window.location.pathname,
-                });
-              `}
-            </Script>
-          </>
-        )}
-
-        {/* Ezoic Privacy Scripts - Must load FIRST for compliance */}
+        {/* ========================= */}
+        {/* 🔐 EZOIC CMP (MUST LOAD FIRST) */}
+        {/* ========================= */}
         {EZOIC_ENABLED && (
           <>
             <Script
@@ -86,42 +62,85 @@ export default function RootLayout({
           </>
         )}
 
-        {/* Ezoic Header Script - Initializes ad system */}
+        {/* ========================= */}
+        {/* 📢 EZOIC CORE SCRIPT */}
+        {/* ========================= */}
         {EZOIC_ENABLED && (
           <>
             <Script
-              async
               src="//www.ezojs.com/ezoic/sa.min.js"
               strategy="beforeInteractive"
             />
-            <Script id="ezoic-standalone" strategy="beforeInteractive">
+            <Script id="ezoic-init" strategy="beforeInteractive">
               {`
                 window.ezstandalone = window.ezstandalone || {};
-                ezstandalone.cmd = ezstandalone.cmd || [];
+                window.ezstandalone.cmd = window.ezstandalone.cmd || [];
               `}
             </Script>
           </>
         )}
 
+        {/* ========================= */}
+        {/* 💰 GOOGLE ADSENSE (AFTER EZOIC) */}
+        {/* ========================= */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6971476027163147"
+          crossOrigin="anonymous"
+        ></script>
+
+        {/* ========================= */}
+        {/* 📊 GOOGLE ANALYTICS */}
+        {/* ========================= */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
+
+        {/* ========================= */}
+        {/* ⚡ Performance Optimizations */}
+        {/* ========================= */}
+
+        {/* Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+        {/* Ezoic Preconnect */}
+        {EZOIC_ENABLED && (
+          <>
+            <link rel="preconnect" href="https://www.ezojs.com" />
+            <link rel="preconnect" href="https://cmp.gatekeeperconsent.com" />
+          </>
+        )}
+
+        {/* Pinterest Verification */}
         <meta
           name="p:domain_verify"
           content="89f31719aad6db043644d92d55d205f2"
         />
       </head>
+
       <body className="antialiased font-sans">
         <div className="min-h-screen flex flex-col">
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
         </div>
+
         <SpeedInsights />
       </body>
     </html>
