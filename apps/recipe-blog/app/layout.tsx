@@ -44,6 +44,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+
+        {/* ========================= */}
+        {/* 🌱 GROW.ME - Social Growth Tool */}
+        {/* ========================= */}
+
+        <script
+          data-grow-initializer=""
+          dangerouslySetInnerHTML={{
+            __html: `!(function(){window.growMe||((window.growMe=function(e){window.growMe._.push(e);}),(window.growMe._=[]));var e=document.createElement("script");(e.type="text/javascript"),(e.src="https://faves.grow.me/main.js"),(e.defer=!0),e.setAttribute("data-grow-faves-site-id","U2l0ZTpkNjllOWUxNC1hMGJmLTQyMzYtOTZmYS0xNzJhMmI4Y2ZjMWE=");var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);})();`,
+          }}
+        />
         {/* ========================= */}
         {/* 💰 GOOGLE ADSENSE (AFTER EZOIC) */}
         {/* ========================= */}
@@ -72,33 +83,6 @@ export default function RootLayout({
             </Script>
           </>
         )}
-
-        {/* ========================= */}
-        {/* 🌱 GROW.ME - Social Growth Tool */}
-        {/* ========================= */}
-        <script
-          data-grow-initializer=""
-          dangerouslySetInnerHTML={{
-            __html: `!(function(){
-        window.growMe || (
-          (window.growMe = function(e){
-            window.growMe._.push(e);
-          }),
-          (window.growMe._ = [])
-        );
-        var e = document.createElement("script");
-        e.type = "text/javascript";
-        e.src = "https://faves.grow.me/main.js";
-        e.defer = true;
-        e.setAttribute(
-          "data-grow-faves-site-id",
-          "U2l0ZTo0NTdiZDRhNS0zMWJmLTQ4MGUtYTFkOC03NzM2MjVlZDNlMDk="
-        );
-        var t = document.getElementsByTagName("script")[0];
-        t.parentNode.insertBefore(e, t);
-      })();`,
-          }}
-        />
 
         {/* ========================= */}
         {/* ⚡ Performance Optimizations */}
