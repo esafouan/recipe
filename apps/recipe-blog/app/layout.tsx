@@ -44,8 +44,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-   
-
         {/* ========================= */}
         {/* 💰 GOOGLE ADSENSE (AFTER EZOIC) */}
         {/* ========================= */}
@@ -78,28 +76,33 @@ export default function RootLayout({
         {/* ========================= */}
         {/* 🌱 GROW.ME - Social Growth Tool */}
         {/* ========================= */}
-          <Script id="grow-me" strategy="afterInteractive">
-          {`
-            !(function(){
-              window.growMe || (
-                (window.growMe = function(e){
-                  window.growMe._.push(e);
-                }),
-                (window.growMe._ = [])
-              );
-              var e = document.createElement("script");
-              e.type = "text/javascript";
-              e.src = "https://faves.grow.me/main.js";
-              e.defer = true;
-              e.setAttribute(
-                "data-grow-faves-site-id",
-                "U2l0ZTo0NTdiZDRhNS0zMWJmLTQ4MGUtYTFkOC03NzM2MjVlZDNlMDk="
-              );
-              var t = document.getElementsByTagName("script")[0];
-              t.parentNode.insertBefore(e, t);
-            })();
-          `}
-        </Script>
+        <Script
+          id="grow-me"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+      !(function(){
+        window.growMe || (
+          (window.growMe = function(e){
+            window.growMe._.push(e);
+          }),
+          (window.growMe._ = [])
+        );
+        var e = document.createElement("script");
+        e.type = "text/javascript";
+        e.src = "https://faves.grow.me/main.js";
+        e.defer = true;
+        e.setAttribute(
+          "data-grow-faves-site-id",
+          "U2l0ZTo0NTdiZDRhNS0zMWJmLTQ4MGUtYTFkOC03NzM2MjVlZDNlMDk="
+        );
+        var t = document.getElementsByTagName("script")[0];
+        t.parentNode.insertBefore(e, t);
+      })();
+    `,
+          }}
+          data-grow-initializer=""
+        />
 
         {/* ========================= */}
         {/* ⚡ Performance Optimizations */}
@@ -107,10 +110,13 @@ export default function RootLayout({
 
         {/* Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-
 
         {/* Pinterest Verification */}
         <meta
