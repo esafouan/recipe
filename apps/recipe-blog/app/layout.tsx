@@ -76,12 +76,10 @@ export default function RootLayout({
         {/* ========================= */}
         {/* 🌱 GROW.ME - Social Growth Tool */}
         {/* ========================= */}
-        <Script
-          id="grow-me"
-          strategy="beforeInteractive"
+        <script
+          data-grow-initializer=""
           dangerouslySetInnerHTML={{
-            __html: `
-      !(function(){
+            __html: `!(function(){
         window.growMe || (
           (window.growMe = function(e){
             window.growMe._.push(e);
@@ -98,10 +96,8 @@ export default function RootLayout({
         );
         var t = document.getElementsByTagName("script")[0];
         t.parentNode.insertBefore(e, t);
-      })();
-    `,
+      })();`,
           }}
-          data-grow-initializer=""
         />
 
         {/* ========================= */}
