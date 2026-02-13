@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_BASE_URL || "https://cozybiteskitchen.com",
   ),
+  alternates: {
+    canonical: '/',
+  },
   robots: {
     index: true,
     follow: true,

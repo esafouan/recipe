@@ -8,12 +8,23 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/admin/', '/_next/'],
+        disallow: [
+          '/api/', 
+          '/admin/', 
+          '/_next/',
+          '/search',        // Block search URLs
+          '/search?*',      // Block search with parameters
+        ],
       },
       {
         userAgent: 'Googlebot',
         allow: '/',
-        disallow: ['/api/', '/admin/'],
+        disallow: [
+          '/api/', 
+          '/admin/',
+          '/search',        // Block search URLs
+          '/search?*',      // Block search with parameters
+        ],
       }
     ],
     sitemap: `${FRONTEND_URL}/sitemap.xml`,
