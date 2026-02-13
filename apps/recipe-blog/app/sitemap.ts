@@ -106,12 +106,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
 
     // 4. Individual Recipe Pages
-    const recipeRoutes = recipes.map((recipe: any) => ({
-      url: `${FRONTEND_URL}/recipes/${recipe.slug}`,
-      lastModified: recipe.modified || recipe.date || new Date().toISOString(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    }))
+    const recipeRoutes = recipes.map((recipe: any) => {
+      // Ensure valid ISO date format
+      let lastModified: string
+      try {
+        const dateValue = recipe.modified || recipe.date
+        if (dateValue) {
+          // Parse and convert to valid ISO format
+          const parsedDate = new Date(dateValue)
+          lastModified = isNaN(parsedDate.getTime()) 
+            ? new Date().toISOString() 
+            : parsedDate.toISOString()
+        } else {
+          lastModified = new Date().toISOString()
+        }
+      } catch {
+        lastModified = new Date().toISOString()
+      }
+
+      return {
+        url: `${FRONTEND_URL}/recipes/${recipe.slug}`,
+        lastModified,
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      }
+    })
 
     return [...staticRoutes, ...categoryRoutes, ...recipeRoutes]
   } catch (error) {
