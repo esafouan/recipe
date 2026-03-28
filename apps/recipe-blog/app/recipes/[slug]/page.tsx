@@ -40,6 +40,13 @@ export async function generateStaticParams() {
       body: JSON.stringify({ query }),
     });
     
+    // Fallback if the endpoint is an HTML page (not JSON)
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") === -1) {
+      console.error('Wordpress endpoint returned non-JSON response in generateStaticParams', await res.text());
+      return [];
+    }
+
     if (!res.ok) {
       console.error('Failed to fetch recipe slugs for static generation');
       return [];
@@ -73,6 +80,7 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
   const { slug } = await params;
   
   try {
+    // Note: getRecipe already handles JSON parsing and error logging if the endpoint fails
     const wpRecipeData = await getRecipe(slug);
     
     if (!wpRecipeData) {
