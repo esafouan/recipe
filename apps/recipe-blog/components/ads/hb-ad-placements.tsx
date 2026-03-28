@@ -55,7 +55,7 @@ function StickyFloorAdContent() {
   return (
     <div id="HB_Footer_Close_hbagency_space_313352" className="fixed bottom-0 left-0 right-0 z-40" suppressHydrationWarning>
       <div id="HB_CLOSE_hbagency_space_313352" />
-      <div id="HB_OUTER_hbagency_space_313352" className="bg-white border-t border-gray-300 shadow-lg">
+      <div id="HB_OUTER_hbagency_space_313352" className="bg-white border-t border-gray-300 shadow-lg flex justify-center">
         <div id="hbagency_space_313352" style={{ minHeight: '90px' }} />
       </div>
     </div>
@@ -74,9 +74,9 @@ export function StickyFloorAd() {
 
 function StickyLeftBannerAdContent() {
   return (
-    <div id="HB_Footer_Close_hbagency_space_313353" className="fixed left-2 top-1/2 transform -translate-y-1/2 z-30" suppressHydrationWarning>
+    <div id="HB_Footer_Close_hbagency_space_313353" className="fixed left-2 top-[100px] z-30 hidden xl:block" suppressHydrationWarning>
       <div id="HB_CLOSE_hbagency_space_313353" />
-      <div id="HB_OUTER_hbagency_space_313353" className="bg-white shadow-lg rounded">
+      <div id="HB_OUTER_hbagency_space_313353">
         <div id="hbagency_space_313353" style={{ minHeight: '600px', minWidth: '300px' }} />
       </div>
     </div>
@@ -95,9 +95,9 @@ export function StickyLeftBannerAd() {
 
 function StickyRightBannerAdContent() {
   return (
-    <div id="HB_Footer_Close_hbagency_space_313605" className="fixed right-2 top-1/2 transform -translate-y-1/2 z-30" suppressHydrationWarning>
+    <div id="HB_Footer_Close_hbagency_space_313605" className="fixed right-2 top-[100px] z-30 hidden xl:block" suppressHydrationWarning>
       <div id="HB_CLOSE_hbagency_space_313605" />
-      <div id="HB_OUTER_hbagency_space_313605" className="bg-white shadow-lg rounded">
+      <div id="HB_OUTER_hbagency_space_313605">
         <div id="hbagency_space_313605" style={{ minHeight: '600px', minWidth: '300px' }} />
       </div>
     </div>
