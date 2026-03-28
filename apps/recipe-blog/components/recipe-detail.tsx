@@ -27,6 +27,7 @@ import { getCategoryLabel, getConfigKeyFromWpSlug } from "@/lib/api";
 import siteConfig from "@/config/site-config.json";
 import { RecipeData } from "@/lib/recipes-data";
 import type { Author } from "@/lib/authors";
+import { InImageAd, InPageAd, InterstitialAd } from "@/components/ads/hb-ad-placements";
 
 // Helper function to format date consistently (avoids hydration mismatch)
 function formatDateConsistent(dateString: string): string {
@@ -587,6 +588,12 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                     </div>
                   </div>
                 </div>
+
+                {/* In Page Ad - After author/sharing section */}
+                <div className="my-8">
+                  <InPageAd />
+                </div>
+
                 {/* ArticleWrapper */}
                 <div className="article__wrapper space-y-8">
                   {/* Introduction
@@ -808,6 +815,11 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                     </figure>
                   )}
 
+                  {/* In Image Ad - After ingredients */}
+                  <div className="my-8">
+                    <InImageAd />
+                  </div>
+
                   {/* Instructions Section */}
                   <h2 className="text-3xl font-bold text-gray-900">
                     Instructions
@@ -965,6 +977,11 @@ export function RecipeDetail({ recipe, relatedRecipes, categorySlug, categoryNam
                       </div>
                     </>
                   )}
+
+                  {/* Interstitial Ad - After FAQ section */}
+                  <div className="my-8">
+                    <InterstitialAd />
+                  </div>
                 </div>
                 {/* end ArticleWrapper */}
               </article>

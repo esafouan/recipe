@@ -5,6 +5,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { HBAdsSetup } from "@/components/ads/hb-ad-placements";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -49,23 +50,12 @@ export default function RootLayout({
       <head>
 
         {/* ========================= */}
-        {/* 🌱 GROW.ME - Social Growth Tool */}
-        {/* ========================= */}
-
-        <script
-          data-grow-initializer=""
-          dangerouslySetInnerHTML={{
-            __html: `!(function(){window.growMe||((window.growMe=function(e){window.growMe._.push(e);}),(window.growMe._=[]));var e=document.createElement("script");(e.type="text/javascript"),(e.src="https://faves.grow.me/main.js"),(e.defer=!0),e.setAttribute("data-grow-faves-site-id","U2l0ZTpkNjllOWUxNC1hMGJmLTQyMzYtOTZmYS0xNzJhMmI4Y2ZjMWE=");var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);})();`,
-          }}
-        />
-        {/* ========================= */}
-        {/* 💰 GOOGLE ADSENSE (AFTER EZOIC) */}
+        {/* � HB AGENCY - Header Bidding */}
         {/* ========================= */}
         <script
+          src="https://d3u598arehftfk.cloudfront.net/prebid_hb_38613_39503.js"
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6971476027163147"
-          crossOrigin="anonymous"
-        ></script>
+        />
 
         {/* ========================= */}
         {/* 📊 GOOGLE ANALYTICS */}
@@ -108,7 +98,7 @@ export default function RootLayout({
         />
       </head>
 
-      <body className="antialiased font-sans">
+      <body className="antialiased font-sans" suppressHydrationWarning>
         <div className="min-h-screen flex flex-col">
           <SiteHeader />
           <main className="flex-1">{children}</main>
@@ -116,6 +106,7 @@ export default function RootLayout({
         </div>
 
         <SpeedInsights />
+        <HBAdsSetup />
       </body>
     </html>
   );

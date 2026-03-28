@@ -4,6 +4,7 @@ import { AllRecipes } from "@/components/all-recipes"
 import { BasicHero } from "@/components/basic-hero"
 import { getAllRecipesConfig } from "@/lib/config"
 import { SectionHeader } from "@/components/section-header"
+import { InPageAd } from "@/components/ads/hb-ad-placements"
 import { Loader2 } from "lucide-react"
 
 const recipesConfig = getAllRecipesConfig()
@@ -55,6 +56,11 @@ export default function RecipesPage() {
             >
               <AllRecipes />
             </Suspense>
+
+            {/* In Page Ad - Below recipes */}
+            <div className="mt-12 py-8">
+              <InPageAd />
+            </div>
           </div>
         </section>
       </main>

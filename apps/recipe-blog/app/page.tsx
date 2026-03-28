@@ -4,6 +4,7 @@ import { FeaturedRecipes } from "@/components/featured-recipes"
 import { QuickEasyRecipes } from "@/components/quick-easy-recipes"
 import { RecentRecipes } from "@/components/recent-recipes"
 import { NewsletterSignup } from "@/components/newsletter-signup"
+import { InPageAd, InterstitialAd } from "@/components/ads/hb-ad-placements"
 import { getRecentRecipes } from "@/lib/api"
 
 // Type for transformed recipe
@@ -119,11 +120,25 @@ export default async function HomePage() {
         {/* Editor's Picks - Curated featured recipes (first 4) */}
         <FeaturedRecipes recipes={featuredRecipes} />
         
+        {/* In Page Ad - After featured recipes */}
+        <div className="py-8">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <InPageAd />
+          </div>
+        </div>
+        
         {/* Browse by Category */}
         <CategoriesSection />
         
         {/* Quick & Easy - Short cook time recipes */}
         <QuickEasyRecipes recipes={quickRecipes} />
+        
+        {/* Interstitial Ad - Before recent recipes */}
+        <div className="py-8">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <InterstitialAd />
+          </div>
+        </div>
         
         {/* Latest Recipes - Most recent additions */}
         <RecentRecipes recipes={recentRecipes} />

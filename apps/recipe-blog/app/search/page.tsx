@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import { SearchResults } from "@/components/search-results"
 import { BasicHero } from "@/components/basic-hero"
+import { InPageAd } from "@/components/ads/hb-ad-placements"
 import { Loader2 } from "lucide-react"
 
 interface SearchPageProps {
@@ -55,6 +56,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             >
               <SearchResults query={query} />
             </Suspense>
+
+            {/* In Page Ad - Below search results */}
+            <div className="mt-12 py-8">
+              <InPageAd />
+            </div>
           </div>
         </section>
       </main>

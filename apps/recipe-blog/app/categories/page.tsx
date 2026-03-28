@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getCategoriesPageConfig, getCategoriesConfig } from "@/lib/config";
 import { HeroSection } from "@/components/hero-section-with-breadcrumb";
 import { SectionHeader } from "@/components/section-header";
+import { InPageAd } from "@/components/ads/hb-ad-placements";
 
 const categoriesPageConfig = getCategoriesPageConfig();
 const categoriesConfig = getCategoriesConfig();
@@ -117,6 +118,11 @@ export default function CategoriesPage() {
                   </div>
                 </a>
               ))}
+            </div>
+
+            {/* In Page Ad - Below categories */}
+            <div className="mt-12 py-8">
+              <InPageAd />
             </div>
           </div>
         </section>
